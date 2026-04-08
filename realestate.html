@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Real Estate — Brandi Rininger | eXp Realty</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/effects.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-dark-secondary: #141414;
+            --bg-dark-tertiary: #1a1a1a;
+            --text-light: #e5e5e5;
+            --text-light-secondary: #b0b0b0;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --secondary: #f59e0b;
+            --secondary-hover: #d97706;
+            --border-dark: #262626;
+        }
+
+        body.light-mode {
+            --bg-dark: #ffffff;
+            --bg-dark-secondary: #f5f5f5;
+            --bg-dark-tertiary: #ebebeb;
+            --text-light: #1a1a1a;
+            --text-light-secondary: #666666;
+            --border-dark: #e0e0e0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid rgba(229, 229, 229, 0.1);
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        body.light-mode nav {
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .nav-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 1.25rem;
+            transition: color 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            color: var(--accent);
+        }
+
+        /* Hamburger */
+        /* hamburger base & animation handled by effects.css */
+
+        /* Mobile Navigation — after hamburger base */
+        @media (max-width: 768px) {
+            nav {
+                background: transparent !important;
+                border-bottom: none !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                padding: 0.75rem 1rem !important;
+                padding-top: calc(0.75rem + env(safe-area-inset-top, 0px)) !important;
+                gap: 0 !important;
+            }
+            nav .nav-brand,
+            nav .nav-controls {
+                background: rgba(40, 40, 40, 0.55);
+                -webkit-backdrop-filter: blur(20px) saturate(180%);
+                backdrop-filter: blur(20px) saturate(180%);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 50px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+                height: 40px;
+                display: flex;
+                align-items: center;
+            }
+            nav .nav-brand {
+                padding: 0 1rem;
+                font-size: 1rem;
+            }
+            nav .nav-controls {
+                padding: 0 0.75rem;
+                gap: 0.5rem;
+            }
+            body.light-mode nav .nav-brand,
+            body.light-mode nav .nav-controls {
+                background: rgba(255, 255, 255, 0.55);
+                border: 1px solid rgba(0, 0, 0, 0.08);
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            }
+            .hamburger { display: flex; }
+            .nav-cta { display: none; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-dark); border-bottom: 1px solid rgba(229,229,229,0.1); flex-direction: column; padding: 1.5rem; gap: 1rem; list-style: none; z-index: 999; }
+            .nav-links.active { display: flex; }
+            .nav-links a { font-size: 0.85rem; }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            color: var(--text-light-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent);
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero .subheading {
+            font-size: 1.25rem;
+            color: var(--text-light-secondary);
+            max-width: 650px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .hero { padding: 3rem 1.5rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero .subheading { font-size: 1.1rem; }
+        }
+
+        /* Sections */
+        section {
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--border-dark);
+        }
+
+        section.no-border {
+            border-top: none;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        section p {
+            color: var(--text-light-secondary);
+            margin-bottom: 1.5rem;
+            max-width: 700px;
+        }
+
+        /* About Brandi — Two Column */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-photo-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .about-photo {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid var(--border-dark);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .about-photo img {
+            width: 100%;
+            display: block;
+        }
+
+        .about-text h2 {
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            max-width: none;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .about-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* Service Areas */
+        .areas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .area-card {
+            background-color: var(--bg-dark-secondary);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px;
+            padding: 1.75rem;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .area-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .area-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .area-card p {
+            font-size: 0.95rem;
+            color: var(--text-light-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Why Brandi */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .why-card {
+            background-color: var(--bg-dark-secondary);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .why-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+        }
+
+        .why-card .icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .why-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .why-card p {
+            font-size: 0.95rem;
+            color: var(--text-light-secondary);
+            margin-bottom: 0;
+            max-width: none;
+        }
+
+        /* Family Photo Strip */
+        .family-section {
+            text-align: center;
+        }
+
+        .family-section p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .family-photos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .family-photo {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid var(--border-dark);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .family-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .family-photos {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+        }
+
+        /* YouTube Section */
+        .youtube-section {
+            text-align: center;
+        }
+
+        .youtube-card {
+            background-color: var(--bg-dark-secondary);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px;
+            padding: 2.5rem;
+            max-width: 700px;
+            margin: 2rem auto 0;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            text-align: left;
+        }
+
+        .youtube-icon {
+            font-size: 3rem;
+            flex-shrink: 0;
+        }
+
+        .youtube-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .youtube-card p {
+            font-size: 0.95rem;
+            color: var(--text-light-secondary);
+            margin-bottom: 1rem;
+            max-width: none;
+        }
+
+        @media (max-width: 768px) {
+            .youtube-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background-color: var(--bg-dark-secondary);
+            border: 1px solid var(--border-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .contact-item-text h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-light-secondary);
+            margin-bottom: 0.15rem;
+        }
+
+        .contact-item-text a,
+        .contact-item-text span {
+            font-size: 1.05rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .contact-item-text a:hover {
+            color: var(--accent);
+        }
+
+        .contact-form {
+            background-color: var(--bg-dark-secondary);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .contact-form h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-light-secondary);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-dark);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 0.85rem;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .btn.secondary {
+            background-color: var(--bg-dark-secondary);
+            color: var(--text-light);
+            border: 1px solid var(--border-dark);
+        }
+
+        .btn.secondary:hover {
+            background-color: var(--bg-dark-tertiary);
+        }
+
+        .btn.phone-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .btn.phone-btn:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+        }
+
+        /* Fade-in Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive sections */
+        @media (max-width: 768px) {
+            section { padding: 2.5rem 1.5rem; }
+            section h2 { font-size: 1.5rem; }
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-dark);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-light-secondary);
+            font-size: 0.9rem;
+        }
+    </style>
+    <meta name="author" content="Seth Rininger">
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="Brandi Rininger — Real estate broker with eXp Realty serving Western North Carolina. Rookie of the Year, WNC. Friendly, dedicated, and passionate about helping you find home.">
+    <meta property="og:site_name" content="Seth Rininger — Developer & Consultant">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Real Estate — Brandi Rininger | eXp Realty">
+    <meta property="og:description" content="Brandi Rininger — Real estate broker with eXp Realty serving Western North Carolina. Rookie of the Year, WNC.">
+    <meta property="og:url" content="https://sethrininger.dev/realestate.html">
+    <meta property="og:image" content="https://sethrininger.dev/assets/images/og-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@sethrininger">
+    <link rel="canonical" href="https://sethrininger.dev/realestate.html">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "RealEstateAgent",
+  "name": "Brandi Rininger",
+  "jobTitle": "Real Estate Broker",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "eXp Realty"
+  },
+  "telephone": "+1-828-371-6980",
+  "areaServed": "Western North Carolina",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Franklin",
+    "addressRegion": "NC"
+  }
+}
+    </script>
+</head>
+<body data-preloader-name="Brandi Rininger">
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="nav-brand" style="text-decoration:none;">Seth Rininger</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="ios.html">iOS Dev</a></li>
+            <li><a href="seo.html">SEO</a></li>
+            <li><a href="ai.html">AI Research</a></li>
+            <li><a href="gamedev.html">Game Dev</a></li>
+            <li><a href="video.html">Video</a></li>
+            <li><a href="realestate.html" style="color: var(--accent);">Real Estate</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <div class="nav-controls">
+            <a href="#contact" class="nav-cta">Let's Talk</a>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">&#9728;&#65039;</button>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero no-border">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> &rarr; Real Estate
+            </div>
+            <h1>Brandi Rininger</h1>
+            <p class="subheading">My wife, my best friend, and an incredible real estate broker with eXp Realty — proudly serving Western North Carolina. Rookie of the Year in WNC, and just getting started.</p>
+            <div class="hero-actions">
+                <a href="tel:8283716980" class="btn phone-btn">Call Brandi</a>
+                <a href="sms:8283716980" class="btn">Text Brandi</a>
+                <a href="#contact" class="btn secondary">Send a Message</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Brandi -->
+    <section>
+        <div class="container">
+            <div class="about-grid fade-in">
+                <div class="about-photo-stack">
+                    <div class="about-photo">
+                        <picture>
+                            <source srcset="assets/images/Brandi_rookie-of-the-year.webp" type="image/webp">
+                            <img src="assets/images/Brandi_rookie-of-the-year.jpg" alt="Brandi Rininger — Rookie of the Year in Western North Carolina" loading="lazy">
+                        </picture>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <h2>Meet Brandi</h2>
+                    <p>Brandi is my wife — and honestly, the most driven person I know. She's a real estate broker based in the mountains of Western North Carolina, and she brings the same warmth, energy, and heart to her clients that she brings to our family every single day.</p>
+                    <p>I built this page because I'm proud of her. Before real estate, Brandi spent a decade as a customer service manager at Publix — where she learned how to take care of people at a level most agents never reach. When she made the leap into real estate, that foundation showed immediately. She earned the Rookie of the Year award in WNC, and it didn't happen by accident — it came from late nights, early mornings, and a refusal to ever give a client anything less than her best.</p>
+                    <p>Whether you're buying your first home, selling a family property, or searching for land in the Blue Ridge, Brandi brings a personal touch that's rare in this industry. She doesn't just close deals — she genuinely cares about getting it right for the people she works with.</p>
+                    <div class="about-badge">&#127942; Rookie of the Year — WNC</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Work With Brandi -->
+    <section>
+        <div class="container">
+            <h2>Why Work With Brandi</h2>
+            <div class="why-grid fade-in">
+                <div class="why-card">
+                    <div class="icon">&#128588;</div>
+                    <h3>Genuinely Cares</h3>
+                    <p>Brandi treats every client like family. She listens first, advises honestly, and is always just a call or text away — even after closing.</p>
+                </div>
+                <div class="why-card">
+                    <div class="icon">&#127967;</div>
+                    <h3>Knows WNC Inside Out</h3>
+                    <p>From Franklin to Asheville, Highlands to Bryson City — Brandi knows the neighborhoods, the market trends, and the hidden gems most agents overlook.</p>
+                </div>
+                <div class="why-card">
+                    <div class="icon">&#127942;</div>
+                    <h3>Award-Winning Start</h3>
+                    <p>Rookie of the Year isn't luck — it's the result of relentless work ethic, sharp market instincts, and a commitment to results from day one.</p>
+                </div>
+                <div class="why-card">
+                    <div class="icon">&#128200;</div>
+                    <h3>eXp Realty Resources</h3>
+                    <p>Backed by one of the fastest-growing brokerages in the country, Brandi has access to cutting-edge tools, a global referral network, and top-tier marketing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Areas -->
+    <section>
+        <div class="container">
+            <h2>Areas We Serve</h2>
+            <p>Brandi proudly serves communities across Western North Carolina — from the small-town charm of Franklin to the vibrant culture of Asheville and everywhere in between.</p>
+            <div class="areas-grid fade-in">
+                <div class="area-card">
+                    <h3>Franklin &amp; Macon County</h3>
+                    <p>Home base. Deep roots and local market expertise in the gem capital of the world.</p>
+                </div>
+                <div class="area-card">
+                    <h3>Highlands &amp; Cashiers</h3>
+                    <p>Luxury mountain retreats and vacation properties on the Plateau.</p>
+                </div>
+                <div class="area-card">
+                    <h3>Asheville Metro</h3>
+                    <p>Arts, dining, and mountain living in one of the South's most desirable cities.</p>
+                </div>
+                <div class="area-card">
+                    <h3>Bryson City &amp; Sylva</h3>
+                    <p>Gateway to the Smokies with charming small-town living and outdoor adventure.</p>
+                </div>
+                <div class="area-card">
+                    <h3>Waynesville &amp; Canton</h3>
+                    <p>Haywood County's growing communities with mountain views and affordability.</p>
+                </div>
+                <div class="area-card">
+                    <h3>All of WNC</h3>
+                    <p>If it's in Western North Carolina, Brandi can help. Just ask.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Family Section -->
+    <section class="family-section">
+        <div class="container">
+            <h2>Family First</h2>
+            <p class="fade-in">Everything we do, we do for our family. Brandi and I are raising our kids in Western North Carolina because we love it here — and she helps other families find that same feeling every day. That's not a sales pitch. That's just who she is.</p>
+            <div class="family-photos fade-in">
+                <div class="family-photo">
+                    <picture>
+                        <source srcset="assets/images/Family.webp" type="image/webp">
+                        <img src="assets/images/Family.jpg" alt="The Rininger family" loading="lazy">
+                    </picture>
+                </div>
+                <div class="family-photo">
+                    <picture>
+                        <source srcset="assets/images/family2.webp" type="image/webp">
+                        <img src="assets/images/family2.jpg" alt="The Rininger family" loading="lazy">
+                    </picture>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- YouTube -->
+    <section class="youtube-section">
+        <div class="container">
+            <h2>Living In WNC</h2>
+            <p class="fade-in" style="max-width: 600px; margin: 0 auto;">Brandi and I are building a YouTube channel together about life, homes, and adventures in Western North Carolina — with a lot more content on the way.</p>
+            <div class="youtube-card fade-in">
+                <div class="youtube-icon">&#9654;&#65039;</div>
+                <div>
+                    <h3>@LivingInWNC</h3>
+                    <p>Neighborhood tours, local favorites, home buying tips, and a look at what makes WNC such a special place to live.</p>
+                    <a href="https://www.youtube.com/@LivingInWNC" target="_blank" rel="noopener noreferrer" class="btn">Visit the Channel</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+        <div class="container">
+            <h2>Get in Touch With Brandi</h2>
+            <div class="contact-grid fade-in">
+                <div class="contact-info">
+                    <p style="max-width: none; line-height: 1.8; font-size: 1.05rem;">Whether you're ready to buy, thinking about selling, or just have questions about the WNC market — Brandi would love to hear from you. No pressure, no obligation. Just a friendly conversation about your goals.</p>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">&#128222;</div>
+                        <div class="contact-item-text">
+                            <h4>Call</h4>
+                            <a href="tel:8283716980">(828) 371-6980</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">&#128172;</div>
+                        <div class="contact-item-text">
+                            <h4>Text</h4>
+                            <a href="sms:8283716980">(828) 371-6980</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">&#128205;</div>
+                        <div class="contact-item-text">
+                            <h4>Brokerage</h4>
+                            <span>eXp Realty &middot; Franklin, NC</span>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">&#127968;</div>
+                        <div class="contact-item-text">
+                            <h4>Website</h4>
+                            <a href="https://brandirininger.exprealty.com" target="_blank" rel="noopener noreferrer">brandirininger.exprealty.com</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">&#127760;</div>
+                        <div class="contact-item-text">
+                            <h4>Google Business</h4>
+                            <a href="https://www.google.com/search?q=Brandi+Rininger+eXp+Realty+Franklin+NC" target="_blank" rel="noopener noreferrer">Brandi Rininger eXp Realty</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <h3>Send Brandi a Text</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="contact-name">Your Name</label>
+                            <input type="text" id="contact-name" name="name" required aria-label="Your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email">Email (optional)</label>
+                            <input type="email" id="contact-email" name="email" aria-label="Your email address">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-phone">Your Phone</label>
+                            <input type="tel" id="contact-phone" name="phone" aria-label="Your phone number">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-interest">I'm Interested In</label>
+                            <select id="contact-interest" name="interest" aria-label="What are you interested in">
+                                <option value="">Select one...</option>
+                                <option value="Buying a Home">Buying a Home</option>
+                                <option value="Selling a Home">Selling a Home</option>
+                                <option value="Land / Lots">Land / Lots</option>
+                                <option value="Investment Property">Investment Property</option>
+                                <option value="Relocating to WNC">Relocating to WNC</option>
+                                <option value="Just Have Questions">Just Have Questions</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-message">Message</label>
+                            <textarea id="contact-message" name="message" required aria-label="Your message"></textarea>
+                        </div>
+                        <button type="submit" class="form-submit">Send as Text Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Seth Rininger. Built with vanilla HTML, CSS & JS.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+            <a href="mailto:sethr@hey.com" style="color: var(--accent); text-decoration: none;">sethr@hey.com</a> &middot;
+            <a href="https://www.linkedin.com/in/seth-rininger-004036a3/" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none;">LinkedIn</a> &middot;
+            <a href="https://github.com/Sethmr" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none;">GitHub</a>
+        </p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+            themeToggle.textContent = '\uD83C\uDF19';
+        }
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            themeToggle.textContent = isLight ? '\uD83C\uDF19' : '\u2600\uFE0F';
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        });
+
+        // Hamburger Menu
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                hamburger.setAttribute('aria-expanded', hamburger.classList.contains('active'));
+            });
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                });
+            });
+        }
+
+        // Contact Form → SMS
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('contact-name').value.trim();
+                const email = document.getElementById('contact-email').value.trim();
+                const phone = document.getElementById('contact-phone').value.trim();
+                const interest = document.getElementById('contact-interest').value;
+                const message = document.getElementById('contact-message').value.trim();
+
+                let body = 'Hi Brandi! New inquiry from sethrininger.dev:\n\n';
+                body += 'Name: ' + name + '\n';
+                if (phone) body += 'Phone: ' + phone + '\n';
+                if (email) body += 'Email: ' + email + '\n';
+                if (interest) body += 'Interested in: ' + interest + '\n';
+                body += '\n' + message;
+
+                // sms: URI — use & for iOS, ? for Android
+                const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+                const sep = isIOS ? '&' : '?';
+                const smsUrl = 'sms:8283716980' + sep + 'body=' + encodeURIComponent(body);
+                window.location.href = smsUrl;
+            });
+        }
+
+        // Fade-in Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+    <script src="assets/effects.js"></script>
+</body>
+</html>

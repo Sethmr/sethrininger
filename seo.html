@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
     <title>SEO Services — Seth Rininger</title>
     <meta name="description" content="Developer-powered SEO services. Local search optimization, Google Business Profile management, and AI-augmented strategy for small businesses.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/effects.css">
     <style>
@@ -15,14 +18,14 @@
             --bg-secondary: #111111;
             --bg-card: #161616;
             --text: #e5e5e5;
-            --text-secondary: #9ca3af;
+            --text-secondary: #b0b0b0;
             --accent: #3b82f6;
             --accent-hover: #2563eb;
             --secondary: #f59e0b;
             --border: #1f2937;
         }
 
-        html.light-mode {
+        body.light-mode {
             --bg: #f9fafb;
             --bg-secondary: #ffffff;
             --bg-card: #ffffff;
@@ -48,91 +51,113 @@
         nav {
             position: sticky;
             top: 0;
-            background-color: rgba(10, 10, 10, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            background-color: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid rgba(229, 229, 229, 0.1);
             padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 100;
-            transition: background-color 0.3s;
         }
 
-        html.light-mode nav {
-            background-color: rgba(249, 250, 251, 0.85);
+        body.light-mode nav {
+            background-color: rgba(255, 255, 255, 0.95);
         }
 
         .nav-brand {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.25rem;
             font-weight: 700;
-            color: var(--accent);
+            color: var(--text);
+            display: flex;
+            align-items: center;
             text-decoration: none;
         }
 
-        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
 
         .nav-links a {
             color: var(--text);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
             text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-            position: relative;
         }
 
-        .nav-links a:hover { color: var(--accent); }
-
-        .nav-links a.active {
+        .nav-links a:hover {
             color: var(--accent);
         }
 
-        .nav-links a.active::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--accent);
-            border-radius: 1px;
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
         }
-
-        .nav-right { display: flex; align-items: center; gap: 1rem; }
 
         .theme-toggle {
             background: none;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
+            border: none;
             color: var(--text);
-            padding: 0.4rem 0.6rem;
-            transition: all 0.2s;
+            cursor: pointer;
+            font-size: 1.25rem;
+            transition: color 0.2s ease;
         }
 
-        .theme-toggle:hover { border-color: var(--accent); }
+        .theme-toggle:hover {
+            color: var(--accent);
+        }
 
-        /* Hamburger */
-        .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
-        .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: 0.3s; }
+        /* hamburger base & animation handled by effects.css */
 
         @media (max-width: 768px) {
-            .hamburger { display: block; }
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: var(--bg);
-                border-bottom: 1px solid var(--border);
-                flex-direction: column;
-                padding: 1.5rem;
-                gap: 1rem;
+            nav {
+                background: transparent !important;
+                border-bottom: none !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                padding: 0.75rem 1rem !important;
+                padding-top: calc(0.75rem + env(safe-area-inset-top, 0px)) !important;
+                gap: 0 !important;
             }
-            .nav-links.open { display: flex; }
+            nav .nav-brand,
+            nav .nav-controls {
+                background: rgba(40, 40, 40, 0.55);
+                -webkit-backdrop-filter: blur(20px) saturate(180%);
+                backdrop-filter: blur(20px) saturate(180%);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 50px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+                height: 40px;
+                display: flex;
+                align-items: center;
+            }
+            nav .nav-brand {
+                padding: 0 1rem;
+                font-size: 1rem;
+            }
+            nav .nav-controls {
+                padding: 0 0.75rem;
+                gap: 0.5rem;
+            }
+            body.light-mode nav .nav-brand,
+            body.light-mode nav .nav-controls {
+                background: rgba(255, 255, 255, 0.55);
+                border: 1px solid rgba(0, 0, 0, 0.08);
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            }
+            .hamburger { display: flex; }
+            .nav-cta { display: none; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg); border-bottom: 1px solid rgba(229,229,229,0.1); flex-direction: column; padding: 1.5rem; gap: 1rem; list-style: none; }
+            .nav-links.active { display: flex; }
+            .nav-links a {
+                font-size: 0.85rem;
+            }
         }
 
         /* Container */
@@ -343,7 +368,7 @@
             color: var(--text-secondary);
         }
 
-        html.light-mode .client-tag {
+        body.light-mode .client-tag {
             background: rgba(0, 0, 0, 0.04);
         }
 
@@ -447,7 +472,7 @@
         }
 
         .industry-pill {
-            padding: 0.5rem 1.25rem;
+            padding: 0.35rem 1rem;
             border-radius: 25px;
             border: 1px solid var(--border);
             font-size: 0.85rem;
@@ -519,6 +544,7 @@
             .services-grid { grid-template-columns: 1fr; }
             .clients-grid { grid-template-columns: 1fr; }
             .process-grid { grid-template-columns: 1fr; }
+            .nav-cta { display: none; }
         }
     </style>
     <meta name="author" content="Seth Rininger">
@@ -531,25 +557,41 @@
     <meta property="og:url" content="https://sethrininger.dev/seo.html">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:creator" content="@sethrininger">
+    <link rel="canonical" href="https://sethrininger.dev/seo.html">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <meta property="og:image" content="https://sethrininger.dev/assets/images/og-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sethrininger.dev/" },
+    { "@type": "ListItem", "position": 2, "name": "SEO Services", "item": "https://sethrininger.dev/seo.html" }
+  ]
+}
+    </script>
 </head>
 <body>
     <nav>
-        <a href="index.html" class="nav-brand">Seth Rininger</a>
-        <button class="hamburger" id="hamburger" aria-label="Menu">
-            <span></span><span></span><span></span>
-        </button>
-        <div class="nav-links" id="navLinks">
-            <a href="index.html">Home</a>
-            <a href="ios.html">iOS Dev</a>
-            <a href="seo.html" class="active">SEO</a>
-            <a href="ai.html">AI Research</a>
-            <a href="gamedev.html">Game Dev</a>
-            <a href="video.html">Video</a>
-            <a href="index.html#contact">Contact</a>
-        </div>
-        <div class="nav-right">
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                <span id="themeIcon">&#9790;</span>
+        <a href="index.html" class="nav-brand" style="text-decoration:none;">Seth Rininger</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="ios.html">iOS Dev</a></li>
+            <li><a href="seo.html" style="color: var(--accent);">SEO</a></li>
+            <li><a href="ai.html">AI Research</a></li>
+            <li><a href="gamedev.html">Game Dev</a></li>
+            <li><a href="video.html">Video</a></li>
+            <li><a href="realestate.html">Real Estate</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <div class="nav-controls">
+            <a href="index.html#contact" class="nav-cta">Let's Talk</a>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀️</button>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span></span><span></span><span></span>
             </button>
         </div>
     </nav>
@@ -560,7 +602,7 @@
                 <a href="index.html">Home</a> &rarr; SEO Services
             </div>
             <h1>SEO Services</h1>
-            <p class="subtitle">Developer-powered local SEO. I combine 10+ years of software engineering with AI-augmented research to help businesses own their market on Google.</p>
+            <p class="subtitle">Developer-powered local SEO. I combine 12+ years of software engineering with AI-augmented research to help businesses own their market on Google.</p>
         </section>
 
         <!-- My Approach / Process -->
@@ -606,7 +648,7 @@
                     <div class="ai-callout-icon">&#9889;</div>
                     <div>
                         <h3>The AI Advantage</h3>
-                        <p>I run 5 AI platforms simultaneously as part of my daily workflow. This isn't hype — it's a genuine competitive edge. I use AI to analyze hundreds of competitor pages in minutes, generate content briefs that would take hours manually, identify keyword opportunities that tools like Ahrefs and SEMrush miss, and validate strategies across multiple AI perspectives before implementing them. Combined with a decade of engineering discipline, this means faster results with higher precision.</p>
+                        <p>Multiple AI platforms are part of my daily workflow — Claude, ChatGPT, and Grok each bring different strengths. I use them to analyze competitor pages, generate content briefs, identify keyword opportunities that traditional tools miss, and validate strategies across multiple perspectives before implementing. Combined with a decade of engineering discipline, this means faster iteration with higher precision.</p>
                     </div>
                 </div>
             </div>
@@ -649,10 +691,26 @@
                             <span class="client-tag">Content Strategy</span>
                         </div>
                     </div>
+
+                    <div class="client-card reveal">
+                        <div class="client-header">
+                            <span class="client-name">Brandi Rininger — eXp Realty</span>
+                            <span class="client-badge active">Active</span>
+                        </div>
+                        <div class="client-type">Real Estate Broker &bull; Franklin, NC</div>
+                        <p class="client-desc">Local SEO and digital presence strategy for my wife's real estate business across Western North Carolina. Managing Google Business Profile optimization, local keyword targeting for the Franklin and broader WNC market, and building visibility against established agents. Also handling video SEO for the Living In WNC YouTube channel — a joint project combining real estate expertise with content production.</p>
+                        <div class="client-tags">
+                            <span class="client-tag">Local SEO</span>
+                            <span class="client-tag">GBP Optimization</span>
+                            <span class="client-tag">Real Estate</span>
+                            <span class="client-tag">Video SEO</span>
+                        </div>
+                        <a href="realestate.html" class="client-link">Meet Brandi &rarr;</a>
+                    </div>
                 </div>
 
                 <div class="metrics-note reveal">
-                    <strong>A note on metrics:</strong> Both engagements are in early stages with significant improvements already underway. Detailed before-and-after case studies with full metrics will be published here as campaigns mature and with client permission. In the meantime, I'm happy to discuss my approach and early results in a conversation.
+                    <strong>A note on metrics:</strong> All three engagements are in early stages with significant improvements already underway. Detailed before-and-after case studies with full metrics will be published here as campaigns mature and with client permission. In the meantime, I'm happy to discuss my approach and early results in a conversation.
                 </div>
             </div>
         </section>
@@ -706,7 +764,7 @@
                 <div class="why-section reveal">
                     <h3>I Don't Just Find Problems — I Fix Them</h3>
                     <p>Most SEO specialists can't read code. I can write it. That means I don't just identify technical SEO issues and hand you a spreadsheet of recommendations — I implement schema markup by hand, optimize Core Web Vitals at the code level, and fix site architecture issues that most consultants would need to hire a developer for.</p>
-                    <p>I've spent 10+ years building software used by millions of people. That engineering rigor — testing, measuring, iterating — is exactly what SEO needs and rarely gets. When you hire a developer for SEO, you're getting someone who understands the machine, not just the dashboard.</p>
+                    <p>I've spent 12+ years building software used by millions of people. That engineering rigor — testing, measuring, iterating — is exactly what SEO needs and rarely gets. When you hire a developer for SEO, you're getting someone who understands the machine, not just the dashboard.</p>
                 </div>
 
                 <div class="industries-section reveal">
@@ -731,35 +789,43 @@
         <!-- CTA -->
         <section class="cta-section section-border">
             <div class="container">
-                <h2 class="section-heading reveal">Ready to Rank?</h2>
-                <p class="reveal">Let's talk about getting your business to page one.</p>
+                <h2 class="section-heading reveal">Let's Talk About Your Business</h2>
+                <p class="reveal">I'll audit your local presence and show you the quick wins. No cookie-cutter playbooks — just a custom strategy backed by real data.</p>
                 <a href="index.html#contact" class="cta-button reveal">Get In Touch</a>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 Seth Rininger. Built with vanilla HTML, CSS &amp; JS.</p>
+        <p>&copy; 2026 Seth Rininger. Built with vanilla HTML, CSS & JS.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+            <a href="mailto:sethr@hey.com" style="color: var(--accent); text-decoration: none;">sethr@hey.com</a> ·
+            <a href="https://www.linkedin.com/in/seth-rininger-004036a3/" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none;">LinkedIn</a> ·
+            <a href="https://github.com/Sethmr" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none;">GitHub</a>
+        </p>
     </footer>
 
     <script>
-        // Theme
+        // Theme Toggle
         const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
-        const html = document.documentElement;
-        let isDark = true;
-
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+            themeToggle.textContent = '🌙';
+        }
         themeToggle.addEventListener('click', () => {
-            isDark = !isDark;
-            html.classList.toggle('light-mode');
-            themeIcon.innerHTML = isDark ? '&#9790;' : '&#9788;';
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            themeToggle.textContent = isLight ? '🌙' : '☀️';
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
         });
 
         // Hamburger
         const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
+        const navLinks = document.querySelector('.nav-links');
         hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('open');
+            navLinks.classList.toggle('active');
+            hamburger.setAttribute('aria-expanded', navLinks.classList.contains('active'));
         });
 
         // Scroll reveal

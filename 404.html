@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>404 — Page Not Found | Seth Rininger</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <meta name="description" content="Page not found — Seth Rininger's portfolio. Find iOS development, SEO services, AI research, and more.">
+    <meta name="robots" content="noindex">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --text-primary: #e5e5e5;
+            --text-secondary: #a3a3a3;
+            --accent-blue: #3b82f6;
+            --accent-amber: #f59e0b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .error-code {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(6rem, 15vw, 10rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-amber));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 450px;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .terminal-joke {
+            font-family: 'Courier New', monospace;
+            background-color: var(--bg-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.25rem 2rem;
+            margin-bottom: 2.5rem;
+            font-size: 0.9rem;
+            color: var(--accent-amber);
+        }
+
+        .terminal-joke .prompt {
+            color: var(--accent-blue);
+        }
+
+        .home-link {
+            display: inline-block;
+            padding: 0.85rem 2rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-amber));
+            color: #000;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .home-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-links {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+    </style>
+</head>
+<body>
+    <div class="error-code">404</div>
+    <h1>This page doesn't exist.</h1>
+    <p>Looks like this route wasn't defined. Even the best apps have edge cases.</p>
+    <div class="terminal-joke">
+        <span class="prompt">$</span> git checkout correct-page<br>
+        <span style="color: var(--text-secondary);">error: pathspec 'correct-page' did not match any branch</span>
+    </div>
+    <a href="index.html" class="home-link">Back to Home</a>
+    <div class="nav-links">
+        <a href="ios.html">iOS Dev</a>
+        <a href="seo.html">SEO</a>
+        <a href="ai.html">AI Research</a>
+        <a href="gamedev.html">Game Dev</a>
+        <a href="video.html">Video</a>
+        <a href="realestate.html">Real Estate</a>
+    </div>
+</body>
+</html>

@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
     <title>iOS & Mobile Development — Seth Rininger</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +20,7 @@
             --bg-dark: #0a0a0a;
             --bg-dark-secondary: #1a1a1a;
             --text-light: #e5e5e5;
-            --text-gray: #a0a0a0;
+            --text-gray: #b0b0b0;
             --accent-blue: #3b82f6;
             --accent-amber: #f59e0b;
             --accent-blue-hover: #2563eb;
@@ -124,19 +125,49 @@
             color: var(--accent-blue);
         }
 
+        /* hamburger base & animation handled by effects.css */
+
         @media (max-width: 768px) {
             nav {
-                padding: 1rem;
-                flex-wrap: wrap;
-                gap: 1rem;
+                background: transparent !important;
+                border-bottom: none !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                padding: 0.75rem 1rem !important;
+                padding-top: calc(0.75rem + env(safe-area-inset-top, 0px)) !important;
+                gap: 0 !important;
+            }
+            nav .nav-brand,
+            nav .nav-controls {
+                background: rgba(40, 40, 40, 0.55);
+                -webkit-backdrop-filter: blur(20px) saturate(180%);
+                backdrop-filter: blur(20px) saturate(180%);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 50px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+                height: 40px;
+                display: flex;
+                align-items: center;
+            }
+            nav .nav-brand {
+                padding: 0 1rem;
+                font-size: 1rem;
+            }
+            nav .nav-controls {
+                padding: 0 0.75rem;
+                gap: 0.5rem;
+            }
+            body.light-mode nav .nav-brand,
+            body.light-mode nav .nav-controls {
+                background: rgba(255, 255, 255, 0.55);
+                border: 1px solid rgba(0, 0, 0, 0.08);
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
             }
 
-            .nav-links {
-                gap: 1rem;
-                flex-wrap: wrap;
-                width: 100%;
-                order: 3;
-            }
+            .hamburger { display: flex; }
+            .nav-cta { display: none; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-dark); border-bottom: 1px solid rgba(229,229,229,0.1); flex-direction: column; padding: 1.5rem; gap: 1rem; }
+            .nav-links.active { display: flex; }
 
             .nav-links a {
                 font-size: 0.85rem;
@@ -283,9 +314,36 @@
             box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
         }
 
+        .timeline-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-app-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-app-icons {
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .timeline-app-icons .timeline-app-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+        }
+
         .timeline-card h3 {
             font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0;
             color: var(--accent-blue);
         }
 
@@ -337,13 +395,14 @@
 
             .timeline-item:nth-child(odd) .timeline-card,
             .timeline-item:nth-child(even) .timeline-card {
-                width: 100%;
+                width: calc(100% - 4rem);
                 margin-left: 4rem !important;
                 margin-right: 0 !important;
             }
 
             .timeline-card {
                 padding: 1.5rem;
+                overflow-x: hidden;
             }
 
             .timeline-card h3 {
@@ -727,20 +786,36 @@
     </style>
     <meta name="author" content="Seth Rininger">
     <meta name="robots" content="index, follow">
-    <meta name="description" content="Senior iOS Developer with 10+ years of experience in Swift, SwiftUI, Objective-C, and cross-platform development. Currently at CBS Sports/Paramount.">
+    <meta name="description" content="Senior iOS Developer with 12+ years of experience in Swift, SwiftUI, Objective-C, and cross-platform development. Currently at CBS Sports/Paramount.">
     <meta property="og:site_name" content="Seth Rininger — Developer & Consultant">
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="website">
     <meta property="og:title" content="iOS & Mobile Development — Seth Rininger">
-    <meta property="og:description" content="10+ years of Swift, SwiftUI, and mobile development. From startups to CBS Sports/Paramount.">
+    <meta property="og:description" content="12+ years of Swift, SwiftUI, and mobile development. From startups to CBS Sports/Paramount.">
     <meta property="og:url" content="https://sethrininger.dev/ios.html">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:creator" content="@sethrininger">
+    <link rel="canonical" href="https://sethrininger.dev/ios.html">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <meta property="og:image" content="https://sethrininger.dev/assets/images/og-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sethrininger.dev/" },
+    { "@type": "ListItem", "position": 2, "name": "iOS Development", "item": "https://sethrininger.dev/ios.html" }
+  ]
+}
+</script>
 </head>
 <body>
     <!-- Navigation -->
     <nav>
-        <div class="nav-brand">Seth Rininger</div>
+        <a href="index.html" class="nav-brand" style="text-decoration:none;">Seth Rininger</a>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="ios.html">iOS Dev</a></li>
@@ -748,10 +823,15 @@
             <li><a href="ai.html">AI Research</a></li>
             <li><a href="gamedev.html">Game Dev</a></li>
             <li><a href="video.html">Video</a></li>
+            <li><a href="realestate.html">Real Estate</a></li>
             <li><a href="index.html#contact">Contact</a></li>
         </ul>
         <div class="nav-controls">
+            <a href="index.html#contact" class="nav-cta">Let's Talk</a>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀️</button>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
@@ -761,7 +841,7 @@
             <a href="index.html">Home</a> → iOS Development
         </div>
         <h1>iOS & Mobile Development</h1>
-        <p class="subheading">10+ years building apps that millions of people use every day.</p>
+        <p class="subheading">Writing Swift since the year it launched in 2014. Building apps used by millions at CBS Sports and Paramount. Shipping SwiftUI at scale.</p>
     </section>
 
     <!-- Timeline Section -->
@@ -771,7 +851,13 @@
             <!-- CBS Sports / Paramount -->
             <div class="timeline-item fade-in">
                 <div class="timeline-card">
-                    <h3>CBS Sports / Paramount</h3>
+                    <div class="timeline-card-header">
+                        <picture>
+                            <source srcset="assets/images/cbs_sports@3x.webp" type="image/webp">
+                            <img src="assets/images/cbs_sports@3x.png" alt="CBS Sports app icon" class="timeline-app-icon" loading="lazy">
+                        </picture>
+                        <h3>CBS Sports / Paramount</h3>
+                    </div>
                     <div class="role">Senior iOS Developer</div>
                     <p>Drove major feature ownership on one of America's most-used sports apps. Led a deep dive into SwiftUI that gave the team confidence to commit to the framework long-term. Built complex user flows with state-aware logic, dynamic filtering systems, and carousel-based interfaces. Gained significant experience with GraphQL and Apollo, including schema updates and code generation.</p>
                     <p style="margin-top: 0.5rem; color: var(--text-gray);">Contributed across a wide range of features spanning the full app surface — consistently handling rapid context-switching with enthusiasm. Recognized as a positive, grounding presence on the team who provides thoughtful PR feedback and helps maintain healthy engineering culture.</p>
@@ -784,7 +870,19 @@
             <!-- Vimvest / Monorail -->
             <div class="timeline-item fade-in">
                 <div class="timeline-card">
-                    <h3>Vimvest &rarr; Monorail</h3>
+                    <div class="timeline-card-header">
+                        <div class="timeline-app-icons">
+                            <picture>
+                                <source srcset="assets/images/Vimvest@3x.webp" type="image/webp">
+                                <img src="assets/images/Vimvest@3x.png" alt="Vimvest app icon" class="timeline-app-icon" loading="lazy">
+                            </picture>
+                            <picture>
+                                <source srcset="assets/images/Monorail@3x.webp" type="image/webp">
+                                <img src="assets/images/Monorail@3x.png" alt="Monorail app icon" class="timeline-app-icon" loading="lazy">
+                            </picture>
+                        </div>
+                        <h3>Vimvest &rarr; Monorail</h3>
+                    </div>
                     <div class="role">Lead Front-End Developer (Mobile Focus)</div>
                     <p>First hire. Built the entire mobile experience from scratch. 1000+ compile sources. Reactive async custom GUI with custom components and animations.</p>
                     <p><strong>Frameworks:</strong> AsyncDisplayKit (Texture), RxSwift, Realm, Combine, SwiftUI, and 15+ more</p>
@@ -808,7 +906,7 @@
                         </div>
 
                         <div class="card-testimonial">
-                            <p class="card-testimonial-text">Seth is very passionate about mobile and software development. He takes pride in his work and continues to strive to be his very best, day in and day out. Working directly with Seth, I have learned many iOS development skills such as Git, debugging, continuous integration, and even Apple's langue Swift. Seth is a very great teacher, no matter what the subject is. Seth is a very strong asset to any team and company.</p>
+                            <p class="card-testimonial-text">Seth is very passionate about mobile and software development. He takes pride in his work and continues to strive to be his very best, day in and day out. Working directly with Seth, I have learned many iOS development skills such as Git, debugging, continuous integration, and even Apple's language Swift. Seth is a very great teacher, no matter what the subject is. Seth is a very strong asset to any team and company.</p>
                             <div class="card-testimonial-author">
                                 <div class="card-testimonial-avatar">TC</div>
                                 <div class="card-testimonial-info">
@@ -837,19 +935,31 @@
             <!-- It Works! Global -->
             <div class="timeline-item fade-in">
                 <div class="timeline-card">
-                    <h3>It Works! Global</h3>
+                    <div class="timeline-card-header">
+                        <picture>
+                            <source srcset="assets/images/ItWorks@3x.webp" type="image/webp">
+                            <img src="assets/images/ItWorks@3x.png" alt="It Works! app icon" class="timeline-app-icon" loading="lazy">
+                        </picture>
+                        <h3>It Works! Global</h3>
+                    </div>
                     <div class="role">iOS Developer</div>
                     <p>Built 'Wired' — iPhone app for the global health/wellness company.</p>
                     <div class="details">March 2017 – June 2017</div>
                 </div>
             </div>
 
-            <!-- Energy Sense Finance / EiValue -->
+            <!-- Energy Sense Finance -->
             <div class="timeline-item fade-in">
                 <div class="timeline-card">
-                    <h3>Energy Sense Finance / EiValue</h3>
+                    <div class="timeline-card-header">
+                        <picture>
+                            <source srcset="assets/images/EiValue@3x.webp" type="image/webp">
+                            <img src="assets/images/EiValue@3x.png" alt="EiValue app icon" class="timeline-app-icon" loading="lazy">
+                        </picture>
+                        <h3>Energy Sense Finance</h3>
+                    </div>
                     <div class="role">Lead Mobile Developer & UI/UX Designer</div>
-                    <p>Created EiValue — an app that appraises the value of solar energy. First app I designed end-to-end. iOS and Android.</p>
+                    <p>Created an app that appraises the value of solar energy. First app I designed end-to-end. iOS and Android.</p>
                     <div class="details">February 2016 – February 2017</div>
                 </div>
             </div>
@@ -857,7 +967,19 @@
             <!-- Consulting Work -->
             <div class="timeline-item fade-in">
                 <div class="timeline-card">
-                    <h3>Consulting Work</h3>
+                    <div class="timeline-card-header">
+                        <div class="timeline-app-icons">
+                            <picture>
+                                <source srcset="assets/images/redswipe@3x.webp" type="image/webp">
+                                <img src="assets/images/redswipe@3x.png" alt="RedSwipe app icon" class="timeline-app-icon" loading="lazy">
+                            </picture>
+                            <picture>
+                                <source srcset="assets/images/ManuIdle@3x.webp" type="image/webp">
+                                <img src="assets/images/ManuIdle@3x.png" alt="Manu Idle app icon" class="timeline-app-icon" loading="lazy">
+                            </picture>
+                        </div>
+                        <h3>Consulting & Side Projects</h3>
+                    </div>
                     <div class="role">Freelance Developer</div>
                     <p>Trilogy Education (mentoring Ruby developers), Casanova (Tinder extension iOS app), RedSwipe (Xamarin food discount app with QR scanning)</p>
                     <div class="details">2016 – 2020</div>
@@ -994,12 +1116,12 @@
         <div class="strengths-grid">
             <div class="strength-card fade-in">
                 <h3>Pixel-Perfect UI</h3>
-                <p>I've built custom animations that exceeded designer expectations at every company I've worked for. Nothing ships until it feels right.</p>
+                <p>Custom animations and polished interfaces are what I'm known for. I work closely with design teams to ensure every interaction feels intentional and refined.</p>
             </div>
 
             <div class="strength-card fade-in">
                 <h3>Architecture at Scale</h3>
-                <p>From 50 compile sources to 1000+. CI/CD pipelines that auto-create dev, UAT, and production builds.</p>
+                <p>Experience scaling codebases from 50 compile sources to 1000+. CI/CD pipelines that auto-create dev, UAT, and production builds.</p>
             </div>
 
             <div class="strength-card fade-in">
@@ -1016,7 +1138,7 @@
         <div class="strengths-grid">
             <div class="strength-card fade-in">
                 <h3>App UI Design</h3>
-                <p>End-to-end app design and development. Designed and built EiValue from scratch. Contracted to design and build RedSwipe in Xamarin with full UI, QR code scanning, and branded experience.</p>
+                <p>End-to-end app design and development. Designed and built the Energy Sense Finance app from scratch. Contracted to design and build RedSwipe in Xamarin with full UI, QR code scanning, and branded experience.</p>
             </div>
             <div class="strength-card fade-in">
                 <h3>Graphical Instinct</h3>
@@ -1057,15 +1179,20 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="cta-section fade-in">
-        <h2>Interested in working together?</h2>
-        <p style="color: var(--text-gray); margin-bottom: 0;">Let's build something great.</p>
-        <a href="index.html#contact" class="cta-button">Get in Touch</a>
+    <section style="padding: 4rem 2rem; text-align: center; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(245, 158, 11, 0.05)); border-top: 1px solid rgba(229, 229, 229, 0.1);">
+        <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 2rem; margin-bottom: 1rem;">Need an iOS Developer?</h2>
+        <p style="color: var(--text-gray); margin-bottom: 1.5rem;">Available for consulting, contract work, and technical advisory.</p>
+        <a href="index.html#contact" style="display: inline-block; background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; padding: 1rem 2.5rem; border-radius: 10px; font-weight: 600; text-decoration: none; transition: all 0.3s ease;">Get in Touch</a>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2026 Seth Rininger</p>
+        <p>&copy; 2026 Seth Rininger. Built with vanilla HTML, CSS & JS.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+            <a href="mailto:sethr@hey.com" style="color: var(--accent-blue); text-decoration: none;">sethr@hey.com</a> ·
+            <a href="https://www.linkedin.com/in/seth-rininger-004036a3/" target="_blank" rel="noopener" style="color: var(--accent-blue); text-decoration: none;">LinkedIn</a> ·
+            <a href="https://github.com/Sethmr" target="_blank" rel="noopener" style="color: var(--accent-blue); text-decoration: none;">GitHub</a>
+        </p>
     </footer>
 
     <script>
@@ -1106,6 +1233,19 @@
         document.querySelectorAll('.fade-in').forEach(element => {
             observer.observe(element);
         });
+
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                hamburger.setAttribute('aria-expanded', hamburger.classList.contains('active'));
+            });
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => { hamburger.classList.remove('active'); navLinks.classList.remove('active'); hamburger.setAttribute('aria-expanded', 'false'); });
+            });
+        }
     </script>
     <script src="assets/effects.js"></script>
 </body>

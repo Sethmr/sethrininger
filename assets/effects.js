@@ -13,149 +13,149 @@
 (function () {
     'use strict';
 
+    // ─── UNIVERSAL FEATURES (work on all devices) ───────────
+    // These run regardless of pointer type (touch or mouse)
+
+    function initUniversalFeatures() {
+        initSkipLink();
+        initSmartNav();
+        initBackToTop();
+    }
+
     // Only run on devices with a mouse (not touch)
     const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
-    if (!hasFinePointer) return;
 
-    // ─── 1. CUSTOM CURSOR ───────────────────────────────────
+    // ─── 1. CUSTOM CURSOR (desktop only) ─────────────────────
 
-    const cursor = document.createElement('div');
-    cursor.id = 'custom-cursor';
-    const cursorDot = document.createElement('div');
-    cursorDot.id = 'cursor-dot';
-    document.body.appendChild(cursor);
-    document.body.appendChild(cursorDot);
+    if (hasFinePointer) {
+        const cursor = document.createElement('div');
+        cursor.id = 'custom-cursor';
+        const cursorDot = document.createElement('div');
+        cursorDot.id = 'cursor-dot';
+        document.body.appendChild(cursor);
+        document.body.appendChild(cursorDot);
 
-    // Inject cursor styles
-    const style = document.createElement('style');
-    style.textContent = `
-        #custom-cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 36px;
-            height: 36px;
-            border: 1.5px solid rgba(59, 130, 246, 0.5);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99999;
-            transition: width 0.25s ease, height 0.25s ease,
-                        border-color 0.25s ease, background-color 0.25s ease,
-                        opacity 0.2s ease;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
-            opacity: 0;
-        }
+        const style = document.createElement('style');
+        style.textContent = `
+            #custom-cursor {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 36px;
+                height: 36px;
+                border: 1.5px solid rgba(59, 130, 246, 0.5);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 99999;
+                transition: width 0.25s ease, height 0.25s ease,
+                            border-color 0.25s ease, background-color 0.25s ease,
+                            opacity 0.2s ease;
+                transform: translate(-50%, -50%);
+                mix-blend-mode: difference;
+                opacity: 0;
+            }
 
-        #custom-cursor.visible {
-            opacity: 1;
-        }
+            #custom-cursor.visible {
+                opacity: 1;
+            }
 
-        #custom-cursor.hovering {
-            width: 56px;
-            height: 56px;
-            border-color: rgba(59, 130, 246, 0.8);
-            background-color: rgba(59, 130, 246, 0.08);
-        }
+            #custom-cursor.hovering {
+                width: 56px;
+                height: 56px;
+                border-color: rgba(59, 130, 246, 0.8);
+                background-color: rgba(59, 130, 246, 0.08);
+            }
 
-        #custom-cursor.clicking {
-            width: 28px;
-            height: 28px;
-            border-color: rgba(245, 158, 11, 0.9);
-        }
+            #custom-cursor.clicking {
+                width: 28px;
+                height: 28px;
+                border-color: rgba(245, 158, 11, 0.9);
+            }
 
-        #cursor-dot {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 5px;
-            background-color: #3b82f6;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 100000;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
+            #cursor-dot {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 5px;
+                height: 5px;
+                background-color: #3b82f6;
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 100000;
+                transform: translate(-50%, -50%);
+                opacity: 0;
+                transition: opacity 0.2s ease;
+            }
 
-        #cursor-dot.visible {
-            opacity: 1;
-        }
+            #cursor-dot.visible {
+                opacity: 1;
+            }
 
-        /* Hide default cursor on interactive elements */
-        body.custom-cursor-active,
-        body.custom-cursor-active a,
-        body.custom-cursor-active button,
-        body.custom-cursor-active input,
-        body.custom-cursor-active [data-magnetic],
-        body.custom-cursor-active [data-tilt] {
-            cursor: none !important;
-        }
-    `;
-    document.head.appendChild(style);
+            body.custom-cursor-active,
+            body.custom-cursor-active a,
+            body.custom-cursor-active button,
+            body.custom-cursor-active input,
+            body.custom-cursor-active [data-magnetic],
+            body.custom-cursor-active [data-tilt] {
+                cursor: none !important;
+            }
+        `;
+        document.head.appendChild(style);
 
-    let mouseX = -100, mouseY = -100;
-    let cursorX = -100, cursorY = -100;
-    let isHovering = false;
+        let mouseX = -100, mouseY = -100;
+        let cursorX = -100, cursorY = -100;
+        let isHovering = false;
 
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if (!cursor.classList.contains('visible')) {
+                cursor.classList.add('visible');
+                cursorDot.classList.add('visible');
+                document.body.classList.add('custom-cursor-active');
+            }
+        });
 
-        // Show cursor once mouse moves
-        if (!cursor.classList.contains('visible')) {
+        document.addEventListener('mousedown', () => cursor.classList.add('clicking'));
+        document.addEventListener('mouseup', () => cursor.classList.remove('clicking'));
+
+        document.addEventListener('mouseleave', () => {
+            cursor.classList.remove('visible');
+            cursorDot.classList.remove('visible');
+        });
+        document.addEventListener('mouseenter', () => {
             cursor.classList.add('visible');
             cursorDot.classList.add('visible');
-            document.body.classList.add('custom-cursor-active');
+        });
+
+        const hoverTargets = 'a, button, [data-magnetic], .service-card, .process-step, .client-card, .strength-card, .testimonial-card, .gallery-item, .credibility-logo, .nav-links a, input, textarea';
+
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest(hoverTargets)) {
+                cursor.classList.add('hovering');
+                isHovering = true;
+            }
+        });
+
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.closest(hoverTargets)) {
+                cursor.classList.remove('hovering');
+                isHovering = false;
+            }
+        });
+
+        function animateCursor() {
+            const speed = isHovering ? 0.15 : 0.18;
+            cursorX += (mouseX - cursorX) * speed;
+            cursorY += (mouseY - cursorY) * speed;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+            requestAnimationFrame(animateCursor);
         }
-    });
-
-    document.addEventListener('mousedown', () => cursor.classList.add('clicking'));
-    document.addEventListener('mouseup', () => cursor.classList.remove('clicking'));
-
-    document.addEventListener('mouseleave', () => {
-        cursor.classList.remove('visible');
-        cursorDot.classList.remove('visible');
-    });
-    document.addEventListener('mouseenter', () => {
-        cursor.classList.add('visible');
-        cursorDot.classList.add('visible');
-    });
-
-    // Detect hoverable elements
-    const hoverTargets = 'a, button, [data-magnetic], .service-card, .process-step, .client-card, .strength-card, .testimonial-card, .gallery-item, .credibility-logo, .nav-links a, input, textarea';
-
-    document.addEventListener('mouseover', (e) => {
-        if (e.target.closest(hoverTargets)) {
-            cursor.classList.add('hovering');
-            isHovering = true;
-        }
-    });
-
-    document.addEventListener('mouseout', (e) => {
-        if (e.target.closest(hoverTargets)) {
-            cursor.classList.remove('hovering');
-            isHovering = false;
-        }
-    });
-
-    // Smooth cursor follow with lerp
-    function animateCursor() {
-        const speed = isHovering ? 0.15 : 0.18;
-        cursorX += (mouseX - cursorX) * speed;
-        cursorY += (mouseY - cursorY) * speed;
-
-        cursor.style.left = cursorX + 'px';
-        cursor.style.top = cursorY + 'px';
-
-        // Dot follows exactly
-        cursorDot.style.left = mouseX + 'px';
-        cursorDot.style.top = mouseY + 'px';
-
-        requestAnimationFrame(animateCursor);
+        animateCursor();
     }
-    animateCursor();
 
 
     // ─── 2. MAGNETIC BUTTONS ────────────────────────────────
@@ -278,7 +278,7 @@
         const preloader = document.createElement('div');
         preloader.id = 'page-preloader';
 
-        const name = 'Seth Rininger';
+        const name = document.body.dataset.preloaderName || 'Seth Rininger';
         const nameEl = document.createElement('div');
         nameEl.className = 'preloader-name';
 
@@ -376,21 +376,123 @@
     }
 
 
+    // ─── 8. SMART NAVBAR ────────────────────────────────────
+
+    function initSmartNav() {
+        const nav = document.querySelector('nav');
+        if (!nav) return;
+
+        // Switch from sticky to fixed for reliable transform behavior (Safari)
+        // Safe area padding is handled by effects.css via env(safe-area-inset-top)
+        const navHeight = nav.offsetHeight;
+        nav.style.position = 'fixed';
+        nav.style.top = '0';
+        nav.style.left = '0';
+        nav.style.right = '0';
+        nav.style.willChange = 'transform';
+
+        // Add spacer to prevent content jump
+        const spacer = document.createElement('div');
+        spacer.style.height = navHeight + 'px';
+        nav.parentNode.insertBefore(spacer, nav.nextSibling);
+
+        let lastScrollY = window.scrollY;
+        let ticking = false;
+        const threshold = 10; // minimum scroll delta to trigger hide/show
+        const topZone = 20;   // small dead zone at very top of page
+
+        function onScroll() {
+            const currentScrollY = window.scrollY;
+            const delta = currentScrollY - lastScrollY;
+
+            // Always show nav at top of page
+            if (currentScrollY <= topZone) {
+                nav.classList.remove('nav-hidden');
+                nav.classList.add('nav-visible');
+                lastScrollY = currentScrollY;
+                ticking = false;
+                return;
+            }
+
+            // Scrolling down past threshold — hide
+            if (delta > threshold) {
+                nav.classList.add('nav-hidden');
+                nav.classList.remove('nav-visible');
+            }
+            // Scrolling up past threshold — show
+            else if (delta < -threshold) {
+                nav.classList.remove('nav-hidden');
+                nav.classList.add('nav-visible');
+            }
+
+            lastScrollY = currentScrollY;
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', function () {
+            if (!ticking) {
+                requestAnimationFrame(onScroll);
+                ticking = true;
+            }
+        }, { passive: true });
+    }
+
+
+    // ─── 9. BACK TO TOP BUTTON ──────────────────────────────
+
+    function initBackToTop() {
+        const button = document.createElement('button');
+        button.className = 'back-to-top';
+        button.innerHTML = '↑';
+        button.setAttribute('aria-label', 'Back to top');
+        document.body.appendChild(button);
+
+        // Throttle scroll events
+        let isThrottled = false;
+        const throttleDelay = 100;
+
+        window.addEventListener('scroll', () => {
+            if (isThrottled) return;
+            isThrottled = true;
+
+            const scrollY = window.scrollY;
+            if (scrollY > 500) {
+                button.classList.add('visible');
+            } else {
+                button.classList.remove('visible');
+            }
+
+            setTimeout(() => {
+                isThrottled = false;
+            }, throttleDelay);
+        }, { passive: true });
+
+        // Smooth scroll to top on click
+        button.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+
     // ─── INIT ───────────────────────────────────────────────
 
     // Check for reduced motion preference
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Wait for DOM to be fully loaded
+    // Universal features run on ALL devices (touch + desktop)
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+        document.addEventListener('DOMContentLoaded', initUniversalFeatures);
     } else {
-        init();
+        initUniversalFeatures();
     }
 
-    function init() {
-        initSkipLink();
+    // Desktop-only features need a fine pointer
+    if (!hasFinePointer) return;
 
+    function initDesktop() {
         if (!prefersReducedMotion) {
             initPreloader();
             initTextReveal();
@@ -398,6 +500,12 @@
             initTilt();
             initScrollIndicator();
         }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initDesktop);
+    } else {
+        initDesktop();
     }
 
 })();

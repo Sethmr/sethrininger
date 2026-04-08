@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
     <title>Video & Content Production — Seth Rininger</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +20,7 @@
             --bg-dark: #0a0a0a;
             --bg-dark-secondary: #1a1a1a;
             --text-light: #e5e5e5;
-            --text-gray: #a0a0a0;
+            --text-gray: #b0b0b0;
             --accent-blue: #3b82f6;
             --accent-amber: #f59e0b;
             --accent-blue-hover: #2563eb;
@@ -121,19 +122,49 @@
             color: var(--accent-blue);
         }
 
+        /* hamburger base & animation handled by effects.css */
+
         @media (max-width: 768px) {
             nav {
-                padding: 1rem;
-                flex-wrap: wrap;
-                gap: 1rem;
+                background: transparent !important;
+                border-bottom: none !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                padding: 0.75rem 1rem !important;
+                padding-top: calc(0.75rem + env(safe-area-inset-top, 0px)) !important;
+                gap: 0 !important;
+            }
+            nav .nav-brand,
+            nav .nav-controls {
+                background: rgba(40, 40, 40, 0.55);
+                -webkit-backdrop-filter: blur(20px) saturate(180%);
+                backdrop-filter: blur(20px) saturate(180%);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 50px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+                height: 40px;
+                display: flex;
+                align-items: center;
+            }
+            nav .nav-brand {
+                padding: 0 1rem;
+                font-size: 1rem;
+            }
+            nav .nav-controls {
+                padding: 0 0.75rem;
+                gap: 0.5rem;
+            }
+            body.light-mode nav .nav-brand,
+            body.light-mode nav .nav-controls {
+                background: rgba(255, 255, 255, 0.55);
+                border: 1px solid rgba(0, 0, 0, 0.08);
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
             }
 
-            .nav-links {
-                gap: 1rem;
-                flex-wrap: wrap;
-                width: 100%;
-                order: 3;
-            }
+            .hamburger { display: flex; }
+            .nav-cta { display: none; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-dark); border-bottom: 1px solid rgba(229,229,229,0.1); flex-direction: column; padding: 1.5rem; gap: 1rem; list-style: none; }
+            .nav-links.active { display: flex; }
 
             .nav-links a {
                 font-size: 0.85rem;
@@ -391,14 +422,20 @@
         /* VidSummit photo gallery */
         .photo-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 1rem;
             margin-top: 1.5rem;
         }
 
+        @media (max-width: 768px) {
+            .photo-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         .photo-gallery img {
             width: 100%;
-            height: 260px;
+            height: 220px;
             object-fit: cover;
             border-radius: 10px;
             border: 1px solid rgba(229, 229, 229, 0.08);
@@ -424,6 +461,14 @@
             border-radius: 50px;
             background: rgba(245, 158, 11, 0.1);
             border: 1px solid rgba(245, 158, 11, 0.25);
+            color: var(--accent-amber);
+            text-decoration: none;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .channel-pill:hover {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: var(--accent-amber);
             color: var(--accent-amber);
         }
 
@@ -488,11 +533,27 @@
     <meta property="og:url" content="https://sethrininger.dev/video.html">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:creator" content="@sethrininger">
+    <link rel="canonical" href="https://sethrininger.dev/video.html">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <meta property="og:image" content="https://sethrininger.dev/assets/images/og-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sethrininger.dev/" },
+    { "@type": "ListItem", "position": 2, "name": "Video Production", "item": "https://sethrininger.dev/video.html" }
+  ]
+}
+</script>
 </head>
 <body>
     <!-- Navigation -->
     <nav>
-        <div class="nav-brand">Seth Rininger</div>
+        <a href="index.html" class="nav-brand" style="text-decoration:none;">Seth Rininger</a>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="ios.html">iOS Dev</a></li>
@@ -500,10 +561,15 @@
             <li><a href="ai.html">AI Research</a></li>
             <li><a href="gamedev.html">Game Dev</a></li>
             <li><a href="video.html" style="color: var(--accent-blue);">Video</a></li>
+            <li><a href="realestate.html">Real Estate</a></li>
             <li><a href="index.html#contact">Contact</a></li>
         </ul>
         <div class="nav-controls">
+            <a href="index.html#contact" class="nav-cta">Let's Talk</a>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">&#9728;&#65039;</button>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
@@ -513,7 +579,7 @@
             <a href="index.html">Home</a> &rarr; Video & Content Production
         </div>
         <h1>Video & Content <span class="accent">Production</span></h1>
-        <p>Full-pipeline creator — from concept and filming through editing, publishing, and growth. I've built audiences from zero, produced content that moves people to tears, and run live multi-camera broadcasts.</p>
+        <p>Full-pipeline creator. Built a 30K-subscriber YouTube channel from zero. Shoot, edit, publish, grow.</p>
 
         <div class="stat-strip">
             <div class="stat">
@@ -521,12 +587,16 @@
                 <div class="stat-label">YouTube Subscribers</div>
             </div>
             <div class="stat">
-                <div class="stat-number">3+</div>
-                <div class="stat-label">Years Producing</div>
+                <div class="stat-number">12.6M</div>
+                <div class="stat-label">Total Views</div>
             </div>
             <div class="stat">
-                <div class="stat-number">Multi</div>
-                <div class="stat-label">Platform Experience</div>
+                <div class="stat-number">97</div>
+                <div class="stat-label">Videos Published</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">3+</div>
+                <div class="stat-label">Years Producing</div>
             </div>
         </div>
     </section>
@@ -543,7 +613,7 @@
                 </div>
             </div>
             <div class="showcase-body">
-                <p>Built a children's YouTube channel from zero to over 30,000 subscribers as the full-stack producer — handling every part of the pipeline from concept and filming through editing, thumbnail design, SEO optimization, and growth strategy. A true family project: my wife was involved in creative direction and every decision, and the kids were always eager to jump in, making it as much fun as it was work.</p>
+                <p>Built a children's YouTube channel from zero to over 30,000 subscribers as the full-stack producer — handling every part of the pipeline from concept and filming through editing, thumbnail design, SEO optimization, and growth strategy. A true family project: my wife was involved in creative direction in every decision, and the kids were always eager to jump in, making it as much fun as it was work.</p>
                 <p>This wasn't just editing clips. I managed content calendars, researched trending topics in the kids' content space, designed eye-catching thumbnails optimized for click-through rate, and iterated on formats based on audience retention data. The channel grew organically through consistent quality and smart positioning.</p>
 
                 <div class="showcase-stats">
@@ -552,8 +622,12 @@
                         <span>Subscribers</span>
                     </div>
                     <div class="showcase-stat">
-                        <strong>Full</strong>
-                        <span>Pipeline Owner</span>
+                        <strong>97</strong>
+                        <span>Videos</span>
+                    </div>
+                    <div class="showcase-stat">
+                        <strong>12.6M</strong>
+                        <span>Views</span>
                     </div>
                     <div class="showcase-stat">
                         <strong>0 &rarr; 30K</strong>
@@ -561,7 +635,15 @@
                     </div>
                 </div>
 
-                <a href="https://www.youtube.com/@KyrasCorner" target="_blank" rel="noopener" class="showcase-link">Watch on YouTube &rarr;</a>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
+                    <a href="https://www.youtube.com/@KyrasCorner" target="_blank" rel="noopener" class="showcase-link">YouTube &rarr;</a>
+                    <a href="https://x.com/KyrasCorner" target="_blank" rel="noopener" class="showcase-link">X &rarr;</a>
+                    <a href="https://instagram.com/kyrascorner4kids" target="_blank" rel="noopener" class="showcase-link">Instagram &rarr;</a>
+                    <a href="https://facebook.com/kyrascorner4kids" target="_blank" rel="noopener" class="showcase-link">Facebook &rarr;</a>
+                    <a href="https://tiktok.com/@kyras_corner" target="_blank" rel="noopener" class="showcase-link">TikTok &rarr;</a>
+                    <a href="https://kyras-corner.creator-spring.com" target="_blank" rel="noopener" class="showcase-link">Merch &rarr;</a>
+                    <a href="mailto:kyrascorner4kids@gmail.com" class="showcase-link">Email &rarr;</a>
+                </div>
             </div>
         </div>
     </section>
@@ -578,7 +660,7 @@
             </div>
             <div class="showcase-body">
                 <p>Video editor for the UnityNow! podcast — a show focused on bridging America's political and social divides. Hosted by Toby Davis, Gabe Garber, and Kimberly Kolb Eakin, the podcast features conversations with authors, activists, and commentators exploring common ground.</p>
-                <p>Handled post-production editing for video episodes, creating polished cuts from multi-camera recordings. Also served as a live OBS Studio operator — managing real-time scene transitions, camera switching, and broadcast quality during live recordings.</p>
+                <p>Beyond editing, I joined weekly discussions and participated in making decisions about the podcast's direction and future. Handled post-production editing for video episodes, creating polished cuts from multi-camera recordings. Also served as a live OBS Studio operator — managing real-time scene transitions, camera switching, and broadcast quality during live recordings.</p>
 
                 <div class="showcase-stats">
                     <div class="showcase-stat">
@@ -596,6 +678,8 @@
                 </div>
 
                 <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
+                    <a href="https://www.youtube.com/@UnityNow" target="_blank" rel="noopener" class="showcase-link">YouTube &rarr;</a>
+                    <a href="https://rumble.com/c/UnityNow" target="_blank" rel="noopener" class="showcase-link">Rumble &rarr;</a>
                     <a href="https://open.spotify.com/show/0BMZ1QJUsuSLgzKKnlJbUr" target="_blank" rel="noopener" class="showcase-link">Spotify &rarr;</a>
                     <a href="https://podcasts.apple.com/us/podcast/unitynow/id1528533809" target="_blank" rel="noopener" class="showcase-link">Apple Podcasts &rarr;</a>
                 </div>
@@ -615,7 +699,27 @@
             </div>
             <div class="showcase-body">
                 <p>Some of my most meaningful production work happens off-platform. I create deeply personal tribute videos for birthdays and milestones — spending a week or more gathering footage and recordings from friends and family, curating favorite songs, and weaving it all into something that tells the story of a person's life and impact.</p>
-                <p>These aren't slideshows. They're crafted narratives — timed to music, paced for emotional impact, and designed to bring people to tears. Every one of them does.</p>
+                <p>These aren't slideshows. They're crafted narratives — timed to music, paced for emotional impact, and made with care. It's the kind of work where every detail matters because the person it's for matters.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Living In WNC -->
+    <section class="fade-in">
+        <div class="showcase-card" style="border-color: var(--border-dark);">
+            <div class="showcase-header">
+                <h3>Living In WNC</h3>
+                <div class="showcase-badges">
+                    <span class="badge">YouTube</span>
+                    <span class="badge-amber badge">In Progress</span>
+                </div>
+            </div>
+            <div class="showcase-body">
+                <p>A newer channel I'm building with my wife Brandi, who's a real estate broker serving Western North Carolina. The plan is to combine my production background with her local market expertise — neighborhood tours, home buying tips, and a look at what makes WNC such a great place to live. Still early, but we're excited about where it's headed.</p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
+                    <a href="https://www.youtube.com/@LivingInWNC" target="_blank" rel="noopener" class="showcase-link">YouTube &rarr;</a>
+                    <a href="realestate.html" class="showcase-link">Brandi's Page &rarr;</a>
+                </div>
             </div>
         </div>
     </section>
@@ -635,16 +739,30 @@
                 <p>Beyond the sessions, VidSummit was about connecting with creators and industry people who think about video the same way I think about code — obsessively, with an eye on craft and data. Made great friends and met the YouTubers behind some of the biggest channels in the kids' and family content space.</p>
 
                 <div class="channel-pills">
-                    <span class="channel-pill">A for Adley</span>
-                    <span class="channel-pill">Oaks Playhouse</span>
-                    <span class="channel-pill">Jordan Matter</span>
+                    <a href="https://www.youtube.com/@AforAdley" target="_blank" rel="noopener" class="channel-pill">A for Adley</a>
+                    <a href="https://www.youtube.com/@OaksPlayhouse" target="_blank" rel="noopener" class="channel-pill">Oaks Playhouse</a>
+                    <a href="https://www.youtube.com/@JordanMatter" target="_blank" rel="noopener" class="channel-pill">Jordan Matter</a>
+                    <a href="https://www.youtube.com/@FamilywithFour" target="_blank" rel="noopener" class="channel-pill">Family with Four</a>
+                    <a href="https://www.youtube.com/@CJ-Adventures" target="_blank" rel="noopener" class="channel-pill">CJ Adventures</a>
                 </div>
 
                 <div class="photo-gallery">
-                    <img src="assets/images/vidsummit-3.jpg" alt="Dinner with friends at VidSummit" loading="lazy">
-                    <img src="assets/images/vidsummit-1.jpg" alt="Group photo at VidSummit conference" loading="lazy">
-                    <img src="assets/images/vidsummit-2.jpg" alt="Meeting creators at VidSummit" loading="lazy">
-                    <img src="assets/images/vidsummit-4.jpg" alt="VidSummit event" loading="lazy">
+                    <picture>
+                        <source srcset="assets/images/vidsummit-1.webp" type="image/webp">
+                        <img src="assets/images/vidsummit-1.jpg" alt="Dinner with friends at VidSummit" loading="lazy">
+                    </picture>
+                    <picture>
+                        <source srcset="assets/images/vidsummit-2.webp" type="image/webp">
+                        <img src="assets/images/vidsummit-2.jpg" alt="Group photo at VidSummit conference" loading="lazy">
+                    </picture>
+                    <picture>
+                        <source srcset="assets/images/vidsummit-3.webp" type="image/webp">
+                        <img src="assets/images/vidsummit-3.jpg" alt="Meeting creators at VidSummit" loading="lazy">
+                    </picture>
+                    <picture>
+                        <source srcset="assets/images/vidsummit-4.webp" type="image/webp">
+                        <img src="assets/images/vidsummit-4.jpg" alt="VidSummit event" loading="lazy">
+                    </picture>
                 </div>
             </div>
         </div>
@@ -711,19 +829,20 @@
         </div>
     </section>
 
-    <!-- Why It Matters -->
-    <section class="philosophy-section fade-in">
-        <h2>Why a Developer Does Video</h2>
-        <p>Video production isn't a side hobby — it's a multiplier for everything else I do. Apps need demo videos. Products need marketing content. SEO campaigns perform better with video. And being able to produce all of that in-house, without hiring out, means faster iteration and lower costs.</p>
-        <p>I'm not looking for video production clients. But for passion projects that align with my values, I'll donate the time — and bring the same obsessive quality I put into code.</p>
+    <!-- CTA Section -->
+    <section style="padding: 4rem 2rem; text-align: center; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(245, 158, 11, 0.05)); border-top: 1px solid rgba(229, 229, 229, 0.1);">
+        <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 2rem; margin-bottom: 1rem;">Video Projects</h2>
+        <p style="color: var(--text-gray); margin-bottom: 1.5rem;">I take on selective video projects that align with my values. If you have something meaningful to create, let's talk.</p>
+        <a href="index.html#contact" style="display: inline-block; background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; padding: 1rem 2.5rem; border-radius: 10px; font-weight: 600; text-decoration: none; transition: all 0.3s ease;">Get in Touch</a>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2026 Seth Rininger. Built from scratch with code, caffeine, and a little AI help.</p>
-        <p style="margin-top: 0.5rem;">
-            <a href="mailto:sethr@hey.com">sethr@hey.com</a> &middot;
-            <a href="https://www.linkedin.com/in/seth-rininger-004036a3/" target="_blank" rel="noopener">LinkedIn</a>
+        <p>&copy; 2026 Seth Rininger. Built with vanilla HTML, CSS & JS.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+            <a href="mailto:sethr@hey.com" style="color: var(--accent-blue); text-decoration: none;">sethr@hey.com</a> ·
+            <a href="https://www.linkedin.com/in/seth-rininger-004036a3/" target="_blank" rel="noopener" style="color: var(--accent-blue); text-decoration: none;">LinkedIn</a> ·
+            <a href="https://github.com/Sethmr" target="_blank" rel="noopener" style="color: var(--accent-blue); text-decoration: none;">GitHub</a>
         </p>
     </footer>
 
@@ -754,6 +873,20 @@
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Hamburger Menu
+        const hamburger = document.getElementById('hamburger');
+        const navLinksEl = document.querySelector('.nav-links');
+        if (hamburger && navLinksEl) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navLinksEl.classList.toggle('active');
+                hamburger.setAttribute('aria-expanded', hamburger.classList.contains('active'));
+            });
+            navLinksEl.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => { hamburger.classList.remove('active'); navLinksEl.classList.remove('active'); hamburger.setAttribute('aria-expanded', 'false'); });
+            });
+        }
     </script>
 </body>
 </html>

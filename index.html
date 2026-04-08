@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
     <title>Seth Rininger - Senior iOS Developer & AI Builder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/effects.css">
 
@@ -19,7 +22,7 @@
             --bg-secondary: #1a1a1a;
             --bg-tertiary: #252525;
             --text-primary: #e5e5e5;
-            --text-secondary: #a3a3a3;
+            --text-secondary: #b0b0b0;
             --accent-blue: #3b82f6;
             --accent-amber: #f59e0b;
             --border-color: rgba(255, 255, 255, 0.1);
@@ -62,142 +65,75 @@
 
         /* Navigation */
         nav {
-            position: fixed;
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
-            height: 70px;
-            background-color: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
             z-index: 1000;
-            transition: var(--transition);
-        }
-
-        body.light-mode nav {
-            background-color: rgba(255, 255, 255, 0.8);
-        }
-
-        nav.scrolled {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        body.light-mode nav.scrolled {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            height: 100%;
+            background-color: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid rgba(229, 229, 229, 0.1);
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .nav-logo {
+        body.light-mode nav {
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .nav-brand {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-amber));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-decoration: none;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
         }
 
         .nav-links {
             display: flex;
-            list-style: none;
             gap: 2rem;
+            list-style: none;
             align-items: center;
         }
 
         .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
+            color: var(--text-primary);
             font-size: 0.95rem;
             font-weight: 500;
-            transition: var(--transition);
-            position: relative;
+            transition: color 0.2s ease;
+            text-decoration: none;
         }
 
         .nav-links a:hover {
             color: var(--accent-blue);
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent-blue);
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
         .nav-controls {
             display: flex;
+            gap: 1rem;
             align-items: center;
-            gap: 1.5rem;
         }
 
         .theme-toggle {
             background: none;
             border: none;
-            cursor: pointer;
-            font-size: 1.3rem;
             color: var(--text-primary);
-            transition: var(--transition);
+            cursor: pointer;
+            font-size: 1.25rem;
+            transition: color 0.2s ease;
             padding: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .theme-toggle:hover {
             color: var(--accent-blue);
-            transform: scale(1.1);
         }
 
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 0.4rem;
-            background: none;
-            border: none;
-            padding: 0;
-        }
-
-        .hamburger span {
-            width: 24px;
-            height: 2px;
-            background: var(--text-primary);
-            transition: var(--transition);
-        }
-
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translateY(10px);
-        }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translateY(-10px);
-        }
+        /* hamburger base & animation handled by effects.css */
 
         /* Hero Section */
         .hero {
-            margin-top: 70px;
+            margin-top: 0;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -315,10 +251,9 @@
 
         section.dark {
             background-color: var(--bg-secondary);
-            margin-left: -2rem;
-            margin-right: -2rem;
-            padding-left: calc(2rem + max(0px, (100vw - 1200px) / 2));
-            padding-right: calc(2rem + max(0px, (100vw - 1200px) / 2));
+            max-width: 100%;
+            padding-left: calc(max(2rem, (100vw - 1200px) / 2 + 2rem));
+            padding-right: calc(max(2rem, (100vw - 1200px) / 2 + 2rem));
         }
 
         /* Cards Grid */
@@ -476,13 +411,48 @@
             align-items: center;
         }
 
+        .about-media {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .about-photo {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .about-photo img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            object-position: center 20%;
+            display: block;
+            border-radius: 12px;
+        }
+
+        .about-action-row {
+            display: flex;
+            gap: 1rem;
+            align-items: stretch;
+            height: 240px;
+        }
+
+        .about-photo-small {
+            flex: 0 0 70%;
+        }
+
+        .about-photo-small img {
+            height: 100% !important;
+        }
+
         .about-video {
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid var(--border-color);
             background: var(--bg-secondary);
-            aspect-ratio: 9/16;
-            max-height: 400px;
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -495,20 +465,19 @@
             border-radius: 12px;
         }
 
-        .about-video-placeholder {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            text-align: center;
-            padding: 2rem;
-        }
-
         @media (max-width: 768px) {
             .about-grid {
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
-            .about-video {
-                max-height: 300px;
+            .about-photo img {
+                height: 260px;
+            }
+            .about-action-row {
+                height: auto;
+            }
+            .about-photo-small {
+                flex: 0 0 35%;
             }
         }
 
@@ -568,6 +537,42 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            nav {
+                background: transparent !important;
+                border-bottom: none !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                padding: 0.75rem 1rem !important;
+                padding-top: calc(0.75rem + env(safe-area-inset-top, 0px)) !important;
+                gap: 0 !important;
+            }
+            nav .nav-brand,
+            nav .nav-controls {
+                background: rgba(40, 40, 40, 0.55);
+                -webkit-backdrop-filter: blur(20px) saturate(180%);
+                backdrop-filter: blur(20px) saturate(180%);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 50px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+                height: 40px;
+                display: flex;
+                align-items: center;
+            }
+            nav .nav-brand {
+                padding: 0 1rem;
+                font-size: 1rem;
+            }
+            nav .nav-controls {
+                padding: 0 0.75rem;
+                gap: 0.5rem;
+            }
+            body.light-mode nav .nav-brand,
+            body.light-mode nav .nav-controls {
+                background: rgba(255, 255, 255, 0.55);
+                border: 1px solid rgba(0, 0, 0, 0.08);
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            }
+
             h2 {
                 font-size: 1.8rem;
                 margin-bottom: 2rem;
@@ -576,7 +581,7 @@
             .nav-links {
                 display: none;
                 position: absolute;
-                top: 70px;
+                top: 60px;
                 left: 0;
                 right: 0;
                 background-color: var(--bg-primary);
@@ -592,6 +597,10 @@
 
             .hamburger {
                 display: flex;
+            }
+
+            .nav-cta {
+                display: none;
             }
 
             .terminal {
@@ -624,6 +633,11 @@
             .contact-links {
                 flex-direction: column;
                 gap: 1.5rem;
+            }
+
+            #contact > div {
+                grid-template-columns: 1fr !important;
+                gap: 2rem !important;
             }
         }
 
@@ -659,15 +673,17 @@
                 font-size: 0.95rem;
             }
         }
+
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
     </style>
     <meta name="author" content="Seth Rininger">
     <meta name="robots" content="index, follow">
-    <meta name="description" content="Seth Rininger is a Senior iOS Developer, SEO Consultant, and AI researcher with 10+ years of experience. Currently at CBS Sports/Paramount. Available for consulting.">
+    <meta name="description" content="Seth Rininger is a Senior iOS Developer, SEO Consultant, and AI researcher with 12+ years in mobile development. Currently at CBS Sports/Paramount. Available for consulting.">
     <meta property="og:site_name" content="Seth Rininger — Developer & Consultant">
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Seth Rininger — Senior iOS Developer & AI Builder">
-    <meta property="og:description" content="10+ years building apps used by millions. Now ranking local businesses on Google and pushing AI to its limits. Available for consulting.">
+    <meta property="og:description" content="12+ years building apps used by millions. Now ranking local businesses on Google and pushing AI to its limits. Available for consulting.">
     <meta property="og:url" content="https://sethrininger.dev/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:creator" content="@sethrininger">
@@ -696,34 +712,39 @@
   ]
 }
     </script>
+    <link rel="canonical" href="https://sethrininger.dev/">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <meta property="og:image" content="https://sethrininger.dev/assets/images/og-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 </head>
 <body>
     <!-- Navigation -->
     <nav>
-        <div class="nav-container">
-            <a href="#" class="nav-logo">Seth Rininger</a>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="ios.html">iOS Dev</a></li>
-                <li><a href="seo.html">SEO</a></li>
-                <li><a href="ai.html">AI Research</a></li>
-                <li><a href="gamedev.html">Game Dev</a></li>
-                <li><a href="video.html">Video</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="nav-controls">
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">☀️</button>
-                <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
+        <a href="index.html" class="nav-brand" style="text-decoration:none;">Seth Rininger</a>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="ios.html">iOS Dev</a></li>
+            <li><a href="seo.html">SEO</a></li>
+            <li><a href="ai.html">AI Research</a></li>
+            <li><a href="gamedev.html">Game Dev</a></li>
+            <li><a href="video.html">Video</a></li>
+            <li><a href="realestate.html">Real Estate</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-controls">
+            <a href="#contact" class="nav-cta">Let's Talk</a>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">☀️</button>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
+        <h1 class="sr-only">Seth Rininger — Senior iOS Developer, SEO Strategist & AI Builder</h1>
         <div class="hero-content">
             <div class="terminal">
                 <div class="terminal-line command">
@@ -746,25 +767,25 @@
 
                 <div class="terminal-line command" id="line3Wrap" style="opacity: 0;">
                     <span class="terminal-prompt">$</span>
-                    <span id="line3">./build --project 'your-next-idea'<span class="cursor" id="cursor3"></span></span>
+                    <span id="line3">./build --deploy production<span class="cursor" id="cursor3"></span></span>
                 </div>
                 <div class="terminal-line output" id="output3" style="opacity: 0;">
                     <span class="terminal-prompt">&gt;</span>
-                    <span>Ready to deploy. Let's go.</span>
+                    <span>Build successful. Deployed to production.</span>
                 </div>
             </div>
 
             <div class="stats-bar">
                 <div class="stat-item">
-                    <div class="stat-number" data-target="10">0</div>
+                    <div class="stat-number" data-target="12">0</div>
                     <div class="stat-label">Years iOS</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" data-target="5">0</div>
-                    <div class="stat-label">AI Tools Daily</div>
+                    <div class="stat-label">AIs Used Daily</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" data-target="2">0</div>
+                    <div class="stat-number" data-target="3">0</div>
                     <div class="stat-label">Local Businesses Ranked</div>
                 </div>
                 <div class="stat-item">
@@ -777,6 +798,28 @@
         </div>
     </section>
 
+    <!-- Social Proof Stats -->
+    <section style="padding: 2rem; border-bottom: 1px solid rgba(229, 229, 229, 0.1);">
+        <div style="max-width: 1000px; margin: 0 auto; display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; text-align: center;">
+            <div>
+                <div style="font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, #3b82f6, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">12+</div>
+                <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.25rem;">Years in Mobile Dev</div>
+            </div>
+            <div>
+                <div style="font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, #3b82f6, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">10M+</div>
+                <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.25rem;">App Users</div>
+            </div>
+            <div>
+                <div style="font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, #3b82f6, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">12.6M</div>
+                <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.25rem;">YouTube Views</div>
+            </div>
+            <div>
+                <div style="font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, #3b82f6, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">5+</div>
+                <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.25rem;">Years Using AI</div>
+            </div>
+        </div>
+    </section>
+
     <!-- What I Do Section -->
     <section id="services">
         <h2>What I Do</h2>
@@ -784,36 +827,36 @@
             <div class="card">
                 <div class="card-icon">📱</div>
                 <h3>iOS & Mobile Dev</h3>
-                <p>Shipped apps at CBS Sports, Monorail, and more. 10+ years of Swift, Kotlin, and pixel-perfect UIs.</p>
-                <a href="ios.html" class="card-link">Explore →</a>
+                <p>Shipped apps at CBS Sports, Monorail, and more. 12+ years of Swift, Kotlin, and pixel-perfect UIs.</p>
+                <a href="ios.html" class="card-link">View iOS Work →</a>
             </div>
 
             <div class="card">
                 <div class="card-icon">🔍</div>
                 <h3>SEO Services</h3>
-                <p>Helping local businesses own page one. Currently ranking a 5-star roofing company and a dual language academy.</p>
-                <a href="seo.html" class="card-link">Explore →</a>
+                <p>Helping local businesses own page one. Currently ranking a roofing company, a dual language academy, and a WNC real estate broker.</p>
+                <a href="seo.html" class="card-link">See My Approach →</a>
             </div>
 
             <div class="card">
                 <div class="card-icon">🤖</div>
                 <h3>AI Research</h3>
                 <p>Running 5 AIs simultaneously. From fixing physical objects with Claude to building AI-augmented workflows.</p>
-                <a href="ai.html" class="card-link">Explore →</a>
+                <a href="ai.html" class="card-link">See AI Projects →</a>
             </div>
 
             <div class="card">
                 <div class="card-icon">🎮</div>
                 <h3>Game Development</h3>
                 <p>Building Manu Idle — a mobile game for iPhone, iPad, and Mac. Alpha launching soon.</p>
-                <a href="gamedev.html" class="card-link">Explore →</a>
+                <a href="gamedev.html" class="card-link">See Manu Idle →</a>
             </div>
 
             <div class="card">
                 <div class="card-icon">🎬</div>
                 <h3>Video Production</h3>
-                <p>YouTube channel management, podcast editing, live OBS operation, and personal films that bring people to tears.</p>
-                <a href="video.html" class="card-link">Explore →</a>
+                <p>YouTube channel management, podcast editing, live OBS operation, and personal films crafted for the moments that matter most.</p>
+                <a href="video.html" class="card-link">Watch My Work →</a>
             </div>
         </div>
 
@@ -823,9 +866,10 @@
                 <span class="credibility-logo">CBS Sports (Paramount)</span>
                 <span class="credibility-logo">Monorail / Vimvest</span>
                 <span class="credibility-logo">It Works!</span>
-                <span class="credibility-logo">EiValue</span>
+                <span class="credibility-logo">Energy Sense Finance</span>
                 <span class="credibility-logo">Palisade Roofing</span>
                 <span class="credibility-logo">Sol & Son Dual Language Academy</span>
+                <span class="credibility-logo">Brandi Rininger — eXp Realty</span>
                 <span class="credibility-logo">Kyra's Corner (30K+ YouTube)</span>
             </div>
         </div>
@@ -839,15 +883,15 @@
                 <p class="testimonial-text">"I worked with Seth on a well-funded mobile application start-up. He is an iOS guru. Aside from being one the most talented developers I have met, he is, by far, the most dedicated. Seth is a team player and is someone you can trust to achieve a project. With software development, there is always going to be something you were not expecting. Not only would Seth find a solution, he would find the best solution."</p>
                 <div class="testimonial-author">
                     <span class="testimonial-name">Evan Williams</span>
-                    <span class="testimonial-role">AI Systems Architect | Salesforce Expert | US Army Veteran &middot; Senior to Seth</span>
+                    <span class="testimonial-role">Software Engineer at CBS Sports &middot; Senior to Seth</span>
                     <span class="testimonial-source">LinkedIn Recommendation</span>
                 </div>
             </div>
             <div class="testimonial-card fade-in">
-                <p class="testimonial-text">"Seth is very passionate about mobile and software development. He takes pride in his work and continues to strive to be his very best, day in and day out. Working directly with Seth, I have learned many iOS development skills such as Git, debugging, continuous integration, and even Apple's langue Swift. Seth is a very great teacher, no matter what the subject is. Seth is a very strong asset to any team and company."</p>
+                <p class="testimonial-text">"Seth is very passionate about mobile and software development. He takes pride in his work and continues to strive to be his very best, day in and day out. Working directly with Seth, I have learned many iOS development skills such as Git, debugging, continuous integration, and even Apple's language Swift. Seth is a very great teacher, no matter what the subject is. Seth is a very strong asset to any team and company."</p>
                 <div class="testimonial-author">
-                    <span class="testimonial-name">Todd Clemens, WSET II</span>
-                    <span class="testimonial-role">District Sales Manager &middot; Worked on same team</span>
+                    <span class="testimonial-name">Todd Clemens</span>
+                    <span class="testimonial-role">Colleague</span>
                     <span class="testimonial-source">LinkedIn Recommendation</span>
                 </div>
             </div>
@@ -855,7 +899,7 @@
                 <p class="testimonial-text">"Seth is a very enthusiastic and hard-working person. He brings originality and zeal into the workplace discussions. It was an absolute pleasure working with him on various projects discussions and product designs. He would be great fit on any potential hires. All the best for the future Seth."</p>
                 <div class="testimonial-author">
                     <span class="testimonial-name">Atharva Vats</span>
-                    <span class="testimonial-role">Software Engineer at Microsoft &middot; Worked on same team</span>
+                    <span class="testimonial-role">Colleague</span>
                     <span class="testimonial-source">LinkedIn Recommendation</span>
                 </div>
             </div>
@@ -867,13 +911,29 @@
         <h2>About</h2>
         <div class="about-grid">
             <div class="about-content">
-                <p>Before I wrote my first line of Swift, I spent 8 years building things with my hands — roofing, concrete, pipelining across the country. That builder's mentality never left.</p>
+                <p>Before I wrote my first line of Swift, I spent over a decade building things with my hands — roofing, concrete, pipelining across the country. That builder's mentality never left.</p>
                 <p>Today I build apps used by millions, rank local businesses on Google, use AI to solve problems nobody else is thinking about, and grew a children's YouTube channel to over 30,000 subscribers as channel manager and video editor.</p>
                 <p>When I'm not coding, you'll find me running half marathons, doing muscle-ups at the CrossFit box, or tending to my chickens in Franklin, NC.</p>
             </div>
-            <div class="about-video">
-                <video src="assets/images/muscleup.mp4" autoplay loop muted playsinline>
-                </video>
+            <div class="about-media">
+                <div class="about-photo">
+                    <picture>
+                        <source srcset="assets/images/Family.webp" type="image/webp">
+                        <img src="assets/images/Family.jpg" alt="Seth Rininger with his family in Franklin, NC" loading="lazy">
+                    </picture>
+                </div>
+                <div class="about-action-row">
+                    <div class="about-photo about-photo-small">
+                        <picture>
+                            <source srcset="assets/images/half_marathon.webp" type="image/webp">
+                            <img src="assets/images/half_marathon.jpg" alt="Seth Rininger running a half marathon" loading="lazy">
+                        </picture>
+                    </div>
+                    <div class="about-video">
+                        <video src="assets/images/muscleup.mp4" preload="metadata" autoplay loop muted playsinline aria-label="Seth performing a muscle-up at CrossFit">
+                        </video>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -881,46 +941,74 @@
     <!-- Contact Section -->
     <section id="contact">
         <h2>Let's Connect</h2>
-        <div class="contact-links">
-            <div class="contact-item">
-                <span class="contact-label">Email</span>
-                <a href="mailto:sethr@hey.com" class="contact-value">sethr@hey.com</a>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
+            <div>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.8;">Have a project in mind or want to discuss working together? Send me a message and I'll get back to you within 24 hours.</p>
+                <form action="https://formspree.io/f/xpwzgkwl" method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <input type="text" name="name" placeholder="Your name" aria-label="Your name" required style="padding: 0.85rem 1rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 0.95rem; outline: none; transition: border-color 0.2s ease;">
+                    <input type="email" name="email" placeholder="Your email" aria-label="Your email" required style="padding: 0.85rem 1rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 0.95rem; outline: none; transition: border-color 0.2s ease;">
+                    <select name="interest" aria-label="What are you interested in?" style="padding: 0.85rem 1rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-secondary); font-family: 'Inter', sans-serif; font-size: 0.95rem; outline: none; transition: border-color 0.2s ease;">
+                        <option value="" disabled selected>What are you interested in?</option>
+                        <option value="ios">iOS Development</option>
+                        <option value="seo">SEO Services</option>
+                        <option value="ai">AI Consulting</option>
+                        <option value="general">General Inquiry</option>
+                    </select>
+                    <textarea name="message" placeholder="Tell me about your project..." aria-label="Tell me about your project" rows="4" required style="padding: 0.85rem 1rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 0.95rem; outline: none; resize: vertical; transition: border-color 0.2s ease;"></textarea>
+                    <button type="submit" class="hero-cta" style="cursor: pointer; border: none; font-family: 'Inter', sans-serif;">Send Message</button>
+                </form>
             </div>
-            <div class="contact-item">
-                <span class="contact-label">LinkedIn</span>
-                <a href="https://www.linkedin.com/in/seth-rininger-004036a3/" class="contact-value" target="_blank">linkedin.com/in/seth-rininger</a>
-            </div>
-            <div class="contact-item">
-                <span class="contact-label">GitHub</span>
-                <a href="https://github.com" class="contact-value">github.com/sethrininger</a>
-            </div>
-            <div class="contact-item">
-                <span class="contact-label">StackOverflow</span>
-                <a href="https://stackoverflow.com" class="contact-value">stackoverflow.com/users/sethrininger</a>
+            <div>
+                <div class="contact-links" style="flex-direction: column; gap: 1.5rem;">
+                    <div class="contact-item">
+                        <span class="contact-label">Email</span>
+                        <a href="mailto:sethr@hey.com" class="contact-value">sethr@hey.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">LinkedIn</span>
+                        <a href="https://www.linkedin.com/in/seth-rininger-004036a3/" class="contact-value" target="_blank">linkedin.com/in/seth-rininger</a>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">GitHub</span>
+                        <a href="https://github.com/Sethmr" class="contact-value" target="_blank">github.com/Sethmr</a>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">GitHub (CBS)</span>
+                        <a href="https://github.com/Seth-CBS" class="contact-value" target="_blank">github.com/Seth-CBS</a>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">StackOverflow</span>
+                        <a href="https://stackoverflow.com/users/3594657/sethmr" class="contact-value" target="_blank">stackoverflow.com/users/sethmr</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2026 Seth Rininger. Built with vanilla HTML, CSS &amp; JS — no frameworks needed.</p>
+        <p>&copy; 2026 Seth Rininger. Built with vanilla HTML, CSS & JS.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+            <a href="mailto:sethr@hey.com" style="color: var(--accent-blue); text-decoration: none;">sethr@hey.com</a> ·
+            <a href="https://www.linkedin.com/in/seth-rininger-004036a3/" target="_blank" rel="noopener" style="color: var(--accent-blue); text-decoration: none;">LinkedIn</a> ·
+            <a href="https://github.com/Sethmr" target="_blank" rel="noopener" style="color: var(--accent-blue); text-decoration: none;">GitHub</a>
+        </p>
     </footer>
 
     <script>
         // ============ Theme Toggle ============
-        let isDarkMode = true;
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
-
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            body.classList.add('light-mode');
+            themeToggle.textContent = '🌙';
+        }
         themeToggle.addEventListener('click', () => {
-            isDarkMode = !isDarkMode;
-            if (isDarkMode) {
-                body.classList.remove('light-mode');
-                themeToggle.textContent = '☀️';
-            } else {
-                body.classList.add('light-mode');
-                themeToggle.textContent = '🌙';
-            }
+            body.classList.toggle('light-mode');
+            const isLight = body.classList.contains('light-mode');
+            themeToggle.textContent = isLight ? '🌙' : '☀️';
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
         });
 
         // ============ Mobile Menu Toggle ============
@@ -930,6 +1018,8 @@
         hamburger.addEventListener('click', () => {
             hamburger.classList.toggle('active');
             navLinks.classList.toggle('active');
+            const isExpanded = hamburger.classList.contains('active');
+            hamburger.setAttribute('aria-expanded', isExpanded);
         });
 
         navLinks.querySelectorAll('a').forEach(link => {
@@ -939,15 +1029,6 @@
             });
         });
 
-        // ============ Nav Scroll Effect ============
-        const nav = document.querySelector('nav');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 10) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
 
         // ============ Typing Animation ============
         function typeText(element, text, speed = 50) {
@@ -986,7 +1067,7 @@
 
             // Line 3: ./build
             document.getElementById('line3Wrap').style.opacity = '1';
-            await typeText(document.getElementById('line3'), "./build --project 'your-next-idea'");
+            await typeText(document.getElementById('line3'), "./build --deploy production");
             document.getElementById('cursor3').style.display = 'none';
             document.getElementById('output3').style.opacity = '1';
         }
