@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS & Mobile Development — Seth Rininger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/effects.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-dark-secondary: #1a1a1a;
+            --text-light: #e5e5e5;
+            --text-gray: #a0a0a0;
+            --accent-blue: #3b82f6;
+            --accent-amber: #f59e0b;
+            --accent-blue-hover: #2563eb;
+            --accent-amber-hover: #d97706;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode {
+            --bg-dark: #ffffff;
+            --bg-dark-secondary: #f5f5f5;
+            --text-light: #1a1a1a;
+            --text-gray: #666666;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--accent-blue-hover);
+        }
+
+        /* Sticky Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid rgba(229, 229, 229, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        body.light-mode nav {
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .nav-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 1.25rem;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            color: var(--accent-blue);
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                width: 100%;
+                order: 3;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .breadcrumb a {
+            color: var(--text-gray);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent-blue);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero .subheading {
+            font-size: 1.35rem;
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 4rem 1.5rem;
+                margin-top: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subheading {
+                font-size: 1rem;
+            }
+        }
+
+        /* Fade-in Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            padding: 4rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent-blue), transparent);
+        }
+
+        .timeline-item {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-card {
+            margin-left: 0;
+            margin-right: auto;
+            width: 48%;
+        }
+
+        .timeline-item:nth-child(even) .timeline-card {
+            margin-left: auto;
+            margin-right: 0;
+            width: 48%;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 2rem;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background-color: var(--accent-blue);
+            border: 3px solid var(--bg-dark);
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        body.light-mode .timeline-item::before {
+            border-color: var(--bg-dark);
+        }
+
+        .timeline-card {
+            background-color: var(--bg-dark-secondary);
+            border: 1px solid rgba(229, 229, 229, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-card:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
+        }
+
+        .timeline-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-blue);
+        }
+
+        .timeline-card .role {
+            font-size: 1rem;
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .timeline-card p {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .timeline-card .details {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(229, 229, 229, 0.1);
+        }
+
+        .timeline-card .badge {
+            display: inline-block;
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--accent-blue);
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .timeline-card .duration-badge {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--accent-amber);
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 1rem;
+            }
+
+            .timeline-item::before {
+                left: 1rem;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-card,
+            .timeline-item:nth-child(even) .timeline-card {
+                width: 100%;
+                margin-left: 4rem !important;
+                margin-right: 0 !important;
+            }
+
+            .timeline-card {
+                padding: 1.5rem;
+            }
+
+            .timeline-card h3 {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Inline Testimonials */
+        .card-testimonials {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(59, 130, 246, 0.15);
+        }
+
+        .card-testimonials-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent-amber);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .card-testimonial {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.04), rgba(245, 158, 11, 0.03));
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+            transition: border-color 0.3s ease;
+        }
+
+        .card-testimonial:last-child {
+            margin-bottom: 0;
+        }
+
+        .card-testimonial:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .card-testimonial::before {
+            content: '\201C';
+            position: absolute;
+            top: 0.5rem;
+            left: 0.75rem;
+            font-size: 2rem;
+            line-height: 1;
+            color: rgba(59, 130, 246, 0.15);
+            font-family: Georgia, serif;
+        }
+
+        .card-testimonial-text {
+            font-size: 0.88rem;
+            line-height: 1.75;
+            color: var(--text-light);
+            font-style: italic;
+            padding-left: 0.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-testimonial-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-amber));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .card-testimonial-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-testimonial-name {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .card-testimonial-title {
+            font-size: 0.72rem;
+            color: var(--text-gray);
+            line-height: 1.3;
+        }
+
+        .card-testimonial-date {
+            font-size: 0.68rem;
+            color: rgba(160, 160, 160, 0.6);
+        }
+
+        .monorail-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.78rem;
+            color: rgba(16, 185, 129, 0.9);
+            margin-top: 0.5rem;
+            padding: 0.3rem 0.7rem;
+            background: rgba(16, 185, 129, 0.08);
+            border-radius: 6px;
+            border: 1px solid rgba(16, 185, 129, 0.15);
+        }
+
+        .monorail-note::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Tech Stack Section */
+        .tech-section {
+            padding: 4rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .tech-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .tech-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-bottom: 3rem;
+            background: var(--bg-dark-secondary);
+            border: 1px solid rgba(229, 229, 229, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .tech-category {
+            border-bottom: 1px solid rgba(229, 229, 229, 0.06);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: baseline;
+            gap: 1.25rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .tech-category:last-child {
+            border-bottom: none;
+        }
+
+        .tech-category:hover {
+            background-color: rgba(59, 130, 246, 0.03);
+        }
+
+        .tech-category h3 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-blue);
+            min-width: 130px;
+            flex-shrink: 0;
+            line-height: 1.6;
+        }
+
+        .tech-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .tech-badge {
+            background-color: transparent;
+            color: var(--text-gray);
+            padding: 0.25rem 0.65rem;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: all 0.15s ease;
+            border: 1px solid rgba(229, 229, 229, 0.08);
+        }
+
+        .tech-badge:hover {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+            color: var(--accent-blue);
+        }
+
+        @media (max-width: 640px) {
+            .tech-category {
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 0.85rem 1.25rem;
+            }
+            .tech-category h3 {
+                min-width: unset;
+            }
+        }
+
+        /* Strengths Section */
+        .strengths-section {
+            padding: 4rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .strengths-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .strengths-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .strength-card {
+            background-color: var(--bg-dark-secondary);
+            border: 1px solid rgba(229, 229, 229, 0.1);
+            border-radius: 12px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .strength-card:hover {
+            border-color: var(--accent-amber);
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.15);
+        }
+
+        .strength-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--accent-amber);
+        }
+
+        .strength-card p {
+            color: var(--text-gray);
+            line-height: 1.8;
+        }
+
+        /* Education Section */
+        .education-section {
+            padding: 4rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .education-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .education-card {
+            background-color: var(--bg-dark-secondary);
+            border: 1px solid rgba(229, 229, 229, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .education-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-blue);
+        }
+
+        .education-item {
+            margin: 1rem 0;
+            padding: 0.5rem 0;
+        }
+
+        .education-item p {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(229, 229, 229, 0.1);
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .stat-value {
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(245, 158, 11, 0.05));
+            border-top: 1px solid rgba(229, 229, 229, 0.1);
+            border-bottom: 1px solid rgba(229, 229, 229, 0.1);
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-blue-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-gray);
+            border-top: 1px solid rgba(229, 229, 229, 0.1);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .strengths-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .timeline-section h2,
+            .tech-section h2,
+            .strengths-section h2,
+            .education-section h2 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+    <meta name="author" content="Seth Rininger">
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="Senior iOS Developer with 10+ years of experience in Swift, SwiftUI, Objective-C, and cross-platform development. Currently at CBS Sports/Paramount.">
+    <meta property="og:site_name" content="Seth Rininger — Developer & Consultant">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="iOS & Mobile Development — Seth Rininger">
+    <meta property="og:description" content="10+ years of Swift, SwiftUI, and mobile development. From startups to CBS Sports/Paramount.">
+    <meta property="og:url" content="https://sethrininger.dev/ios.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@sethrininger">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-brand">Seth Rininger</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="ios.html">iOS Dev</a></li>
+            <li><a href="seo.html">SEO</a></li>
+            <li><a href="ai.html">AI Research</a></li>
+            <li><a href="gamedev.html">Game Dev</a></li>
+            <li><a href="video.html">Video</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <div class="nav-controls">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀️</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero fade-in">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> → iOS Development
+        </div>
+        <h1>iOS & Mobile Development</h1>
+        <p class="subheading">10+ years building apps that millions of people use every day.</p>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline-section fade-in">
+        <h2>Career Timeline</h2>
+        <div class="timeline">
+            <!-- CBS Sports / Paramount -->
+            <div class="timeline-item fade-in">
+                <div class="timeline-card">
+                    <h3>CBS Sports / Paramount</h3>
+                    <div class="role">Senior iOS Developer</div>
+                    <p>Drove major feature ownership on one of America's most-used sports apps. Led a deep dive into SwiftUI that gave the team confidence to commit to the framework long-term. Built complex user flows with state-aware logic, dynamic filtering systems, and carousel-based interfaces. Gained significant experience with GraphQL and Apollo, including schema updates and code generation.</p>
+                    <p style="margin-top: 0.5rem; color: var(--text-gray);">Contributed across a wide range of features spanning the full app surface — consistently handling rapid context-switching with enthusiasm. Recognized as a positive, grounding presence on the team who provides thoughtful PR feedback and helps maintain healthy engineering culture.</p>
+                    <span class="badge">Current</span>
+                    <div class="details">June 2022 – Present</div>
+                    <a href="https://apps.apple.com/us/app/cbs-sports-app-scores-news/id307184892" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; color: var(--accent-blue); text-decoration: none; font-size: 0.9rem; font-weight: 500;">View on App Store &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Vimvest / Monorail -->
+            <div class="timeline-item fade-in">
+                <div class="timeline-card">
+                    <h3>Vimvest &rarr; Monorail</h3>
+                    <div class="role">Lead Front-End Developer (Mobile Focus)</div>
+                    <p>First hire. Built the entire mobile experience from scratch. 1000+ compile sources. Reactive async custom GUI with custom components and animations.</p>
+                    <p><strong>Frameworks:</strong> AsyncDisplayKit (Texture), RxSwift, Realm, Combine, SwiftUI, and 15+ more</p>
+                    <span class="badge duration-badge">5 Years</span>
+                    <a href="https://apps.apple.com/us/app/monorail-americas-invest-app/id1253602285" target="_blank" rel="noopener" class="monorail-note" style="text-decoration: none; color: inherit;">Monorail is still live on the App Store &rarr;</a>
+                    <div class="details">June 2017 – June 2022</div>
+
+                    <div class="card-testimonials">
+                        <div class="card-testimonials-label">What my colleagues said</div>
+
+                        <div class="card-testimonial">
+                            <p class="card-testimonial-text">I worked with Seth on a well-funded mobile application start-up. He is an iOS guru. Aside from being one the most talented developers I have met, he is, by far, the most dedicated. Seth is a team player and is someone you can trust to achieve a project. Not only would Seth find a solution, he would find the best solution. I would highly recommend Seth for any size of iOS project and consider him at least a Lead/Senior iOS Developer, completely capable of spearheading a project and leading a team.</p>
+                            <div class="card-testimonial-author">
+                                <div class="card-testimonial-avatar">EW</div>
+                                <div class="card-testimonial-info">
+                                    <span class="card-testimonial-name">Evan Williams</span>
+                                    <span class="card-testimonial-title">AI Systems Architect | Salesforce Expert | US Army Veteran</span>
+                                    <span class="card-testimonial-date">Senior to Seth &middot; May 2018</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-testimonial">
+                            <p class="card-testimonial-text">Seth is very passionate about mobile and software development. He takes pride in his work and continues to strive to be his very best, day in and day out. Working directly with Seth, I have learned many iOS development skills such as Git, debugging, continuous integration, and even Apple's langue Swift. Seth is a very great teacher, no matter what the subject is. Seth is a very strong asset to any team and company.</p>
+                            <div class="card-testimonial-author">
+                                <div class="card-testimonial-avatar">TC</div>
+                                <div class="card-testimonial-info">
+                                    <span class="card-testimonial-name">Todd Clemens, WSET II</span>
+                                    <span class="card-testimonial-title">District Sales Manager</span>
+                                    <span class="card-testimonial-date">Same team &middot; Aug 2019</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-testimonial">
+                            <p class="card-testimonial-text">Seth is a very enthusiastic and hard-working person. He brings originality and zeal into the workplace discussions. It was an absolute pleasure working with him on various projects discussions and product designs. He would be great fit on any potential hires. All the best for the future Seth.</p>
+                            <div class="card-testimonial-author">
+                                <div class="card-testimonial-avatar">AV</div>
+                                <div class="card-testimonial-info">
+                                    <span class="card-testimonial-name">Atharva Vats</span>
+                                    <span class="card-testimonial-title">Software Engineer at Microsoft</span>
+                                    <span class="card-testimonial-date">Same team &middot; Jun 2020</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- It Works! Global -->
+            <div class="timeline-item fade-in">
+                <div class="timeline-card">
+                    <h3>It Works! Global</h3>
+                    <div class="role">iOS Developer</div>
+                    <p>Built 'Wired' — iPhone app for the global health/wellness company.</p>
+                    <div class="details">March 2017 – June 2017</div>
+                </div>
+            </div>
+
+            <!-- Energy Sense Finance / EiValue -->
+            <div class="timeline-item fade-in">
+                <div class="timeline-card">
+                    <h3>Energy Sense Finance / EiValue</h3>
+                    <div class="role">Lead Mobile Developer & UI/UX Designer</div>
+                    <p>Created EiValue — an app that appraises the value of solar energy. First app I designed end-to-end. iOS and Android.</p>
+                    <div class="details">February 2016 – February 2017</div>
+                </div>
+            </div>
+
+            <!-- Consulting Work -->
+            <div class="timeline-item fade-in">
+                <div class="timeline-card">
+                    <h3>Consulting Work</h3>
+                    <div class="role">Freelance Developer</div>
+                    <p>Trilogy Education (mentoring Ruby developers), Casanova (Tinder extension iOS app), RedSwipe (Xamarin food discount app with QR scanning)</p>
+                    <div class="details">2016 – 2020</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="tech-section fade-in">
+        <h2>Tech Stack</h2>
+        <div class="tech-grid">
+            <div class="tech-category">
+                <h3>Languages</h3>
+                <div class="tech-items">
+                    <span class="tech-badge">Swift</span>
+                    <span class="tech-badge">Objective-C</span>
+                    <span class="tech-badge">Kotlin</span>
+                    <span class="tech-badge">C#</span>
+                    <span class="tech-badge">Ruby</span>
+                    <span class="tech-badge">HTML</span>
+                    <span class="tech-badge">CSS</span>
+                    <span class="tech-badge">JavaScript</span>
+                </div>
+            </div>
+
+            <div class="tech-category">
+                <h3>Frameworks & SDKs</h3>
+                <div class="tech-items">
+                    <span class="tech-badge">SwiftUI</span>
+                    <span class="tech-badge">UIKit</span>
+                    <span class="tech-badge">Combine</span>
+                    <span class="tech-badge">RxSwift</span>
+                    <span class="tech-badge">Texture</span>
+                    <span class="tech-badge">React Native</span>
+                    <span class="tech-badge">Xamarin</span>
+                    <span class="tech-badge">CloudKit</span>
+                    <span class="tech-badge">SwiftData</span>
+                    <span class="tech-badge">Core Data</span>
+                </div>
+            </div>
+
+            <div class="tech-category">
+                <h3>Architecture</h3>
+                <div class="tech-items">
+                    <span class="tech-badge">MVVM</span>
+                    <span class="tech-badge">MVC</span>
+                    <span class="tech-badge">Redux / ReSwift</span>
+                    <span class="tech-badge">Async/Await</span>
+                    <span class="tech-badge">CI/CD Pipelines</span>
+                </div>
+            </div>
+
+            <div class="tech-category">
+                <h3>AI & Augmented Dev</h3>
+                <div class="tech-items">
+                    <span class="tech-badge">Claude</span>
+                    <span class="tech-badge">ChatGPT</span>
+                    <span class="tech-badge">Grok</span>
+                    <span class="tech-badge">Cursor</span>
+                    <span class="tech-badge">GitHub Copilot</span>
+                    <span class="tech-badge">Gemini</span>
+                </div>
+            </div>
+
+            <div class="tech-category">
+                <h3>Data & APIs</h3>
+                <div class="tech-items">
+                    <span class="tech-badge">REST APIs</span>
+                    <span class="tech-badge">GraphQL</span>
+                    <span class="tech-badge">Apollo</span>
+                    <span class="tech-badge">Realm</span>
+                    <span class="tech-badge">Alamofire</span>
+                    <span class="tech-badge">Plaid</span>
+                    <span class="tech-badge">Segment</span>
+                    <span class="tech-badge">Mixpanel</span>
+                </div>
+            </div>
+
+            <div class="tech-category">
+                <h3>Tools & CI/CD</h3>
+                <div class="tech-items">
+                    <span class="tech-badge">Xcode</span>
+                    <span class="tech-badge">Git</span>
+                    <span class="tech-badge">GitHub</span>
+                    <span class="tech-badge">Fastlane</span>
+                    <span class="tech-badge">CocoaPods</span>
+                    <span class="tech-badge">SPM</span>
+                    <span class="tech-badge">Azure DevOps</span>
+                    <span class="tech-badge">TestFlight</span>
+                    <span class="tech-badge">App Store Connect</span>
+                    <span class="tech-badge">Zsh</span>
+                    <span class="tech-badge">Bash</span>
+                </div>
+            </div>
+
+            <div class="tech-category">
+                <h3>Collaboration</h3>
+                <div class="tech-items">
+                    <span class="tech-badge">Jira</span>
+                    <span class="tech-badge">Confluence</span>
+                    <span class="tech-badge">Slack</span>
+                    <span class="tech-badge">Microsoft Teams</span>
+                    <span class="tech-badge">Discord</span>
+                </div>
+            </div>
+
+            <div class="tech-category">
+                <h3>Design</h3>
+                <div class="tech-items">
+                    <span class="tech-badge">Sketch</span>
+                    <span class="tech-badge">Figma</span>
+                    <span class="tech-badge">Adobe Suite</span>
+                    <span class="tech-badge">OBS Studio</span>
+                </div>
+            </div>
+
+            <div class="tech-category">
+                <h3>Process & Leadership</h3>
+                <div class="tech-items">
+                    <span class="tech-badge">Agile / Scrum</span>
+                    <span class="tech-badge">Code Review</span>
+                    <span class="tech-badge">Mentoring</span>
+                    <span class="tech-badge">Cross-Team Collaboration</span>
+                    <span class="tech-badge">Technical Leadership</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Strengths Section -->
+    <section class="strengths-section fade-in">
+        <h2>Key Strengths</h2>
+        <div class="strengths-grid">
+            <div class="strength-card fade-in">
+                <h3>Pixel-Perfect UI</h3>
+                <p>I've built custom animations that exceeded designer expectations at every company I've worked for. Nothing ships until it feels right.</p>
+            </div>
+
+            <div class="strength-card fade-in">
+                <h3>Architecture at Scale</h3>
+                <p>From 50 compile sources to 1000+. CI/CD pipelines that auto-create dev, UAT, and production builds.</p>
+            </div>
+
+            <div class="strength-card fade-in">
+                <h3>Full Product Lifecycle</h3>
+                <p>I've been the first hire at a startup and a senior on a major media team. I know how to build from zero and how to maintain at scale.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Design & UI/UX Section -->
+    <section class="strengths-section fade-in" style="border-top: 1px solid var(--accent-blue, #3b82f6); border-top-opacity: 0.2;">
+        <h2>Design & UI/UX</h2>
+        <p style="color: var(--text-gray); max-width: 700px; margin-bottom: 2rem; line-height: 1.8;">Mobile development and design go hand-in-hand. I don't just build what designers hand me — I design, prototype, and ship interfaces from scratch. My design work has spanned app UI, branding, marketing assets, and more.</p>
+        <div class="strengths-grid">
+            <div class="strength-card fade-in">
+                <h3>App UI Design</h3>
+                <p>End-to-end app design and development. Designed and built EiValue from scratch. Contracted to design and build RedSwipe in Xamarin with full UI, QR code scanning, and branded experience.</p>
+            </div>
+            <div class="strength-card fade-in">
+                <h3>Graphical Instinct</h3>
+                <p>Personal design portfolio spanning mobile interfaces, branding concepts, and visual design work. A creative outlet that keeps my design skills sharp alongside engineering.</p>
+                <a href="https://www.instagram.com/graphical_instinct/" target="_blank" rel="noopener" style="display: inline-block; margin-top: 0.75rem; color: #3b82f6; text-decoration: none; font-size: 0.9rem;">View on Instagram &rarr;</a>
+            </div>
+            <div class="strength-card fade-in">
+                <h3>Tools</h3>
+                <p>Sketch, Figma, Adobe Creative Suite (Photoshop, Illustrator, InDesign). Comfortable owning the full pipeline from wireframe to pixel-perfect implementation.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Production — now on its own page -->
+    <section class="strengths-section fade-in" style="text-align: center; padding: 3rem 2rem;">
+        <h2>Video & Content Production</h2>
+        <p style="color: var(--text-gray); max-width: 600px; margin: 0 auto 1.5rem; line-height: 1.8;">YouTube channels, podcast editing, live OBS operation, and personal films. This skill set now has its own page.</p>
+        <a href="video.html" style="display: inline-block; padding: 0.75rem 2rem; background: linear-gradient(135deg, var(--accent-blue), var(--accent-amber)); color: #fff; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 0.95rem; transition: transform 0.2s ease;">Explore Video Production &rarr;</a>
+    </section>
+
+    <!-- Education Section -->
+    <section class="education-section fade-in">
+        <h2>Education & Recognition</h2>
+        <div class="education-card">
+            <div class="stat-item">
+                <span class="stat-label">Degree</span>
+                <span class="stat-value">B.S. Computer Science, Freed-Hardeman University</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">StackOverflow</span>
+                <span class="stat-value">3,084 reputation</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Speaking</span>
+                <span class="stat-value">Presented at University Scholars Day (250+ attendees)</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section fade-in">
+        <h2>Interested in working together?</h2>
+        <p style="color: var(--text-gray); margin-bottom: 0;">Let's build something great.</p>
+        <a href="index.html#contact" class="cta-button">Get in Touch</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Seth Rininger</p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+        const body = document.body;
+
+        // Check for saved theme preference or default to dark mode
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            body.classList.add('light-mode');
+            themeToggle.textContent = '🌙';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            const isLightMode = body.classList.contains('light-mode');
+            themeToggle.textContent = isLightMode ? '🌙' : '☀️';
+            localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+    <script src="assets/effects.js"></script>
+</body>
+</html>

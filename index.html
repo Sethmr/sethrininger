@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seth Rininger - Senior iOS Developer & AI Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/effects.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #252525;
+            --text-primary: #e5e5e5;
+            --text-secondary: #a3a3a3;
+            --accent-blue: #3b82f6;
+            --accent-amber: #f59e0b;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.light-mode {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9f9f9;
+            --bg-tertiary: #f0f0f0;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: var(--transition);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background-color: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        body.light-mode nav {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        nav.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light-mode nav.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-amber));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-blue);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            transition: var(--transition);
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            color: var(--accent-blue);
+            transform: scale(1.1);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 0.4rem;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translateY(10px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translateY(-10px);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 70px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(245, 158, 11, 0.05) 100%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .terminal {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .terminal-line {
+            margin-bottom: 1rem;
+            min-height: 1.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .terminal-line.command {
+            color: var(--accent-blue);
+        }
+
+        .terminal-line.output {
+            color: var(--accent-amber);
+        }
+
+        .terminal-prompt {
+            margin-right: 0.5rem;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background-color: var(--accent-blue);
+            margin-left: 0.1em;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-amber));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-amber));
+            color: #000;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section.dark {
+            background-color: var(--bg-secondary);
+            margin-left: -2rem;
+            margin-right: -2rem;
+            padding-left: calc(2rem + max(0px, (100vw - 1200px) / 2));
+            padding-right: calc(2rem + max(0px, (100vw - 1200px) / 2));
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .card-link {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .card-link:hover {
+            gap: 1rem;
+            color: var(--accent-amber);
+        }
+
+        /* Credibility Strip */
+        .credibility-strip {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .credibility-strip h4 {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .credibility-logos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .credibility-logo {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .credibility-logo:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: var(--transition);
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.1);
+        }
+
+        .testimonial-text {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 1.25rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .testimonial-role {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .testimonial-source {
+            font-size: 0.75rem;
+            color: var(--accent-blue);
+            margin-top: 0.25rem;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-video {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            aspect-ratio: 9/16;
+            max-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .about-video-placeholder {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .about-video {
+                max-height: 300px;
+            }
+        }
+
+        .about-content {
+            max-width: 700px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .about-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Contact Section */
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .contact-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .contact-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .contact-value:hover {
+            color: var(--accent-amber);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 1.8rem;
+                margin-bottom: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: var(--bg-primary);
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1.5rem;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .terminal {
+                padding: 1.5rem;
+                font-size: 0.85rem;
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                padding: 1.5rem;
+            }
+
+            .stat-number {
+                font-size: 1.8rem;
+            }
+
+            .credibility-logos {
+                gap: 1rem;
+            }
+
+            .credibility-logo {
+                font-size: 0.85rem;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            section {
+                padding: 2rem 1rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .hero {
+                padding: 1rem;
+            }
+
+            .terminal {
+                padding: 1rem;
+                font-size: 0.75rem;
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+
+            .hero-cta {
+                padding: 0.8rem 2rem;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+    <meta name="author" content="Seth Rininger">
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="Seth Rininger is a Senior iOS Developer, SEO Consultant, and AI researcher with 10+ years of experience. Currently at CBS Sports/Paramount. Available for consulting.">
+    <meta property="og:site_name" content="Seth Rininger — Developer & Consultant">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Seth Rininger — Senior iOS Developer & AI Builder">
+    <meta property="og:description" content="10+ years building apps used by millions. Now ranking local businesses on Google and pushing AI to its limits. Available for consulting.">
+    <meta property="og:url" content="https://sethrininger.dev/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@sethrininger">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Seth Rininger",
+  "url": "https://sethrininger.dev",
+  "email": "sethr@hey.com",
+  "jobTitle": "Senior iOS Developer",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "CBS Sports / Paramount"
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Freed-Hardeman University"
+  },
+  "knowsAbout": ["iOS Development", "Swift", "SwiftUI", "SEO", "AI", "Game Development"],
+  "sameAs": [
+    "https://www.linkedin.com/in/seth-rininger-004036a3/",
+    "https://www.youtube.com/@KyrasCorner",
+    "https://www.instagram.com/graphical_instinct/",
+    "https://www.manugames.com"
+  ]
+}
+    </script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="nav-logo">Seth Rininger</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="ios.html">iOS Dev</a></li>
+                <li><a href="seo.html">SEO</a></li>
+                <li><a href="ai.html">AI Research</a></li>
+                <li><a href="gamedev.html">Game Dev</a></li>
+                <li><a href="video.html">Video</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">☀️</button>
+                <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="terminal">
+                <div class="terminal-line command">
+                    <span class="terminal-prompt">$</span>
+                    <span id="line1">whoami<span class="cursor" id="cursor1"></span></span>
+                </div>
+                <div class="terminal-line output" id="output1" style="opacity: 0;">
+                    <span class="terminal-prompt">&gt;</span>
+                    <span>seth-rininger</span>
+                </div>
+
+                <div class="terminal-line command" id="line2Wrap" style="opacity: 0;">
+                    <span class="terminal-prompt">$</span>
+                    <span id="line2">cat skills.txt<span class="cursor" id="cursor2"></span></span>
+                </div>
+                <div class="terminal-line output" id="output2" style="opacity: 0;">
+                    <span class="terminal-prompt">&gt;</span>
+                    <span>Senior iOS Developer | SEO Strategist | AI-Native Builder</span>
+                </div>
+
+                <div class="terminal-line command" id="line3Wrap" style="opacity: 0;">
+                    <span class="terminal-prompt">$</span>
+                    <span id="line3">./build --project 'your-next-idea'<span class="cursor" id="cursor3"></span></span>
+                </div>
+                <div class="terminal-line output" id="output3" style="opacity: 0;">
+                    <span class="terminal-prompt">&gt;</span>
+                    <span>Ready to deploy. Let's go.</span>
+                </div>
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="10">0</div>
+                    <div class="stat-label">Years iOS</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="5">0</div>
+                    <div class="stat-label">AI Tools Daily</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="2">0</div>
+                    <div class="stat-label">Local Businesses Ranked</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="1">0</div>
+                    <div class="stat-label">Game Shipping</div>
+                </div>
+            </div>
+
+            <button class="hero-cta" id="ctaButton">Let's Work Together</button>
+        </div>
+    </section>
+
+    <!-- What I Do Section -->
+    <section id="services">
+        <h2>What I Do</h2>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon">📱</div>
+                <h3>iOS & Mobile Dev</h3>
+                <p>Shipped apps at CBS Sports, Monorail, and more. 10+ years of Swift, Kotlin, and pixel-perfect UIs.</p>
+                <a href="ios.html" class="card-link">Explore →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔍</div>
+                <h3>SEO Services</h3>
+                <p>Helping local businesses own page one. Currently ranking a 5-star roofing company and a dual language academy.</p>
+                <a href="seo.html" class="card-link">Explore →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🤖</div>
+                <h3>AI Research</h3>
+                <p>Running 5 AIs simultaneously. From fixing physical objects with Claude to building AI-augmented workflows.</p>
+                <a href="ai.html" class="card-link">Explore →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🎮</div>
+                <h3>Game Development</h3>
+                <p>Building Manu Idle — a mobile game for iPhone, iPad, and Mac. Alpha launching soon.</p>
+                <a href="gamedev.html" class="card-link">Explore →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🎬</div>
+                <h3>Video Production</h3>
+                <p>YouTube channel management, podcast editing, live OBS operation, and personal films that bring people to tears.</p>
+                <a href="video.html" class="card-link">Explore →</a>
+            </div>
+        </div>
+
+        <div class="credibility-strip">
+            <h4>Companies I've Built For</h4>
+            <div class="credibility-logos">
+                <span class="credibility-logo">CBS Sports (Paramount)</span>
+                <span class="credibility-logo">Monorail / Vimvest</span>
+                <span class="credibility-logo">It Works!</span>
+                <span class="credibility-logo">EiValue</span>
+                <span class="credibility-logo">Palisade Roofing</span>
+                <span class="credibility-logo">Sol & Son Dual Language Academy</span>
+                <span class="credibility-logo">Kyra's Corner (30K+ YouTube)</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="dark">
+        <h2>What People Say</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card fade-in">
+                <p class="testimonial-text">"I worked with Seth on a well-funded mobile application start-up. He is an iOS guru. Aside from being one the most talented developers I have met, he is, by far, the most dedicated. Seth is a team player and is someone you can trust to achieve a project. With software development, there is always going to be something you were not expecting. Not only would Seth find a solution, he would find the best solution."</p>
+                <div class="testimonial-author">
+                    <span class="testimonial-name">Evan Williams</span>
+                    <span class="testimonial-role">AI Systems Architect | Salesforce Expert | US Army Veteran &middot; Senior to Seth</span>
+                    <span class="testimonial-source">LinkedIn Recommendation</span>
+                </div>
+            </div>
+            <div class="testimonial-card fade-in">
+                <p class="testimonial-text">"Seth is very passionate about mobile and software development. He takes pride in his work and continues to strive to be his very best, day in and day out. Working directly with Seth, I have learned many iOS development skills such as Git, debugging, continuous integration, and even Apple's langue Swift. Seth is a very great teacher, no matter what the subject is. Seth is a very strong asset to any team and company."</p>
+                <div class="testimonial-author">
+                    <span class="testimonial-name">Todd Clemens, WSET II</span>
+                    <span class="testimonial-role">District Sales Manager &middot; Worked on same team</span>
+                    <span class="testimonial-source">LinkedIn Recommendation</span>
+                </div>
+            </div>
+            <div class="testimonial-card fade-in">
+                <p class="testimonial-text">"Seth is a very enthusiastic and hard-working person. He brings originality and zeal into the workplace discussions. It was an absolute pleasure working with him on various projects discussions and product designs. He would be great fit on any potential hires. All the best for the future Seth."</p>
+                <div class="testimonial-author">
+                    <span class="testimonial-name">Atharva Vats</span>
+                    <span class="testimonial-role">Software Engineer at Microsoft &middot; Worked on same team</span>
+                    <span class="testimonial-source">LinkedIn Recommendation</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="dark">
+        <h2>About</h2>
+        <div class="about-grid">
+            <div class="about-content">
+                <p>Before I wrote my first line of Swift, I spent 8 years building things with my hands — roofing, concrete, pipelining across the country. That builder's mentality never left.</p>
+                <p>Today I build apps used by millions, rank local businesses on Google, use AI to solve problems nobody else is thinking about, and grew a children's YouTube channel to over 30,000 subscribers as channel manager and video editor.</p>
+                <p>When I'm not coding, you'll find me running half marathons, doing muscle-ups at the CrossFit box, or tending to my chickens in Franklin, NC.</p>
+            </div>
+            <div class="about-video">
+                <video src="assets/images/muscleup.mp4" autoplay loop muted playsinline>
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Let's Connect</h2>
+        <div class="contact-links">
+            <div class="contact-item">
+                <span class="contact-label">Email</span>
+                <a href="mailto:sethr@hey.com" class="contact-value">sethr@hey.com</a>
+            </div>
+            <div class="contact-item">
+                <span class="contact-label">LinkedIn</span>
+                <a href="https://www.linkedin.com/in/seth-rininger-004036a3/" class="contact-value" target="_blank">linkedin.com/in/seth-rininger</a>
+            </div>
+            <div class="contact-item">
+                <span class="contact-label">GitHub</span>
+                <a href="https://github.com" class="contact-value">github.com/sethrininger</a>
+            </div>
+            <div class="contact-item">
+                <span class="contact-label">StackOverflow</span>
+                <a href="https://stackoverflow.com" class="contact-value">stackoverflow.com/users/sethrininger</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Seth Rininger. Built with vanilla HTML, CSS &amp; JS — no frameworks needed.</p>
+    </footer>
+
+    <script>
+        // ============ Theme Toggle ============
+        let isDarkMode = true;
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            if (isDarkMode) {
+                body.classList.remove('light-mode');
+                themeToggle.textContent = '☀️';
+            } else {
+                body.classList.add('light-mode');
+                themeToggle.textContent = '🌙';
+            }
+        });
+
+        // ============ Mobile Menu Toggle ============
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // ============ Nav Scroll Effect ============
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // ============ Typing Animation ============
+        function typeText(element, text, speed = 50) {
+            return new Promise((resolve) => {
+                let index = 0;
+                element.textContent = '';
+
+                const type = () => {
+                    if (index < text.length) {
+                        element.textContent += text[index];
+                        index++;
+                        setTimeout(type, speed);
+                    } else {
+                        resolve();
+                    }
+                };
+                type();
+            });
+        }
+
+        async function startTypingAnimation() {
+            // Line 1: whoami
+            await typeText(document.getElementById('line1'), 'whoami');
+            document.getElementById('cursor1').style.display = 'none';
+            document.getElementById('output1').style.opacity = '1';
+
+            await new Promise(r => setTimeout(r, 600));
+
+            // Line 2: cat skills.txt
+            document.getElementById('line2Wrap').style.opacity = '1';
+            await typeText(document.getElementById('line2'), 'cat skills.txt');
+            document.getElementById('cursor2').style.display = 'none';
+            document.getElementById('output2').style.opacity = '1';
+
+            await new Promise(r => setTimeout(r, 600));
+
+            // Line 3: ./build
+            document.getElementById('line3Wrap').style.opacity = '1';
+            await typeText(document.getElementById('line3'), "./build --project 'your-next-idea'");
+            document.getElementById('cursor3').style.display = 'none';
+            document.getElementById('output3').style.opacity = '1';
+        }
+
+        // Start typing animation on page load
+        window.addEventListener('load', startTypingAnimation);
+
+        // ============ Number Counter Animation ============
+        const animateCounter = (element) => {
+            const target = parseInt(element.dataset.target);
+            const duration = 2000;
+            const start = Date.now();
+
+            const updateCount = () => {
+                const elapsed = Date.now() - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = Math.floor(progress * target);
+
+                element.textContent = current;
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateCount);
+                } else {
+                    element.textContent = target;
+                }
+            };
+
+            updateCount();
+        };
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Animate stat numbers
+                    if (entry.target.classList.contains('stat-number')) {
+                        animateCounter(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+
+                    // Fade in cards
+                    if (entry.target.classList.contains('card')) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all stat numbers and cards
+        document.querySelectorAll('.stat-number').forEach(el => observer.observe(el));
+        document.querySelectorAll('.card').forEach(el => observer.observe(el));
+
+        // ============ CTA Button Scroll ============
+        document.getElementById('ctaButton').addEventListener('click', () => {
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+    <script src="assets/effects.js"></script>
+</body>
+</html>

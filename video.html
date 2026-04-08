@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video & Content Production — Seth Rininger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/effects.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-dark-secondary: #1a1a1a;
+            --text-light: #e5e5e5;
+            --text-gray: #a0a0a0;
+            --accent-blue: #3b82f6;
+            --accent-amber: #f59e0b;
+            --accent-blue-hover: #2563eb;
+            --accent-amber-hover: #d97706;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode {
+            --bg-dark: #ffffff;
+            --bg-dark-secondary: #f5f5f5;
+            --text-light: #1a1a1a;
+            --text-gray: #666666;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--accent-blue-hover);
+        }
+
+        /* Sticky Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid rgba(229, 229, 229, 0.1);
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        body.light-mode nav {
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .nav-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 1.25rem;
+            transition: color 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            color: var(--accent-blue);
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                width: 100%;
+                order: 3;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Hero */
+        .hero {
+            padding: 6rem 2rem 4rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-gray);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent-blue);
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .hero .accent { color: var(--accent-amber); }
+
+        /* Stat strip */
+        .stat-strip {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-strip .stat {
+            text-align: center;
+        }
+
+        .stat-strip .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-amber));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-strip .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-top: 0.25rem;
+        }
+
+        /* Section shared */
+        section {
+            padding: 4rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+            margin-bottom: 1rem;
+        }
+
+        .section-intro {
+            color: var(--text-gray);
+            max-width: 700px;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+
+        /* Showcase card — large feature */
+        .showcase-card {
+            background: var(--bg-dark-secondary);
+            border: 1px solid rgba(229, 229, 229, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 3rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .showcase-card:hover {
+            border-color: rgba(59, 130, 246, 0.25);
+        }
+
+        .showcase-header {
+            padding: 2.5rem 2.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .showcase-header h3 {
+            font-size: 1.75rem;
+        }
+
+        .showcase-badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.85rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 50px;
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+        }
+
+        .badge-amber {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-amber);
+        }
+
+        .badge-green {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+
+        .showcase-body {
+            padding: 1.5rem 2.5rem 2.5rem;
+        }
+
+        .showcase-body p {
+            color: var(--text-gray);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .showcase-body p:last-child { margin-bottom: 0; }
+
+        .showcase-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .showcase-stat {
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .showcase-stat strong {
+            display: block;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+        }
+
+        .showcase-stat span {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
+
+        .showcase-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 1.5rem;
+            color: var(--accent-blue);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .showcase-link:hover { gap: 0.6rem; }
+
+        /* Skills grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .skill-card {
+            background: var(--bg-dark-secondary);
+            border: 1px solid rgba(229, 229, 229, 0.08);
+            border-radius: 12px;
+            padding: 1.75rem;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .skill-card:hover {
+            border-color: rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .skill-icon {
+            font-size: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .skill-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-card p {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* Tools section */
+        .tools-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+
+        .tool-tag {
+            padding: 0.4rem 0.9rem;
+            font-size: 0.82rem;
+            font-weight: 500;
+            border-radius: 50px;
+            background: rgba(229, 229, 229, 0.06);
+            border: 1px solid rgba(229, 229, 229, 0.1);
+            color: var(--text-gray);
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .tool-tag:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            color: var(--text-light);
+        }
+
+        /* VidSummit photo gallery */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .photo-gallery img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(229, 229, 229, 0.08);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .photo-gallery img:hover {
+            transform: scale(1.02);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .channel-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .channel-pill {
+            padding: 0.35rem 0.85rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            border-radius: 50px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            color: var(--accent-amber);
+        }
+
+        /* Philosophy / CTA */
+        .philosophy-section {
+            text-align: center;
+            padding: 5rem 2rem;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .philosophy-section h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .philosophy-section p {
+            color: var(--text-gray);
+            line-height: 1.8;
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-gray);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(229, 229, 229, 0.08);
+        }
+
+        footer a {
+            color: var(--accent-blue);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .showcase-header { padding: 1.5rem 1.5rem 0; }
+            .showcase-body { padding: 1rem 1.5rem 1.5rem; }
+            .stat-strip { gap: 1.5rem; }
+        }
+    </style>
+    <meta name="author" content="Seth Rininger">
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="Video production, YouTube channel management, podcast editing, and live OBS operation. From children's content to political podcasts to personal tribute films.">
+    <meta property="og:site_name" content="Seth Rininger — Developer & Consultant">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Video & Content Production — Seth Rininger">
+    <meta property="og:description" content="Full-stack video production — YouTube channels, podcast editing, live streaming, and personal films.">
+    <meta property="og:url" content="https://sethrininger.dev/video.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@sethrininger">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-brand">Seth Rininger</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="ios.html">iOS Dev</a></li>
+            <li><a href="seo.html">SEO</a></li>
+            <li><a href="ai.html">AI Research</a></li>
+            <li><a href="gamedev.html">Game Dev</a></li>
+            <li><a href="video.html" style="color: var(--accent-blue);">Video</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <div class="nav-controls">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">&#9728;&#65039;</button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero fade-in">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> &rarr; Video & Content Production
+        </div>
+        <h1>Video & Content <span class="accent">Production</span></h1>
+        <p>Full-pipeline creator — from concept and filming through editing, publishing, and growth. I've built audiences from zero, produced content that moves people to tears, and run live multi-camera broadcasts.</p>
+
+        <div class="stat-strip">
+            <div class="stat">
+                <div class="stat-number">30K+</div>
+                <div class="stat-label">YouTube Subscribers</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">3+</div>
+                <div class="stat-label">Years Producing</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">Multi</div>
+                <div class="stat-label">Platform Experience</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kyra's Corner -->
+    <section class="fade-in">
+        <div class="showcase-card">
+            <div class="showcase-header">
+                <h3>Kyra's Corner</h3>
+                <div class="showcase-badges">
+                    <span class="badge">YouTube</span>
+                    <span class="badge-amber badge">30K+ Subs</span>
+                    <span class="badge-green badge">Channel Manager</span>
+                </div>
+            </div>
+            <div class="showcase-body">
+                <p>Built a children's YouTube channel from zero to over 30,000 subscribers as the full-stack producer — handling every part of the pipeline from concept and filming through editing, thumbnail design, SEO optimization, and growth strategy. A true family project: my wife was involved in creative direction and every decision, and the kids were always eager to jump in, making it as much fun as it was work.</p>
+                <p>This wasn't just editing clips. I managed content calendars, researched trending topics in the kids' content space, designed eye-catching thumbnails optimized for click-through rate, and iterated on formats based on audience retention data. The channel grew organically through consistent quality and smart positioning.</p>
+
+                <div class="showcase-stats">
+                    <div class="showcase-stat">
+                        <strong>30K+</strong>
+                        <span>Subscribers</span>
+                    </div>
+                    <div class="showcase-stat">
+                        <strong>Full</strong>
+                        <span>Pipeline Owner</span>
+                    </div>
+                    <div class="showcase-stat">
+                        <strong>0 &rarr; 30K</strong>
+                        <span>Organic Growth</span>
+                    </div>
+                </div>
+
+                <a href="https://www.youtube.com/@KyrasCorner" target="_blank" rel="noopener" class="showcase-link">Watch on YouTube &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- UnityNow! Podcast -->
+    <section class="fade-in">
+        <div class="showcase-card">
+            <div class="showcase-header">
+                <h3>UnityNow! Podcast</h3>
+                <div class="showcase-badges">
+                    <span class="badge">Podcast</span>
+                    <span class="badge-amber badge">Video Editor</span>
+                </div>
+            </div>
+            <div class="showcase-body">
+                <p>Video editor for the UnityNow! podcast — a show focused on bridging America's political and social divides. Hosted by Toby Davis, Gabe Garber, and Kimberly Kolb Eakin, the podcast features conversations with authors, activists, and commentators exploring common ground.</p>
+                <p>Handled post-production editing for video episodes, creating polished cuts from multi-camera recordings. Also served as a live OBS Studio operator — managing real-time scene transitions, camera switching, and broadcast quality during live recordings.</p>
+
+                <div class="showcase-stats">
+                    <div class="showcase-stat">
+                        <strong>Live</strong>
+                        <span>OBS Operation</span>
+                    </div>
+                    <div class="showcase-stat">
+                        <strong>Multi</strong>
+                        <span>Camera Setups</span>
+                    </div>
+                    <div class="showcase-stat">
+                        <strong>Post</strong>
+                        <span>Production Editing</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
+                    <a href="https://open.spotify.com/show/0BMZ1QJUsuSLgzKKnlJbUr" target="_blank" rel="noopener" class="showcase-link">Spotify &rarr;</a>
+                    <a href="https://podcasts.apple.com/us/podcast/unitynow/id1528533809" target="_blank" rel="noopener" class="showcase-link">Apple Podcasts &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personal Films -->
+    <section class="fade-in">
+        <div class="showcase-card">
+            <div class="showcase-header">
+                <h3>Personal Tribute Films</h3>
+                <div class="showcase-badges">
+                    <span class="badge">Passion Projects</span>
+                    <span class="badge-amber badge">Storytelling</span>
+                </div>
+            </div>
+            <div class="showcase-body">
+                <p>Some of my most meaningful production work happens off-platform. I create deeply personal tribute videos for birthdays and milestones — spending a week or more gathering footage and recordings from friends and family, curating favorite songs, and weaving it all into something that tells the story of a person's life and impact.</p>
+                <p>These aren't slideshows. They're crafted narratives — timed to music, paced for emotional impact, and designed to bring people to tears. Every one of them does.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- VidSummit -->
+    <section class="fade-in">
+        <div class="showcase-card">
+            <div class="showcase-header">
+                <h3>VidSummit</h3>
+                <div class="showcase-badges">
+                    <span class="badge">Conference</span>
+                    <span class="badge-amber badge">YouTube Research</span>
+                </div>
+            </div>
+            <div class="showcase-body">
+                <p>Attended VidSummit to dive deep into YouTube strategy and content creation at scale. Researched channels like A for Adley, Oaks Playhouse, Jordan Matter, and many more — studying what drives audience growth, retention, and engagement at the highest levels of the platform.</p>
+                <p>Beyond the sessions, VidSummit was about connecting with creators and industry people who think about video the same way I think about code — obsessively, with an eye on craft and data. Made great friends and met the YouTubers behind some of the biggest channels in the kids' and family content space.</p>
+
+                <div class="channel-pills">
+                    <span class="channel-pill">A for Adley</span>
+                    <span class="channel-pill">Oaks Playhouse</span>
+                    <span class="channel-pill">Jordan Matter</span>
+                </div>
+
+                <div class="photo-gallery">
+                    <img src="assets/images/vidsummit-3.jpg" alt="Dinner with friends at VidSummit" loading="lazy">
+                    <img src="assets/images/vidsummit-1.jpg" alt="Group photo at VidSummit conference" loading="lazy">
+                    <img src="assets/images/vidsummit-2.jpg" alt="Meeting creators at VidSummit" loading="lazy">
+                    <img src="assets/images/vidsummit-4.jpg" alt="VidSummit event" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Production Skills -->
+    <section class="fade-in">
+        <h2>Production Skills</h2>
+        <p class="section-intro">A full toolkit spanning the entire video production pipeline — from filming and live switching to post-production and audience growth.</p>
+
+        <div class="skills-grid">
+            <div class="skill-card fade-in">
+                <div class="skill-icon">&#127909;</div>
+                <h3>Filming & Direction</h3>
+                <p>Camera setup, lighting, framing, and shot composition. Comfortable directing talent and managing multi-camera shoots for both studio and on-location content.</p>
+            </div>
+
+            <div class="skill-card fade-in">
+                <div class="skill-icon">&#9986;&#65039;</div>
+                <h3>Video Editing</h3>
+                <p>Full post-production — cutting, color correction, audio mixing, motion graphics, and pacing. From quick YouTube cuts to polished podcast episodes and emotional personal films.</p>
+            </div>
+
+            <div class="skill-card fade-in">
+                <div class="skill-icon">&#128225;</div>
+                <h3>Live Broadcasting</h3>
+                <p>Real-time OBS Studio operation for live podcasts and streams. Multi-camera switching, scene transitions, overlay management, and broadcast monitoring.</p>
+            </div>
+
+            <div class="skill-card fade-in">
+                <div class="skill-icon">&#127912;</div>
+                <h3>Thumbnail & Visual Design</h3>
+                <p>Eye-catching thumbnails optimized for click-through rate. Consistent brand visual identity across channels. Typography, color theory, and composition for maximum impact in a crowded feed.</p>
+            </div>
+
+            <div class="skill-card fade-in">
+                <div class="skill-icon">&#128200;</div>
+                <h3>Channel Growth & SEO</h3>
+                <p>YouTube algorithm understanding, keyword research for video titles and descriptions, content calendar planning, audience retention analysis, and organic growth strategy.</p>
+            </div>
+
+            <div class="skill-card fade-in">
+                <div class="skill-icon">&#127911;</div>
+                <h3>Audio Production</h3>
+                <p>Podcast audio editing, noise reduction, level normalization, music bed selection, and mixing. Clean audio is the foundation of good video — and good podcasts.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools -->
+    <section class="fade-in">
+        <h2>Tools & Software</h2>
+        <div class="tools-row">
+            <span class="tool-tag">OBS Studio</span>
+            <span class="tool-tag">Adobe Premiere Pro</span>
+            <span class="tool-tag">Adobe After Effects</span>
+            <span class="tool-tag">Adobe Photoshop</span>
+            <span class="tool-tag">Final Cut Pro</span>
+            <span class="tool-tag">DaVinci Resolve</span>
+            <span class="tool-tag">Adobe Audition</span>
+            <span class="tool-tag">YouTube Studio</span>
+            <span class="tool-tag">Canva</span>
+            <span class="tool-tag">StreamYard</span>
+        </div>
+    </section>
+
+    <!-- Why It Matters -->
+    <section class="philosophy-section fade-in">
+        <h2>Why a Developer Does Video</h2>
+        <p>Video production isn't a side hobby — it's a multiplier for everything else I do. Apps need demo videos. Products need marketing content. SEO campaigns perform better with video. And being able to produce all of that in-house, without hiring out, means faster iteration and lower costs.</p>
+        <p>I'm not looking for video production clients. But for passion projects that align with my values, I'll donate the time — and bring the same obsessive quality I put into code.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Seth Rininger. Built from scratch with code, caffeine, and a little AI help.</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="mailto:sethr@hey.com">sethr@hey.com</a> &middot;
+            <a href="https://www.linkedin.com/in/seth-rininger-004036a3/" target="_blank" rel="noopener">LinkedIn</a>
+        </p>
+    </footer>
+
+    <script src="assets/effects.js"></script>
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+            themeToggle.textContent = '\uD83C\uDF19';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            themeToggle.textContent = isLight ? '\uD83C\uDF19' : '\u2600\uFE0F';
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        });
+
+        // Fade-in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

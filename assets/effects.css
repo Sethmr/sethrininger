@@ -1,0 +1,191 @@
+/**
+ * Seth Rininger Portfolio — Shared Effects CSS
+ *
+ * Features:
+ * 1. Page preloader with name animation
+ * 2. Staggered text reveal on headings
+ * 3. Subtle noise/grain texture overlay
+ * 4. prefers-reduced-motion support
+ * 5. Accessibility polish (focus states, skip link)
+ */
+
+/* ─── SKIP TO CONTENT (Accessibility) ─────────────────── */
+
+.skip-to-content {
+    position: fixed;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #3b82f6;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0 0 8px 8px;
+    z-index: 200000;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: top 0.2s ease;
+}
+
+.skip-to-content:focus {
+    top: 0;
+    outline: none;
+}
+
+
+/* ─── PAGE PRELOADER ─────────────────────────────────── */
+
+#page-preloader {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0a;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#page-preloader.loaded {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.preloader-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    overflow: hidden;
+}
+
+.preloader-name .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: preloaderCharReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.preloader-line {
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #3b82f6, #f59e0b);
+    margin-top: 1rem;
+    animation: preloaderLine 0.8s 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    border-radius: 1px;
+}
+
+@keyframes preloaderCharReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes preloaderLine {
+    to {
+        width: 120px;
+    }
+}
+
+
+/* ─── STAGGERED TEXT REVEAL ──────────────────────────── */
+
+.text-reveal-word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    margin-right: 0.25em;
+}
+
+.text-reveal-word .word-inner {
+    display: inline-block;
+    transform: translateY(105%);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.text-reveal-word.revealed .word-inner {
+    transform: translateY(0);
+}
+
+
+/* ─── NOISE/GRAIN TEXTURE OVERLAY ────────────────────── */
+
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 99998;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+    mix-blend-mode: overlay;
+}
+
+/* Slightly more visible in light mode */
+html.light-mode body::after,
+body.light-mode::after {
+    opacity: 0.02;
+}
+
+
+/* ─── ENHANCED FOCUS STATES ──────────────────────────── */
+
+*:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* Remove outline on mouse clicks, keep for keyboard */
+*:focus:not(:focus-visible) {
+    outline: none;
+}
+
+
+/* ─── PREFERS-REDUCED-MOTION ─────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+    /* Disable all animations and transitions */
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    /* Hide custom cursor (it relies on smooth animation) */
+    #custom-cursor,
+    #cursor-dot {
+        display: none !important;
+    }
+
+    /* Show text immediately */
+    .text-reveal-word .word-inner {
+        transform: translateY(0) !important;
+    }
+
+    /* Hide preloader instantly */
+    #page-preloader {
+        display: none !important;
+    }
+
+    /* No scroll indicator animation */
+    #scroll-indicator {
+        transition: none !important;
+    }
+
+    /* Disable noise texture animation */
+    body::after {
+        animation: none !important;
+    }
+
+    /* Disable tilt and magnetic effects */
+    [data-tilt], [data-magnetic] {
+        transform: none !important;
+    }
+}

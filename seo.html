@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Services — Seth Rininger</title>
+    <meta name="description" content="Developer-powered SEO services. Local search optimization, Google Business Profile management, and AI-augmented strategy for small businesses.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/effects.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #161616;
+            --text: #e5e5e5;
+            --text-secondary: #9ca3af;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --secondary: #f59e0b;
+            --border: #1f2937;
+        }
+
+        html.light-mode {
+            --bg: #f9fafb;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text: #1f2937;
+            --text-secondary: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background-color: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: background-color 0.3s;
+        }
+
+        html.light-mode nav {
+            background-color: rgba(249, 250, 251, 0.85);
+        }
+
+        .nav-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+
+        .nav-links a.active {
+            color: var(--accent);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 1px;
+        }
+
+        .nav-right { display: flex; align-items: center; gap: 1rem; }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text);
+            padding: 0.4rem 0.6rem;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover { border-color: var(--accent); }
+
+        /* Hamburger */
+        .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+        .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: 0.3s; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                padding: 1.5rem;
+                gap: 1rem;
+            }
+            .nav-links.open { display: flex; }
+        }
+
+        /* Container */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+        /* Hero */
+        .hero {
+            padding: 5rem 2rem 3rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        .breadcrumb a { color: var(--accent); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .hero h1 {
+            font-size: clamp(2.25rem, 5vw, 3.25rem);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero .subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Section styling */
+        .section { padding: 4rem 0; }
+        .section-border { border-top: 1px solid var(--border); }
+
+        .section-heading {
+            font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtext {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 750px;
+        }
+
+        /* Process Section */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .process-step {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.1);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent), #1d4ed8);
+            color: white;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .process-step h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        .process-step p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* AI Advantage callout */
+        .ai-callout {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(245, 158, 11, 0.06));
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .ai-callout-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .ai-callout h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        .ai-callout p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 600px) {
+            .ai-callout { flex-direction: column; gap: 0.75rem; }
+        }
+
+        /* Client Section */
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+
+        .client-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .client-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.08);
+        }
+
+        .client-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+        }
+
+        .client-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .client-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent);
+        }
+
+        .client-badge.active {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+
+        .client-type {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .client-desc {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .client-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .client-tag {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        html.light-mode .client-tag {
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .client-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .client-link:hover { color: var(--accent-hover); }
+
+        .metrics-note {
+            margin-top: 2rem;
+            padding: 1.25rem;
+            background: rgba(245, 158, 11, 0.06);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .metrics-note strong { color: var(--secondary); }
+
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.1);
+        }
+
+        .service-icon { font-size: 1.75rem; margin-bottom: 1rem; }
+
+        .service-card h3 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 0.75rem;
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.9rem;
+        }
+
+        /* Why section */
+        .why-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--secondary);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .why-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .why-section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .why-section p + p { margin-top: 1rem; }
+
+        /* Industries */
+        .industries-section { margin-top: 3rem; }
+
+        .industries-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .industries-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .industry-pill {
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .industry-pill:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .cta-section h2 { margin-bottom: 1rem; }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), #1d4ed8);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Scroll animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 1.25rem; }
+            .section { padding: 3rem 0; }
+            .services-grid { grid-template-columns: 1fr; }
+            .clients-grid { grid-template-columns: 1fr; }
+            .process-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    <meta name="author" content="Seth Rininger">
+    <meta name="robots" content="index, follow">
+    <meta property="og:site_name" content="Seth Rininger — Developer & Consultant">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="SEO Services — Seth Rininger">
+    <meta property="og:description" content="Developer-powered local SEO. AI-augmented strategy for small businesses. Currently serving Palisade Roofing and Sol & Son Dual Language Academy.">
+    <meta property="og:url" content="https://sethrininger.dev/seo.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@sethrininger">
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-brand">Seth Rininger</a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="ios.html">iOS Dev</a>
+            <a href="seo.html" class="active">SEO</a>
+            <a href="ai.html">AI Research</a>
+            <a href="gamedev.html">Game Dev</a>
+            <a href="video.html">Video</a>
+            <a href="index.html#contact">Contact</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <span id="themeIcon">&#9790;</span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> &rarr; SEO Services
+            </div>
+            <h1>SEO Services</h1>
+            <p class="subtitle">Developer-powered local SEO. I combine 10+ years of software engineering with AI-augmented research to help businesses own their market on Google.</p>
+        </section>
+
+        <!-- My Approach / Process -->
+        <section class="section section-border">
+            <div class="container">
+                <h2 class="section-heading reveal">My Process</h2>
+                <p class="section-subtext reveal">Every engagement starts with deep research. I don't use cookie-cutter SEO playbooks — I specialize in the client's industry, study their competitive landscape, and build a custom strategy that combines my engineering background with AI-powered analysis.</p>
+
+                <div class="process-grid">
+                    <div class="process-step reveal">
+                        <div class="step-number">1</div>
+                        <h3>Industry Deep-Dive</h3>
+                        <p>I immerse myself in the client's industry — studying competitors, analyzing search patterns, and understanding what their customers actually search for. My years of experience across construction, tech, education, and small business give me a unique cross-industry perspective.</p>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="step-number">2</div>
+                        <h3>AI-Augmented Research</h3>
+                        <p>Using multiple AI platforms simultaneously (Claude, ChatGPT, Grok), I cross-reference insights, generate content strategies, and analyze competitive gaps that single-tool approaches miss entirely. This is my edge — AI as a force multiplier, not a replacement for expertise.</p>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="step-number">3</div>
+                        <h3>Technical Foundation</h3>
+                        <p>As a developer, I don't just audit technical SEO — I fix it. Schema markup, Core Web Vitals, site architecture, crawlability. Most SEO consultants file tickets. I push commits.</p>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="step-number">4</div>
+                        <h3>Google Business Profile Optimization</h3>
+                        <p>For local businesses, GBP is the front door. I optimize every field, build a review strategy, manage the Q&A, post regular updates, and ensure map pack visibility for the searches that matter most.</p>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="step-number">5</div>
+                        <h3>Content & Local Authority</h3>
+                        <p>Creating content that serves real people and satisfies search engines. Local landing pages, service area content, blog posts that answer the questions your customers are already asking.</p>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="step-number">6</div>
+                        <h3>Measure, Iterate, Report</h3>
+                        <p>Monthly reporting with clear metrics: ranking changes, traffic growth, conversion improvements. No vanity metrics — only data that reflects real business impact. Then we iterate on what's working.</p>
+                    </div>
+                </div>
+
+                <div class="ai-callout reveal">
+                    <div class="ai-callout-icon">&#9889;</div>
+                    <div>
+                        <h3>The AI Advantage</h3>
+                        <p>I run 5 AI platforms simultaneously as part of my daily workflow. This isn't hype — it's a genuine competitive edge. I use AI to analyze hundreds of competitor pages in minutes, generate content briefs that would take hours manually, identify keyword opportunities that tools like Ahrefs and SEMrush miss, and validate strategies across multiple AI perspectives before implementing them. Combined with a decade of engineering discipline, this means faster results with higher precision.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Current Clients -->
+        <section class="section section-border">
+            <div class="container">
+                <h2 class="section-heading reveal">Current Clients</h2>
+                <p class="section-subtext reveal">I'm currently working with local businesses across different industries, applying the same rigorous, developer-driven approach to each.</p>
+
+                <div class="clients-grid">
+                    <div class="client-card reveal">
+                        <div class="client-header">
+                            <span class="client-name">Palisade Roofing</span>
+                            <span class="client-badge active">Active</span>
+                        </div>
+                        <div class="client-type">Roofing Contractor &bull; Tennessee</div>
+                        <p class="client-desc">Comprehensive local SEO strategy for a top-rated roofing contractor. Focus on Google Business Profile optimization, local keyword dominance, review management, and building authority across the Tri-Cities market. Currently maintaining a 5.0 Google rating with 87+ reviews and BBB A+ accreditation.</p>
+                        <div class="client-tags">
+                            <span class="client-tag">Local SEO</span>
+                            <span class="client-tag">GBP Optimization</span>
+                            <span class="client-tag">Review Strategy</span>
+                            <span class="client-tag">Home Services</span>
+                        </div>
+                        <a href="https://palisaderoofingtn.com" class="client-link" target="_blank" rel="noopener">palisaderoofingtn.com &rarr;</a>
+                    </div>
+
+                    <div class="client-card reveal">
+                        <div class="client-header">
+                            <span class="client-name">Sol & Son Dual Language Academy</span>
+                            <span class="client-badge active">Active</span>
+                        </div>
+                        <div class="client-type">Dual Language Immersion School &bull; Franklin, NC</div>
+                        <p class="client-desc">Local SEO strategy for Macon County's first bilingual school — a Spanish-English dual language immersion academy for ages 2 through first grade. Building visibility for families searching for bilingual and immersive education options in western North Carolina. Focus on Google Business Profile, local content strategy, and community-focused digital presence.</p>
+                        <div class="client-tags">
+                            <span class="client-tag">Local SEO</span>
+                            <span class="client-tag">Education</span>
+                            <span class="client-tag">GBP Optimization</span>
+                            <span class="client-tag">Content Strategy</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metrics-note reveal">
+                    <strong>A note on metrics:</strong> Both engagements are in early stages with significant improvements already underway. Detailed before-and-after case studies with full metrics will be published here as campaigns mature and with client permission. In the meantime, I'm happy to discuss my approach and early results in a conversation.
+                </div>
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section class="section section-border">
+            <div class="container">
+                <h2 class="section-heading reveal">Services</h2>
+                <p class="section-subtext reveal">Everything a local business needs to dominate their market on Google — delivered by someone who can actually implement the technical side, not just recommend it.</p>
+
+                <div class="services-grid">
+                    <div class="service-card reveal">
+                        <div class="service-icon">&#128205;</div>
+                        <h3>Google Business Profile</h3>
+                        <p>Your GBP is your digital storefront. I optimize every field, manage reviews, build a posting strategy, and ensure you show up in the map pack for the searches that drive real business.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <div class="service-icon">&#128270;</div>
+                        <h3>Local Keyword Strategy</h3>
+                        <p>Targeting the exact searches your customers make in your geographic market. AI-augmented research to find high-intent keywords your competitors are missing.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <div class="service-icon">&#9881;</div>
+                        <h3>Technical SEO</h3>
+                        <p>Site speed, schema markup, mobile optimization, crawlability, Core Web Vitals. I don't just audit — I write the code to fix it. The developer stuff most SEO people skip.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <div class="service-icon">&#9997;</div>
+                        <h3>Content Strategy</h3>
+                        <p>Creating content that serves your customers and satisfies search engines. Service pages, local landing pages, blog content — all informed by AI research and real search data.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <div class="service-icon">&#11088;</div>
+                        <h3>Review Management</h3>
+                        <p>Building a sustainable review acquisition strategy. Social proof that improves rankings AND conversion rates. Systems that make it easy for happy customers to share their experience.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <div class="service-icon">&#128200;</div>
+                        <h3>Competitor Analysis</h3>
+                        <p>Understanding what's working for your competitors and finding gaps they're missing. AI-powered analysis across hundreds of competitor pages to find your strategic advantage.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why a Developer Does SEO Differently -->
+        <section class="section section-border">
+            <div class="container">
+                <h2 class="section-heading reveal">Why a Developer Does SEO Differently</h2>
+
+                <div class="why-section reveal">
+                    <h3>I Don't Just Find Problems — I Fix Them</h3>
+                    <p>Most SEO specialists can't read code. I can write it. That means I don't just identify technical SEO issues and hand you a spreadsheet of recommendations — I implement schema markup by hand, optimize Core Web Vitals at the code level, and fix site architecture issues that most consultants would need to hire a developer for.</p>
+                    <p>I've spent 10+ years building software used by millions of people. That engineering rigor — testing, measuring, iterating — is exactly what SEO needs and rarely gets. When you hire a developer for SEO, you're getting someone who understands the machine, not just the dashboard.</p>
+                </div>
+
+                <div class="industries-section reveal">
+                    <h3>Industries I Bring Perspective From</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.95rem;">My diverse background means I don't approach your business with a narrow lens. I've built things — physically and digitally — across a wide range of industries.</p>
+                    <div class="industries-list">
+                        <span class="industry-pill">Home Services / Roofing</span>
+                        <span class="industry-pill">Education</span>
+                        <span class="industry-pill">Bilingual Schools</span>
+                        <span class="industry-pill">Technology / SaaS</span>
+                        <span class="industry-pill">Financial Services</span>
+                        <span class="industry-pill">Sports & Media</span>
+                        <span class="industry-pill">Health & Wellness</span>
+                        <span class="industry-pill">Mobile Apps</span>
+                        <span class="industry-pill">Construction</span>
+                        <span class="industry-pill">Small Business</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section section-border">
+            <div class="container">
+                <h2 class="section-heading reveal">Ready to Rank?</h2>
+                <p class="reveal">Let's talk about getting your business to page one.</p>
+                <a href="index.html#contact" class="cta-button reveal">Get In Touch</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Seth Rininger. Built with vanilla HTML, CSS &amp; JS.</p>
+    </footer>
+
+    <script>
+        // Theme
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const html = document.documentElement;
+        let isDark = true;
+
+        themeToggle.addEventListener('click', () => {
+            isDark = !isDark;
+            html.classList.toggle('light-mode');
+            themeIcon.innerHTML = isDark ? '&#9790;' : '&#9788;';
+        });
+
+        // Hamburger
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+
+        // Scroll reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        revealElements.forEach(el => observer.observe(el));
+    </script>
+    <script src="assets/effects.js"></script>
+</body>
+</html>

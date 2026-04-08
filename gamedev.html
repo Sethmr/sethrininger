@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Development — Seth Rininger</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/effects.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-dark-secondary: #141414;
+            --bg-dark-tertiary: #1a1a1a;
+            --text-light: #e5e5e5;
+            --text-light-secondary: #a3a3a3;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --secondary: #f59e0b;
+            --secondary-hover: #d97706;
+            --border-dark: #262626;
+        }
+
+        html.light-mode {
+            --bg-dark: #ffffff;
+            --bg-dark-secondary: #f5f5f5;
+            --bg-dark-tertiary: #ebebeb;
+            --text-light: #1a1a1a;
+            --text-light-secondary: #666666;
+            --border-dark: #e0e0e0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-dark);
+            padding: 1rem 2rem;
+        }
+
+        html.light-mode nav {
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        nav .logo:hover {
+            color: var(--accent);
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        nav .nav-links a {
+            color: var(--text-light-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        nav .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        nav .nav-links a.active {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.25rem;
+            color: var(--text-light-secondary);
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            color: var(--text-light);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            nav .container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: center;
+            }
+
+            nav .nav-links a {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            color: var(--text-light-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero .subheading {
+            font-size: 1.25rem;
+            color: var(--text-light-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 3rem 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .subheading {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Sections */
+        section {
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--border-dark);
+        }
+
+        section.no-border {
+            border-top: none;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        section p {
+            color: var(--text-light-secondary);
+            margin-bottom: 1.5rem;
+            max-width: 700px;
+        }
+
+        /* Feature Card */
+        .feature-card {
+            background-color: var(--bg-dark-secondary);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: #1a1a1a;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .platforms {
+            display: flex;
+            gap: 0.75rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .platform-badge {
+            background-color: var(--bg-dark-tertiary);
+            border: 1px solid var(--border-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .feature-card p {
+            margin-bottom: 1rem;
+        }
+
+        .screenshot-placeholder {
+            background-color: var(--bg-dark-tertiary);
+            border: 2px dashed var(--border-dark);
+            border-radius: 12px;
+            padding: 4rem 2rem;
+            text-align: center;
+            color: var(--text-light-secondary);
+            margin: 2rem 0;
+        }
+
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            align-items: start;
+        }
+
+        .screenshot-phone {
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid var(--border-dark);
+            max-width: 260px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot-phone:hover {
+            transform: scale(1.02);
+        }
+
+        .screenshot-phone img {
+            width: 100%;
+            display: block;
+        }
+
+        .screenshot-desktop {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--border-dark);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot-desktop:hover {
+            transform: scale(1.02);
+        }
+
+        .screenshot-desktop img {
+            width: 100%;
+            display: block;
+        }
+
+        .app-icon-display {
+            width: 100px;
+            height: 100px;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 1rem;
+        }
+
+        .app-icon-display img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .game-title-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .screenshots-grid {
+                grid-template-columns: 1fr;
+            }
+            .screenshot-phone {
+                max-width: 200px;
+                margin: 0 auto;
+            }
+        }
+
+        /* CTA Button */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn.secondary {
+            background-color: var(--bg-dark-secondary);
+            color: var(--text-light);
+            border: 1px solid var(--border-dark);
+        }
+
+        .btn.secondary:hover {
+            background-color: var(--bg-dark-tertiary);
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .grid-item {
+            background-color: var(--bg-dark-secondary);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .grid-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .grid-item h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent);
+        }
+
+        .grid-item p {
+            font-size: 0.95rem;
+        }
+
+        /* Experience Item */
+        .experience-item {
+            background-color: var(--bg-dark-secondary);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .experience-item h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-meta {
+            font-size: 0.9rem;
+            color: var(--text-light-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background-color: var(--bg-dark-secondary);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .cta-section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Fade-in Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-dark);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-light-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            section {
+                padding: 2.5rem 1.5rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .cta-section h3 {
+                font-size: 1.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-buttons .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+    <meta name="author" content="Seth Rininger">
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="Manu Idle game development by Manu Games LLC. A passion project for iPhone, iPad, and Mac currently in alpha.">
+    <meta property="og:site_name" content="Seth Rininger — Developer & Consultant">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Game Development — Seth Rininger">
+    <meta property="og:description" content="Building Manu Idle — a mobile game for iPhone, iPad, and Mac. Two years in development under Manu Games LLC.">
+    <meta property="og:url" content="https://sethrininger.dev/gamedev.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@sethrininger">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">Seth Rininger</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="ios.html">iOS Dev</a></li>
+                <li><a href="seo.html">SEO</a></li>
+                <li><a href="ai.html">AI Research</a></li>
+                <li><a href="gamedev.html" class="active">Game Dev</a></li>
+                <li><a href="video.html">Video</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">☀️</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero no-border">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> → Game Development
+            </div>
+            <h1>Game Development</h1>
+            <p class="subheading">Building Manu Idle — from concept to App Store.</p>
+        </div>
+    </section>
+
+    <!-- Manu Idle Showcase -->
+    <section>
+        <div class="container">
+            <div class="feature-card fade-in">
+                <h3>
+                    Manu Idle
+                    <span class="badge">Alpha Coming Soon</span>
+                </h3>
+                <div class="game-title-row">
+                    <div class="app-icon-display"><img src="assets/images/manu-idle-icon.png" alt="Manu Idle app icon"></div>
+                    <div>
+                        <p><strong>Manu Games LLC</strong></p>
+                        <div class="platforms">
+                            <div class="platform-badge">🍎 iPhone</div>
+                            <div class="platform-badge">📱 iPad</div>
+                            <div class="platform-badge">💻 Mac</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p>Two years in development. Built as a passion project that became a real product — complete with an LLC, Apple Developer account, and marketing website.</p>
+
+                <a href="https://manugames.com" target="_blank" rel="noopener noreferrer" class="btn">Visit Manu Games</a>
+
+                <div class="screenshots-grid">
+                    <div class="screenshot-phone">
+                        <img src="assets/images/manu-idle-iphone.png" alt="Manu Idle iPhone gameplay - woodcutting skill" loading="lazy">
+                    </div>
+                    <div class="screenshot-desktop">
+                        <img src="assets/images/manu-idle-desktop.png" alt="Manu Idle Mac desktop gameplay - combat interface" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Full Stack of Game Dev -->
+    <section>
+        <div class="container">
+            <h2>More Than Just Code</h2>
+            <p>Building a game solo means wearing every hat. Here's what Manu Idle has required:</p>
+
+            <div class="grid fade-in">
+                <div class="grid-item">
+                    <h3>🎮 Game Design</h3>
+                    <p>Mechanics, progression systems, balancing, player psychology</p>
+                </div>
+                <div class="grid-item">
+                    <h3>💻 Programming</h3>
+                    <p>All game logic, UI, animations, and platform-specific optimizations</p>
+                </div>
+                <div class="grid-item">
+                    <h3>🎨 UI/UX Design</h3>
+                    <p>Interface design using Sketch and Figma for a polished, intuitive player experience</p>
+                </div>
+                <div class="grid-item">
+                    <h3>📋 Business Formation</h3>
+                    <p>Created Manu Games LLC, registered with Apple, set up business infrastructure</p>
+                </div>
+                <div class="grid-item">
+                    <h3>📢 Marketing</h3>
+                    <p>Built manugames.com, preparing App Store assets and launch strategy</p>
+                </div>
+                <div class="grid-item">
+                    <h3>🧪 Quality Assurance</h3>
+                    <p>Extensive testing across iPhone, iPad, and Mac for a universal experience</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why It Matters -->
+    <section>
+        <div class="container">
+            <h2>Why This Matters</h2>
+            <p class="fade-in">Game development is the ultimate test of software engineering. It requires real-time performance optimization, complex state management, intuitive UX design, and the discipline to ship a product from a blank file to the App Store. Every skill I use building Manu Idle makes me a better iOS developer, a better consultant, and a better problem solver.</p>
+        </div>
+    </section>
+
+    <!-- Early Experience -->
+    <section>
+        <div class="container">
+            <h2>From the Beginning</h2>
+            <div class="experience-item fade-in">
+                <h3>SDX / Food Fight</h3>
+                <p class="experience-meta">iOS & Android · 3-person team · 2015</p>
+                <p>Published on the App Store and used during campus events. Presented at University Scholars Day to 250+ students and professionals.</p>
+                <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--text-light-secondary);">Game development has been part of my journey since the beginning of my career.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stay Updated -->
+    <section>
+        <div class="container">
+            <div class="cta-section fade-in">
+                <h3>Want to know when Manu Idle launches?</h3>
+                <div class="cta-buttons">
+                    <a href="https://manugames.com" target="_blank" rel="noopener noreferrer" class="btn">Visit Manu Games</a>
+                    <a href="https://linkedin.com/in/seth-rininger" target="_blank" rel="noopener noreferrer" class="btn secondary">Follow on LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section>
+        <div class="container">
+            <div class="cta-section fade-in">
+                <h3>Looking for a developer who ships?</h3>
+                <a href="index.html#contact" class="btn">Get in Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Seth Rininger</p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // Check for saved theme preference or default to dark mode
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        if (currentTheme === 'light') {
+            html.classList.add('light-mode');
+            themeToggle.textContent = '🌙';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('light-mode');
+            const newTheme = html.classList.contains('light-mode') ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            themeToggle.textContent = newTheme === 'light' ? '🌙' : '☀️';
+        });
+
+        // IntersectionObserver for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+    <script src="assets/effects.js"></script>
+</body>
+</html>

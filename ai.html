@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Research & Tools — Seth Rininger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/effects.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-dark-secondary: #1a1a1a;
+            --text-light: #e5e5e5;
+            --text-gray: #a0a0a0;
+            --accent-blue: #3b82f6;
+            --accent-amber: #f59e0b;
+            --accent-blue-hover: #2563eb;
+            --accent-amber-hover: #d97706;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode {
+            --bg-dark: #ffffff;
+            --bg-dark-secondary: #f5f5f5;
+            --text-light: #1a1a1a;
+            --text-gray: #666666;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--accent-blue-hover);
+        }
+
+        /* Sticky Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid rgba(229, 229, 229, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        body.light-mode nav {
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .nav-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 1.25rem;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            color: var(--accent-blue);
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                width: 100%;
+                order: 3;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .breadcrumb a {
+            color: var(--text-gray);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent-blue);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero .subheading {
+            font-size: 1.35rem;
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 4rem 1.5rem;
+                margin-top: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subheading {
+                font-size: 1rem;
+            }
+        }
+
+        /* Fade-in Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Workflow Section */
+        .workflow-section {
+            padding: 4rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .workflow-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .workflow-intro {
+            text-align: center;
+            color: var(--text-gray);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+        }
+
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .workflow-card {
+            background-color: var(--bg-dark-secondary);
+            border: 1px solid rgba(229, 229, 229, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .workflow-card:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .workflow-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-blue);
+        }
+
+        .workflow-card .provider {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .workflow-card p {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .workflow-note {
+            text-align: center;
+            color: var(--text-gray);
+            padding: 2rem;
+            background-color: rgba(59, 130, 246, 0.05);
+            border-left: 3px solid var(--accent-blue);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .workflow-conclusion {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            padding: 2rem;
+            background-color: rgba(245, 158, 11, 0.05);
+            border-radius: 12px;
+        }
+
+        /* Case Study Section */
+        .case-study-section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(245, 158, 11, 0.03));
+            border-radius: 16px;
+            border: 1px solid rgba(229, 229, 229, 0.1);
+        }
+
+        .case-study-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .case-study-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .case-study-header .subheading {
+            font-size: 1.3rem;
+            color: var(--text-gray);
+        }
+
+        .case-study-story {
+            background-color: var(--bg-dark-secondary);
+            border: 1px solid rgba(229, 229, 229, 0.1);
+            border-radius: 12px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        /* Pipeline Diagram */
+        .pipeline-container {
+            margin: 3rem 0;
+            overflow-x: auto;
+        }
+
+        .pipeline {
+            display: flex;
+            gap: 1.5rem;
+            min-width: fit-content;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 0;
+        }
+
+        .pipeline-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 200px;
+        }
+
+        .pipeline-box {
+            background-color: var(--bg-dark);
+            border: 2px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            min-width: 180px;
+            margin-bottom: 1rem;
+        }
+
+        .pipeline-box h3 {
+            font-size: 1rem;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .pipeline-box p {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .pipeline-arrow {
+            color: var(--accent-amber);
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .pipeline {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .pipeline-arrow {
+                transform: rotate(90deg);
+                margin: 0.5rem 0;
+            }
+        }
+
+        /* Image Gallery */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .gallery-item {
+            background-color: var(--bg-dark);
+            border: 1px solid rgba(229, 229, 229, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
+        }
+
+        .gallery-image {
+            width: 100%;
+            aspect-ratio: 1;
+            background-color: var(--bg-dark-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-gray);
+            font-size: 3rem;
+            border-bottom: 1px solid rgba(229, 229, 229, 0.1);
+            overflow: hidden;
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-image img {
+            transform: scale(1.05);
+        }
+
+        .gallery-caption {
+            padding: 1.5rem;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Callout Box */
+        .callout {
+            background-color: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--accent-amber);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 3rem 0;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        /* Capabilities Section */
+        .capabilities-section {
+            padding: 4rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .capabilities-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .capabilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .capability-card {
+            background-color: var(--bg-dark-secondary);
+            border: 1px solid rgba(229, 229, 229, 0.1);
+            border-radius: 12px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .capability-card:hover {
+            border-color: var(--accent-amber);
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.15);
+        }
+
+        .capability-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--accent-amber);
+        }
+
+        .capability-card p {
+            color: var(--text-gray);
+            line-height: 1.8;
+        }
+
+        /* Philosophy Section */
+        .philosophy-section {
+            padding: 4rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .philosophy-section p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            line-height: 1.9;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(245, 158, 11, 0.05));
+            border-top: 1px solid rgba(229, 229, 229, 0.1);
+            border-bottom: 1px solid rgba(229, 229, 229, 0.1);
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-blue-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-gray);
+            border-top: 1px solid rgba(229, 229, 229, 0.1);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .workflow-section,
+            .capabilities-section,
+            .philosophy-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .case-study-section {
+                padding: 3rem 1.5rem;
+                margin: 0 1rem;
+            }
+
+            .case-study-story {
+                padding: 1.5rem;
+            }
+
+            .workflow-section h2,
+            .case-study-section h2,
+            .capabilities-section h2,
+            .philosophy-section h2 {
+                font-size: 1.75rem;
+            }
+
+            .workflow-grid,
+            .capabilities-grid,
+            .gallery-container {
+                grid-template-columns: 1fr;
+            }
+
+            .pipeline-box {
+                min-width: 150px;
+            }
+        }
+    </style>
+    <meta name="author" content="Seth Rininger">
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="AI research and practical AI application. Pro subscriber to Claude, ChatGPT, and Grok. Multi-AI workflows and real-world AI problem solving.">
+    <meta property="og:site_name" content="Seth Rininger — Developer & Consultant">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="AI Research & Tools — Seth Rininger">
+    <meta property="og:description" content="Running 5 AIs simultaneously. Pro subscriber to Claude, ChatGPT, and Grok. Using AI to solve real-world problems from code to 3D printing.">
+    <meta property="og:url" content="https://sethrininger.dev/ai.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@sethrininger">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-brand">Seth Rininger</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="ios.html">iOS Dev</a></li>
+            <li><a href="seo.html">SEO</a></li>
+            <li><a href="ai.html">AI Research</a></li>
+            <li><a href="gamedev.html">Game Dev</a></li>
+            <li><a href="video.html">Video</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <div class="nav-controls">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀️</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero fade-in">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> → AI Research
+        </div>
+        <h1>AI Research & Tools</h1>
+        <p class="subheading">Not just using AI. Understanding it, comparing it, and pushing its limits daily.</p>
+    </section>
+
+    <!-- Workflow Section -->
+    <section class="workflow-section fade-in">
+        <h2>The Multi-AI Workflow</h2>
+        <p class="workflow-intro">Most people use one AI chatbot. I run five simultaneously. Each model has different strengths, and knowing when to use which one is a skill in itself.</p>
+
+        <div class="workflow-grid">
+            <div class="workflow-card fade-in">
+                <h3>Claude</h3>
+                <div class="provider">Anthropic</div>
+                <p>Pro subscriber. My go-to for complex reasoning, code generation, and long-form analysis. Excellent at maintaining context over long conversations.</p>
+            </div>
+
+            <div class="workflow-card fade-in">
+                <h3>ChatGPT</h3>
+                <div class="provider">OpenAI</div>
+                <p>Pro subscriber. Strong for brainstorming, creative tasks, and general-purpose assistance. Excellent plugin ecosystem.</p>
+            </div>
+
+            <div class="workflow-card fade-in">
+                <h3>Grok</h3>
+                <div class="provider">xAI</div>
+                <p>Pro subscriber. Real-time information access, unique personality, strong for current events and unconventional perspectives.</p>
+            </div>
+        </div>
+
+        <div class="workflow-note fade-in">
+            <strong>Plus additional AI tools as needed</strong> — image generation, code completion, voice, and more.
+        </div>
+
+        <div class="workflow-conclusion fade-in">
+            <p>This isn't about having subscriptions. It's about understanding the strengths, weaknesses, and optimal use cases for each model. I've spent hundreds of hours comparing outputs, testing edge cases, and developing workflows that leverage multiple AIs for better results than any single one can achieve.</p>
+        </div>
+    </section>
+
+    <!-- Case Study Section -->
+    <section class="case-study-section fade-in">
+        <div class="case-study-header">
+            <h2>Case Study: AI-Powered Physical Problem Solving</h2>
+            <p class="subheading">How I used AI to fix a broken bed remote with 3D printing</p>
+        </div>
+
+        <div class="case-study-story fade-in">
+            My adjustable bed remote's buttons had degraded and stopped working. Rather than spending $50+ on a replacement remote, I used AI to design and 3D print replacement button covers — for pennies in filament.
+        </div>
+
+        <div class="pipeline-container fade-in">
+            <div class="pipeline">
+                <div class="pipeline-step">
+                    <div class="pipeline-box">
+                        <h3>Step 1: Claude AI</h3>
+                        <p>Described the problem and measurements. Claude generated OpenSCAD code for the replacement parts.</p>
+                    </div>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <div class="pipeline-box">
+                        <h3>Step 2: OpenSCAD</h3>
+                        <p>Rendered and refined the 3D model, iterating on dimensions until the fit was precise.</p>
+                    </div>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <div class="pipeline-box">
+                        <h3>Step 3: STL Export</h3>
+                        <p>Exported the verified model as an STL file for 3D printing.</p>
+                    </div>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <div class="pipeline-box">
+                        <h3>Step 4: G-Code</h3>
+                        <p>Sliced the STL into printer instructions. Printed on a consumer 3D printer.</p>
+                    </div>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <div class="pipeline-box">
+                        <h3>Step 5: Result</h3>
+                        <p>Perfect-fit replacement buttons. Remote works like new.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-container fade-in">
+            <div class="gallery-item">
+                <div class="gallery-image"><img src="assets/images/remote-before.jpg" alt="Original bed remote with worn, degraded buttons" loading="lazy"></div>
+                <div class="gallery-caption">Original remote — buttons worn and unresponsive</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-image"><img src="assets/images/remote-after.jpg" alt="Fixed remote with 3D-printed blue button covers" loading="lazy"></div>
+                <div class="gallery-caption">Fixed — 3D-printed button covers, works like new</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-image"><img src="assets/images/openscad-render.png" alt="OpenSCAD 3D model of the replacement button pad" loading="lazy" style="object-fit: contain; background: #f5f0d0; padding: 0.25rem;"></div>
+                <div class="gallery-caption">OpenSCAD 3D model — generated by Claude AI</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-image"><img src="assets/images/remote-specs.png" alt="Precise measurements diagram for the button pad design" loading="lazy" style="object-fit: contain; background: #fff; padding: 0.5rem;"></div>
+                <div class="gallery-caption">AI-generated measurement diagram for precise fit</div>
+            </div>
+        </div>
+
+        <div class="callout fade-in">
+            This is what AI-native problem solving looks like. It's not about chatbots — it's about using AI as a thinking partner across the entire pipeline from problem definition to physical output.
+        </div>
+    </section>
+
+    <!-- Capabilities Section -->
+    <section class="capabilities-section fade-in">
+        <h2>What I Can Do With AI</h2>
+        <div class="capabilities-grid">
+            <div class="capability-card fade-in">
+                <h3>Code Generation & Review</h3>
+                <p>Using AI to write, review, and refactor code across Swift, Python, JavaScript, and more.</p>
+            </div>
+
+            <div class="capability-card fade-in">
+                <h3>3D Modeling & Fabrication</h3>
+                <p>Generating OpenSCAD models, STL files, and G-Code for 3D printing solutions.</p>
+            </div>
+
+            <div class="capability-card fade-in">
+                <h3>SEO & Content Strategy</h3>
+                <p>AI-augmented keyword research, content optimization, and competitive analysis.</p>
+            </div>
+
+            <div class="capability-card fade-in">
+                <h3>Research & Analysis</h3>
+                <p>Deep research across multiple AI models, cross-referencing outputs for accuracy.</p>
+            </div>
+
+            <div class="capability-card fade-in">
+                <h3>Workflow Automation</h3>
+                <p>Building AI-powered pipelines that connect multiple tools and platforms.</p>
+            </div>
+
+            <div class="capability-card fade-in">
+                <h3>Rapid Prototyping</h3>
+                <p>Using AI to go from idea to working prototype faster than traditional development.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section class="philosophy-section fade-in">
+        <p>AI doesn't replace expertise — it multiplies it. A decade of software development means I know what to ask for, how to evaluate the output, and when the AI is wrong. That combination of deep domain knowledge and AI fluency is rare, and it's what I bring to every project.</p>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section fade-in">
+        <h2>Want to add AI to your workflow?</h2>
+        <p style="color: var(--text-gray); margin-bottom: 0;">Let's build something great.</p>
+        <a href="index.html#contact" class="cta-button">Get in Touch</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Seth Rininger</p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Check for saved theme preference or default to dark mode
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            body.classList.add('light-mode');
+            themeToggle.textContent = '🌙';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            const isLightMode = body.classList.contains('light-mode');
+            themeToggle.textContent = isLightMode ? '🌙' : '☀️';
+            localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+    <script src="assets/effects.js"></script>
+</body>
+</html>
