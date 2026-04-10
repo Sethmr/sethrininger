@@ -1,0 +1,58 @@
+name: IndexNow - Notify Search Engines
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.html'
+      - '**.css'
+      - '**.js'
+      - 'sitemap.xml'
+
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Get changed files
+        id: changed
+        run: |
+          CHANGED=$(git diff --name-only HEAD~1 HEAD -- '*.html' | head -20)
+          if [ -z "$CHANGED" ]; then
+            echo "urls=" >> $GITHUB_OUTPUT
+            echo "No HTML files changed"
+          else
+            URLS=""
+            for file in $CHANGED; do
+              # Convert file path to URL
+              path="${file%.html}"
+              if [ "$path" = "index" ]; then
+                URLS="${URLS}\"https://sethrininger.dev/\","
+              else
+                URLS="${URLS}\"https://sethrininger.dev/${file}\","
+              fi
+            done
+            # Remove trailing comma
+            URLS="${URLS%,}"
+            echo "urls=${URLS}" >> $GITHUB_OUTPUT
+            echo "URLs to submit: ${URLS}"
+          fi
+
+      - name: Submit to IndexNow
+        if: steps.changed.outputs.urls != ''
+        run: |
+          curl -s -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "host": "sethrininger.dev",
+              "key": "fabf37c09a23416494adddd2b4dd810a",
+              "keyLocation": "https://sethrininger.dev/fabf37c09a23416494adddd2b4dd810a.txt",
+              "urlList": [
+                ${{ steps.changed.outputs.urls }}
+              ]
+            }'
+          echo "IndexNow submission complete"
