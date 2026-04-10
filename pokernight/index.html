@@ -403,8 +403,8 @@
     <div id="add-form">
       <label>Your Name</label>
       <input type="text" id="input-name" placeholder="e.g. Mike">
-      <label>Your Phone</label>
-      <input type="tel" id="input-phone" placeholder="(555) 123-4567" maxlength="14">
+      <label>Phone or Email</label>
+      <input type="text" id="input-contact" placeholder="(555) 123-4567 or email" autocomplete="off" autocapitalize="off">
 
       <label>Additional Guests</label>
       <div id="guests-container"></div>
@@ -511,7 +511,8 @@
     toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
   }
 
-  // --- Phone formatting ---
+  // --- Contact (phone or email) formatting ---
+  function isEmail(val) { return val.includes('@'); }
   function formatPhone(val) {
     const digits = val.replace(/\D/g, '').slice(0, 10);
     if (digits.length === 0) return '';
@@ -519,25 +520,24 @@
     if (digits.length <= 6) return `(${digits.slice(0,3)}) ${digits.slice(3)}`;
     return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
   }
-  function getRawPhone(formatted) {
-    return formatted.replace(/\D/g, '');
+  function getRawContact(val) {
+    if (isEmail(val)) return val.trim().toLowerCase();
+    return val.replace(/\D/g, '');
+  }
+  function isValidContact(val) {
+    if (isEmail(val)) return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
+    return val.replace(/\D/g, '').length >= 10;
   }
   document.addEventListener('input', e => {
-    if (e.target.id === 'input-phone') {
-      const pos = e.target.selectionStart;
-      const before = e.target.value.length;
-      e.target.value = formatPhone(e.target.value);
-      const after = e.target.value.length;
-      const newPos = pos + (after - before);
-      e.target.setSelectionRange(newPos, newPos);
-    }
-  });
-  document.addEventListener('keydown', e => {
-    if (e.target.id === 'input-phone') {
-      // Only allow digits, backspace, delete, arrows, tab
-      if (!/^[0-9]$/.test(e.key) && !['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End'].includes(e.key)
-          && !e.ctrlKey && !e.metaKey) {
-        e.preventDefault();
+    if (e.target.id === 'input-contact') {
+      // Only auto-format if it looks like a phone number (no @ sign)
+      if (!isEmail(e.target.value)) {
+        const pos = e.target.selectionStart;
+        const before = e.target.value.length;
+        e.target.value = formatPhone(e.target.value);
+        const after = e.target.value.length;
+        const newPos = pos + (after - before);
+        e.target.setSelectionRange(newPos, newPos);
       }
     }
   });
@@ -714,10 +714,10 @@
         ringHtml = progressRingSvg(total, MIN_PLAYERS, MAX_PLAYERS);
       }
 
-      // Send Group Text: admin only, enough players, NOT today, NOT past
+      // Send Message: admin only, enough players, NOT today, NOT past
       let smsBtn = '';
       if (!hasGame && !isBlocked && isAdmin && total >= MIN_PLAYERS && !isPastOrToday) {
-        smsBtn = `<button class="sms-btn" onclick="event.stopPropagation();sendGroupText('${dateStr}')">Send Group Text</button>`;
+        smsBtn = `<button class="sms-btn" onclick="event.stopPropagation();sendGroupText('${dateStr}')">Send Message</button>`;
       }
 
       // Admin menu trigger: show on non-past admin cells (or past+admin for log game)
@@ -757,7 +757,7 @@
     guestCount = 0;
     document.getElementById('modal-date').textContent = niceDate(dateStr);
     document.getElementById('input-name').value = '';
-    document.getElementById('input-phone').value = '';
+    document.getElementById('input-contact').value = '';
     document.getElementById('guests-container').innerHTML = '';
     renderAttendees();
     document.getElementById('modal-overlay').classList.add('open');
@@ -830,9 +830,10 @@
 
   function saveEntry() {
     const name = document.getElementById('input-name').value.trim();
-    const rawPhone = getRawPhone(document.getElementById('input-phone').value);
+    const contactVal = document.getElementById('input-contact').value;
+    const contact = getRawContact(contactVal);
     if (!name) { document.getElementById('input-name').style.borderColor = '#e74c3c'; return; }
-    if (rawPhone.length < 10) { document.getElementById('input-phone').style.borderColor = '#e74c3c'; return; }
+    if (!isValidContact(contactVal)) { document.getElementById('input-contact').style.borderColor = '#e74c3c'; return; }
 
     const guestInputs = document.querySelectorAll('#guests-container .guest-name');
     const guests = [];
@@ -846,9 +847,12 @@
 
     showLoading();
     const newRef = db.ref('dates/' + selectedDate).push();
-    newRef.set({ name, phone: rawPhone, guests }).then(() => {
+    // Store as 'contact' but also keep 'phone' for backward compatibility
+    const data = { name, contact, guests };
+    if (!isEmail(contactVal)) data.phone = contact;
+    newRef.set(data).then(() => {
       document.getElementById('input-name').value = '';
-      document.getElementById('input-phone').value = '';
+      document.getElementById('input-contact').value = '';
       document.getElementById('guests-container').innerHTML = '';
       guestCount = 0;
       closeModal();
@@ -1225,16 +1229,20 @@
     });
   }
 
-  // --- Group Text ---
+  // --- Group Message ---
   function sendGroupText(dateStr) {
     const entries = allData[dateStr] ? Object.values(allData[dateStr]) : [];
-    const phones = [];
-    entries.forEach(e => { if (e.phone) phones.push(e.phone); });
-    if (!phones.length) return;
+    const recipients = [];
+    entries.forEach(e => {
+      // Use contact field first, fall back to phone for older entries
+      const addr = e.contact || e.phone;
+      if (addr) recipients.push(addr);
+    });
+    if (!recipients.length) return;
 
     const body = encodeURIComponent(`Poker Night is ON for ${niceDate(dateStr)}! See you there.`);
     const sep = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? '&' : '?';
-    const uri = `sms:${phones.join(',')}${sep}body=${body}`;
+    const uri = `sms:${recipients.join(',')}${sep}body=${body}`;
     window.open(uri, '_self');
   }
 
