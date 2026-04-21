@@ -131,13 +131,16 @@
 
         /* hamburger base & animation handled by effects.css */
 
-        /* Hero Section */
+        /* Hero Section — sized so that hero + social-proof strip together
+           fill the viewport on first paint (social strip acts like a footer
+           until the user scrolls). */
         .hero {
             margin-top: 0;
+            min-height: calc(100vh - 13rem);
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: center;
-            padding: 2rem 2rem 1rem;
+            padding: 3rem 2rem 2rem;
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(245, 158, 11, 0.05) 100%);
         }
 
