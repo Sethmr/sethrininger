@@ -191,6 +191,133 @@
             50%, 100% { opacity: 0; }
         }
 
+        /* Status Board (rendered inside terminal) */
+        .status-board {
+            margin: 0.25rem 0 1rem 1.25rem;
+            padding: 0.75rem 1rem;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.88rem;
+            line-height: 1.9;
+        }
+
+        body.light-mode .status-board {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(59, 130, 246, 0.25);
+        }
+
+        .status-row {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 0.75rem;
+            align-items: center;
+            color: var(--text-primary);
+            padding: 0.1rem 0;
+        }
+
+        .status-row a {
+            color: inherit;
+            text-decoration: none;
+            display: contents;
+        }
+
+        .status-row:hover .status-name {
+            color: var(--accent-amber);
+            text-decoration: underline;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 6px rgba(16, 185, 129, 0.7);
+            animation: status-pulse 2.4s ease-in-out infinite;
+        }
+
+        .status-dot.yellow {
+            background: #f59e0b;
+            box-shadow: 0 0 6px rgba(245, 158, 11, 0.7);
+        }
+
+        @keyframes status-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.55; transform: scale(0.85); }
+        }
+
+        .status-name {
+            color: var(--accent-blue);
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .status-meta {
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            white-space: nowrap;
+        }
+
+        /* Help / command list */
+        .terminal-help {
+            margin: 0.25rem 0 1rem 1.25rem;
+            color: var(--text-secondary);
+            font-family: 'Courier New', monospace;
+            font-size: 0.88rem;
+            line-height: 1.9;
+        }
+
+        .terminal-help .cmd-row {
+            display: grid;
+            grid-template-columns: 22ch 1fr;
+            gap: 0.5rem;
+        }
+
+        .terminal-help .cmd {
+            color: var(--accent-amber);
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .terminal-help .cmd:hover {
+            color: var(--accent-blue);
+            text-decoration: underline;
+        }
+
+        /* Interactive input line */
+        .terminal-input-line {
+            display: flex;
+            align-items: center;
+        }
+
+        .terminal-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--accent-blue);
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            flex: 1;
+            caret-color: var(--accent-blue);
+            padding: 0;
+            margin: 0;
+        }
+
+        @media (max-width: 480px) {
+            .status-board,
+            .terminal-help {
+                font-size: 0.75rem;
+                padding: 0.5rem 0.75rem;
+            }
+            .terminal-help .cmd-row {
+                grid-template-columns: 18ch 1fr;
+            }
+            .status-meta {
+                font-size: 0.72rem;
+            }
+        }
+
         .stats-bar {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -753,14 +880,14 @@
     <section class="hero" id="home">
         <h1 class="sr-only">Seth Rininger — Senior iOS Developer, SEO Strategist & AI Builder</h1>
         <div class="hero-content">
-            <div class="terminal">
+            <div class="terminal" id="terminal">
                 <div class="terminal-line command">
                     <span class="terminal-prompt">$</span>
                     <span id="line1">whoami<span class="cursor" id="cursor1"></span></span>
                 </div>
                 <div class="terminal-line output" id="output1" style="opacity: 0;">
                     <span class="terminal-prompt">&gt;</span>
-                    <span>seth-rininger</span>
+                    <span>seth-rininger &middot; Senior iOS Developer &middot; Franklin, NC</span>
                 </div>
 
                 <div class="terminal-line command" id="line2Wrap" style="opacity: 0;">
@@ -769,16 +896,80 @@
                 </div>
                 <div class="terminal-line output" id="output2" style="opacity: 0;">
                     <span class="terminal-prompt">&gt;</span>
-                    <span>Senior iOS Developer | SEO Strategist | AI-Native Builder</span>
+                    <span>9 iOS apps shipped &middot; 12+ years mobile &middot; AI-native builder</span>
                 </div>
 
                 <div class="terminal-line command" id="line3Wrap" style="opacity: 0;">
                     <span class="terminal-prompt">$</span>
-                    <span id="line3">./build --deploy production<span class="cursor" id="cursor3"></span></span>
+                    <span id="line3">./ship --status<span class="cursor" id="cursor3"></span></span>
                 </div>
-                <div class="terminal-line output" id="output3" style="opacity: 0;">
-                    <span class="terminal-prompt">&gt;</span>
-                    <span>Build successful. Deployed to production.</span>
+                <div class="status-board" id="statusBoard" style="opacity: 0;">
+                    <div class="status-row">
+                        <a href="https://www.peanutgallery.live" target="_blank" rel="noopener">
+                            <span class="status-dot"></span>
+                            <span class="status-name">peanut-gallery</span>
+                            <span class="status-meta">v1.5.3 &middot; Chrome Web Store</span>
+                        </a>
+                    </div>
+                    <div class="status-row">
+                        <a href="gamedev.html">
+                            <span class="status-dot yellow"></span>
+                            <span class="status-name">manu-idle</span>
+                            <span class="status-meta">in development &middot; Manu Games LLC</span>
+                        </a>
+                    </div>
+                    <div class="status-row">
+                        <a href="ios.html">
+                            <span class="status-dot"></span>
+                            <span class="status-name">ios-portfolio</span>
+                            <span class="status-meta">9 apps shipped &middot; 10M+ users</span>
+                        </a>
+                    </div>
+                    <div class="status-row">
+                        <a href="seo.html">
+                            <span class="status-dot"></span>
+                            <span class="status-name">local-seo</span>
+                            <span class="status-meta">3 clients &middot; ranking page one</span>
+                        </a>
+                    </div>
+                    <div class="status-row">
+                        <a href="https://www.youtube.com/@KyrasCorner" target="_blank" rel="noopener">
+                            <span class="status-dot"></span>
+                            <span class="status-name">kyras-corner</span>
+                            <span class="status-meta">30K subs &middot; 12.6M views</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="terminal-line command" id="line4Wrap" style="opacity: 0;">
+                    <span class="terminal-prompt">$</span>
+                    <span id="line4">help<span class="cursor" id="cursor4"></span></span>
+                </div>
+                <div class="terminal-help" id="terminalHelp" style="opacity: 0;">
+                    <div style="margin-bottom: 0.4rem; color: var(--text-secondary);">Available commands &mdash; click or type:</div>
+                    <div class="cmd-row"><span class="cmd" data-cmd="ls projects/">ls projects/</span><span>list everything shipping</span></div>
+                    <div class="cmd-row"><span class="cmd" data-cmd="cat resume">cat resume</span><span>career summary</span></div>
+                    <div class="cmd-row"><span class="cmd" data-cmd="tail ship.log">tail ship.log</span><span>recent deploys</span></div>
+                    <div class="cmd-row"><span class="cmd" data-cmd="open peanut-gallery">open peanut-gallery</span><span>launch live demo</span></div>
+                    <div class="cmd-row"><span class="cmd" data-cmd="open ios">open ios</span><span>full iOS timeline</span></div>
+                    <div class="cmd-row"><span class="cmd" data-cmd="contact">contact</span><span>scroll to contact form</span></div>
+                    <div class="cmd-row"><span class="cmd" data-cmd="clear">clear</span><span>reset the terminal</span></div>
+                </div>
+
+                <div id="terminalDynamic"></div>
+
+                <div class="terminal-line command terminal-input-line" id="terminalInputLine" style="opacity: 0;">
+                    <span class="terminal-prompt">$</span>
+                    <input
+                        type="text"
+                        class="terminal-input"
+                        id="terminalInput"
+                        autocomplete="off"
+                        autocapitalize="off"
+                        autocorrect="off"
+                        spellcheck="false"
+                        aria-label="Terminal input"
+                    >
                 </div>
             </div>
 
@@ -788,12 +979,12 @@
                     <div class="stat-label">Years iOS</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" data-target="5">0</div>
-                    <div class="stat-label">AIs Used Daily</div>
+                    <div class="stat-number" data-target="9">0</div>
+                    <div class="stat-label">iOS Apps Shipped</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" data-target="3">0</div>
-                    <div class="stat-label">Local Businesses Ranked</div>
+                    <div class="stat-label">Local SEO Wins</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" data-target="1">0</div>
@@ -1062,7 +1253,7 @@
             document.getElementById('cursor1').style.display = 'none';
             document.getElementById('output1').style.opacity = '1';
 
-            await new Promise(r => setTimeout(r, 600));
+            await new Promise(r => setTimeout(r, 500));
 
             // Line 2: cat skills.txt
             document.getElementById('line2Wrap').style.opacity = '1';
@@ -1070,17 +1261,172 @@
             document.getElementById('cursor2').style.display = 'none';
             document.getElementById('output2').style.opacity = '1';
 
-            await new Promise(r => setTimeout(r, 600));
+            await new Promise(r => setTimeout(r, 500));
 
-            // Line 3: ./build
+            // Line 3: ./ship --status -> status board
             document.getElementById('line3Wrap').style.opacity = '1';
-            await typeText(document.getElementById('line3'), "./build --deploy production");
+            await typeText(document.getElementById('line3'), "./ship --status", 40);
             document.getElementById('cursor3').style.display = 'none';
-            document.getElementById('output3').style.opacity = '1';
+            document.getElementById('statusBoard').style.opacity = '1';
+
+            await new Promise(r => setTimeout(r, 700));
+
+            // Line 4: help -> command list
+            document.getElementById('line4Wrap').style.opacity = '1';
+            await typeText(document.getElementById('line4'), 'help', 40);
+            document.getElementById('cursor4').style.display = 'none';
+            document.getElementById('terminalHelp').style.opacity = '1';
+
+            await new Promise(r => setTimeout(r, 400));
+
+            // Reveal interactive input line
+            const inputLine = document.getElementById('terminalInputLine');
+            inputLine.style.opacity = '1';
+            initTerminal();
         }
 
         // Start typing animation on page load
         window.addEventListener('load', startTypingAnimation);
+
+        // ============ Interactive Terminal ============
+        function initTerminal() {
+            const input = document.getElementById('terminalInput');
+            const dynamic = document.getElementById('terminalDynamic');
+            const history = [];
+            let historyIdx = -1;
+
+            const say = (html, kind = 'output') => {
+                const line = document.createElement('div');
+                line.className = 'terminal-line ' + kind;
+                line.innerHTML = kind === 'output'
+                    ? `<span class="terminal-prompt">&gt;</span><span>${html}</span>`
+                    : `<span class="terminal-prompt">$</span><span>${html}</span>`;
+                dynamic.appendChild(line);
+            };
+
+            const sayBlock = (html) => {
+                const block = document.createElement('div');
+                block.className = 'terminal-help';
+                block.innerHTML = html;
+                dynamic.appendChild(block);
+            };
+
+            const escapeHtml = (s) => s.replace(/[&<>"']/g, (c) => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+
+            const commands = {
+                'help': () => {
+                    sayBlock(document.getElementById('terminalHelp').innerHTML);
+                },
+                'whoami': () => say('seth-rininger &middot; Senior iOS Developer &middot; Franklin, NC'),
+                'ls projects/': () => sayBlock(
+                    `<div class="cmd-row"><span style="color:var(--accent-blue)">peanut-gallery/</span><span>Chrome extension &middot; live on Web Store</span></div>
+                     <div class="cmd-row"><span style="color:var(--accent-blue)">manu-idle/</span><span>SwiftUI incremental game &middot; Manu Games LLC</span></div>
+                     <div class="cmd-row"><span style="color:var(--accent-blue)">ios-portfolio/</span><span>9 apps shipped since 2014 &middot; 10M+ users</span></div>
+                     <div class="cmd-row"><span style="color:var(--accent-blue)">local-seo/</span><span>3 clients ranking page one</span></div>
+                     <div class="cmd-row"><span style="color:var(--accent-blue)">kyras-corner/</span><span>30K subs &middot; 12.6M lifetime views</span></div>`
+                ),
+                'ls': () => commands['ls projects/'](),
+                'cat resume': () => sayBlock(
+                    `<div>Senior iOS Developer, CBS Sports / Paramount &middot; June 2022 &mdash; present</div>
+                     <div>Lead Front-End Developer, Vimvest &rarr; Monorail &middot; 2017 &mdash; 2022 (5 yrs, first hire)</div>
+                     <div>iOS Developer, It Works! Global &middot; 2017</div>
+                     <div>Lead Mobile Dev &amp; Designer, Energy Sense Finance &middot; 2016 &mdash; 2017</div>
+                     <div>Published: Food Fight (SDX, 2015), Annual Bible Lectureship app (2015)</div>
+                     <div>B.S. Computer Science, Freed-Hardeman University</div>
+                     <div style="margin-top:0.5rem;color:var(--accent-amber)">9 iOS apps shipped &middot; 12+ years mobile &middot; App Store to Apple Arcade</div>`
+                ),
+                'resume': () => commands['cat resume'](),
+                'tail ship.log': () => sayBlock(
+                    `<div>[2026-04] peanut-gallery v1.5.3 &rarr; Chrome Web Store</div>
+                     <div>[2026-04] sethrininger.dev &rarr; interactive terminal shipped</div>
+                     <div>[2026-03] manu-idle &rarr; alpha build to Discord</div>
+                     <div>[2026-02] local-seo &rarr; Palisade Roofing on page one</div>
+                     <div>[2025-Q4] cbs-sports &rarr; SwiftUI feature ownership</div>
+                     <div>[2015-12] food-fight (SDX) &rarr; App Store</div>
+                     <div>[2015-05] annual-bible-lectureship &rarr; App Store</div>`
+                ),
+                'tail': () => commands['tail ship.log'](),
+                'ship.log': () => commands['tail ship.log'](),
+                'open peanut-gallery': () => { say('opening <a href="https://www.peanutgallery.live" target="_blank" style="color:var(--accent-blue)">peanutgallery.live</a>...'); window.open('https://www.peanutgallery.live', '_blank'); },
+                'open ios': () => { say('navigating to ios.html...'); setTimeout(() => window.location.href = 'ios.html', 400); },
+                'open manu-idle': () => { say('navigating to gamedev.html...'); setTimeout(() => window.location.href = 'gamedev.html', 400); },
+                'open ai': () => { say('navigating to ai.html...'); setTimeout(() => window.location.href = 'ai.html', 400); },
+                'open seo': () => { say('navigating to seo.html...'); setTimeout(() => window.location.href = 'seo.html', 400); },
+                'contact': () => { say('scrolling to contact...'); document.getElementById('contact').scrollIntoView({ behavior: 'smooth' }); },
+            };
+
+            const runCommand = (raw) => {
+                const cmd = raw.trim();
+                if (!cmd) return;
+
+                // Echo the command first (always visible, even on error)
+                const echo = document.createElement('div');
+                echo.className = 'terminal-line command';
+                echo.innerHTML = `<span class="terminal-prompt">$</span><span>${escapeHtml(cmd)}</span>`;
+                dynamic.appendChild(echo);
+
+                const key = cmd.toLowerCase();
+
+                // Clear is special — wipe history output but keep the initial boot
+                if (key === 'clear') {
+                    dynamic.innerHTML = '';
+                    return;
+                }
+
+                const fn = commands[key];
+                if (fn) {
+                    fn();
+                } else {
+                    say(`command not found: ${escapeHtml(cmd)} &mdash; try <span class="cmd" data-cmd="help">help</span>`);
+                }
+
+                // Keep input visible
+                document.getElementById('terminalInputLine').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            };
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const val = input.value;
+                    if (val.trim()) {
+                        history.unshift(val);
+                        historyIdx = -1;
+                    }
+                    runCommand(val);
+                    input.value = '';
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (history.length && historyIdx < history.length - 1) {
+                        historyIdx++;
+                        input.value = history[historyIdx];
+                    }
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (historyIdx > 0) {
+                        historyIdx--;
+                        input.value = history[historyIdx];
+                    } else {
+                        historyIdx = -1;
+                        input.value = '';
+                    }
+                }
+            });
+
+            // Click-to-run on any .cmd span (delegated — covers boot help AND dynamic output)
+            document.getElementById('terminal').addEventListener('click', (e) => {
+                const cmdEl = e.target.closest('.cmd');
+                if (cmdEl && cmdEl.dataset.cmd) {
+                    runCommand(cmdEl.dataset.cmd);
+                    input.focus();
+                    return;
+                }
+                // Clicking empty terminal space focuses the input (but not links)
+                if (!e.target.closest('a')) {
+                    input.focus();
+                }
+            });
+        }
 
         // ============ Number Counter Animation ============
         const animateCounter = (element) => {
