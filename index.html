@@ -375,13 +375,14 @@
 
         .stat-number {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.5rem;
+            font-size: clamp(1.6rem, 2.6vw, 2.25rem);
             font-weight: 700;
             background: linear-gradient(135deg, var(--accent-blue), var(--accent-amber));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 0.5rem;
+            white-space: nowrap;
         }
 
         .stat-label {
@@ -984,8 +985,8 @@
                     <div class="stat-label">Local SEO Wins</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" data-target="1">0</div>
-                    <div class="stat-label">Game Shipping</div>
+                    <div class="stat-number" data-target="6800000">0</div>
+                    <div class="stat-label">Lines of Code</div>
                 </div>
             </div>
 
@@ -1511,17 +1512,19 @@
             const duration = 2000;
             const start = Date.now();
 
+            const format = (n) => (target >= 1000 ? n.toLocaleString() : n.toString());
+
             const updateCount = () => {
                 const elapsed = Date.now() - start;
                 const progress = Math.min(elapsed / duration, 1);
                 const current = Math.floor(progress * target);
 
-                element.textContent = current;
+                element.textContent = format(current);
 
                 if (progress < 1) {
                     requestAnimationFrame(updateCount);
                 } else {
-                    element.textContent = target;
+                    element.textContent = format(target);
                 }
             };
 
