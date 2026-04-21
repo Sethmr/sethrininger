@@ -304,6 +304,27 @@
             text-decoration: underline;
         }
 
+        /* Bulleted list inside a sayBlock — console-y but scannable */
+        .terminal-help .bullet {
+            padding-left: 1.25em;
+            text-indent: -1.25em;
+        }
+        .terminal-help .bullet::before {
+            content: "▸ ";
+            color: var(--accent-blue);
+        }
+        .terminal-help .bullet .label {
+            color: var(--text-secondary);
+            margin-right: 0.4em;
+        }
+        .terminal-help .bullet .hl {
+            color: var(--accent-blue);
+        }
+        .terminal-help .footer-cmd {
+            margin-top: 0.4rem;
+            color: var(--text-secondary);
+        }
+
         /* Interactive input line */
         .terminal-input-line {
             display: flex;
@@ -1316,65 +1337,66 @@
                 'ls projects': () => commands['ls projects/'](),
                 'ls': () => commands['ls projects/'](),
                 'cat ios': () => sayBlock(
-                    `<div>9 iOS apps shipped since 2014 &middot; 12+ years mobile &middot; 10M+ users</div>
-                     <div>Current: Senior iOS Dev at <span style="color:var(--accent-blue)">CBS Sports / Paramount</span> (since 2022, SwiftUI feature ownership)</div>
-                     <div>Past: Lead front-end @ Vimvest &rarr; Monorail (5 yrs, first hire), It Works!, Energy Sense Finance</div>
-                     <div>Published: Food Fight (SDX, 2015), Annual Bible Lectureship (2015)</div>
-                     <div style="margin-top:0.5rem"><span class="cmd" data-cmd="open ios">open ios</span> &rarr; full timeline</div>`
+                    `<div class="bullet">9 iOS apps shipped &middot; 10M+ users &middot; 12+ yrs mobile</div>
+                     <div class="bullet"><span class="label">Now:</span>Senior iOS @ <span class="hl">CBS Sports / Paramount</span> (SwiftUI)</div>
+                     <div class="bullet"><span class="label">Then:</span>Vimvest &rarr; Monorail (5 yrs, first hire), It Works!, Energy Sense</div>
+                     <div class="bullet"><span class="label">Shipped:</span>Food Fight (SDX, 2015), Annual Bible Lectureship (2015)</div>
+                     <div class="footer-cmd"><span class="cmd" data-cmd="open ios">open ios</span> &rarr; full timeline</div>`
                 ),
                 'ios': () => commands['cat ios'](),
                 'cat seo': () => sayBlock(
-                    `<div>Local SEO &mdash; helping small businesses own page one of Google.</div>
-                     <div>Active clients: Palisade Roofing, Sol &amp; Son Dual Language Academy, Brandi Rininger (eXp Realty)</div>
-                     <div>All three currently ranking on page one for their target queries.</div>
-                     <div style="margin-top:0.5rem"><span class="cmd" data-cmd="open seo">open seo</span> &rarr; approach &amp; case studies</div>`
+                    `<div class="bullet">Local SEO for small businesses &mdash; page one or it didn't happen</div>
+                     <div class="bullet"><span class="hl">Palisade Roofing</span> &middot; <span class="hl">Sol &amp; Son Dual Language Academy</span></div>
+                     <div class="bullet"><span class="hl">Brandi Rininger</span> (eXp Realty, WNC)</div>
+                     <div class="bullet">All three currently ranking page one for target queries</div>
+                     <div class="footer-cmd"><span class="cmd" data-cmd="open seo">open seo</span> &rarr; approach &amp; case studies</div>`
                 ),
                 'seo': () => commands['cat seo'](),
                 'cat ai': () => sayBlock(
-                    `<div>5 AIs running daily in my workflow &middot; 5+ years using AI in production work.</div>
-                     <div>Shipped Peanut Gallery (Chrome ext, live on Web Store) &mdash; AI commentary over video.</div>
-                     <div>AI-native builder: fixing physical objects with Claude, AI-augmented dev workflows.</div>
-                     <div style="margin-top:0.5rem"><span class="cmd" data-cmd="open ai">open ai</span> &rarr; proof of what ships</div>`
+                    `<div class="bullet">5 AIs running daily &middot; 5+ yrs shipping AI in production</div>
+                     <div class="bullet"><span class="hl">Peanut Gallery</span> &mdash; Chrome ext, AI commentary over video (live)</div>
+                     <div class="bullet">AI-augmented dev workflows &middot; fixing physical objects with Claude</div>
+                     <div class="footer-cmd"><span class="cmd" data-cmd="open ai">open ai</span> &rarr; proof of what ships</div>`
                 ),
                 'ai': () => commands['cat ai'](),
                 'cat gamedev': () => sayBlock(
-                    `<div>Building <span style="color:var(--accent-blue)">Manu Idle</span> under Manu Games LLC &mdash; SwiftUI incremental/idle game.</div>
-                     <div>Writing <span style="color:var(--accent-blue)">The Assembly Line</span>, a weekly newsletter covering factory &amp; idle games.</div>
-                     <div>Currently in alpha on Discord.</div>
-                     <div style="margin-top:0.5rem"><span class="cmd" data-cmd="open manu-idle">open manu-idle</span> &rarr; game dev page</div>`
+                    `<div class="bullet"><span class="hl">Manu Idle</span> &mdash; SwiftUI incremental game under Manu Games LLC</div>
+                     <div class="bullet"><span class="hl">The Assembly Line</span> &mdash; weekly newsletter on factory/idle games</div>
+                     <div class="bullet">Alpha build in testers' hands on Discord</div>
+                     <div class="footer-cmd"><span class="cmd" data-cmd="open manu-idle">open manu-idle</span> &rarr; game dev page</div>`
                 ),
                 'gamedev': () => commands['cat gamedev'](),
                 'cat video': () => sayBlock(
-                    `<div><span style="color:var(--accent-blue)">Kyra's Corner</span> &mdash; 30K subscribers, 12.6M lifetime views on YouTube.</div>
-                     <div>Channel management, podcast editing, live OBS operation.</div>
-                     <div>Personal films crafted for the moments that matter most.</div>
-                     <div style="margin-top:0.5rem"><span class="cmd" data-cmd="open video">open video</span> &rarr; video portfolio</div>`
+                    `<div class="bullet"><span class="hl">Kyra's Corner</span> &mdash; 30K subs &middot; 12.6M lifetime views</div>
+                     <div class="bullet">Channel mgmt &middot; podcast editing &middot; live OBS ops</div>
+                     <div class="bullet">Personal films for the moments that matter most</div>
+                     <div class="footer-cmd"><span class="cmd" data-cmd="open video">open video</span> &rarr; video portfolio</div>`
                 ),
                 'video': () => commands['cat video'](),
                 'cat realestate': () => sayBlock(
-                    `<div>Site &amp; local-SEO work for <span style="color:var(--accent-blue)">Brandi Rininger</span> (eXp Realty, Western North Carolina).</div>
-                     <div>WNC real estate broker &mdash; currently ranking for target local queries.</div>
-                     <div style="margin-top:0.5rem"><span class="cmd" data-cmd="open realestate">open realestate</span> &rarr; Brandi's site</div>`
+                    `<div class="bullet">Site &amp; local SEO for <span class="hl">Brandi Rininger</span> (eXp Realty)</div>
+                     <div class="bullet">Western North Carolina &mdash; ranking for target local queries</div>
+                     <div class="footer-cmd"><span class="cmd" data-cmd="open realestate">open realestate</span> &rarr; Brandi's site</div>`
                 ),
                 'realestate': () => commands['cat realestate'](),
                 'cat resume': () => sayBlock(
-                    `<div>Senior iOS Developer, CBS Sports / Paramount &middot; June 2022 &mdash; present</div>
-                     <div>Lead Front-End Developer, Vimvest &rarr; Monorail &middot; 2017 &mdash; 2022 (5 yrs, first hire)</div>
-                     <div>iOS Developer, It Works! Global &middot; 2017</div>
-                     <div>Lead Mobile Dev &amp; Designer, Energy Sense Finance &middot; 2016 &mdash; 2017</div>
-                     <div>Published: Food Fight (SDX, 2015), Annual Bible Lectureship app (2015)</div>
-                     <div>B.S. Computer Science, Freed-Hardeman University</div>
-                     <div style="margin-top:0.5rem;color:var(--accent-amber)">9 iOS apps shipped &middot; 12+ years mobile &middot; App Store to Apple Arcade</div>`
+                    `<div class="bullet"><span class="label">2022 &rarr; now</span>Senior iOS Dev &middot; <span class="hl">CBS Sports / Paramount</span></div>
+                     <div class="bullet"><span class="label">2017 &ndash; 2022</span>Lead Front-End &middot; Vimvest &rarr; Monorail (first hire)</div>
+                     <div class="bullet"><span class="label">2017</span>iOS Developer &middot; It Works! Global</div>
+                     <div class="bullet"><span class="label">2016 &ndash; 2017</span>Lead Mobile &middot; Energy Sense Finance</div>
+                     <div class="bullet"><span class="label">2015</span>Food Fight (SDX), Annual Bible Lectureship</div>
+                     <div class="bullet"><span class="label">B.S. CS</span>Freed-Hardeman University</div>
+                     <div class="footer-cmd" style="color:var(--accent-amber)">9 iOS apps shipped &middot; 12+ yrs mobile &middot; App Store &rarr; Apple Arcade</div>`
                 ),
                 'resume': () => commands['cat resume'](),
                 'tail ship.log': () => sayBlock(
-                    `<div>[2026-04] peanut-gallery v1.5.3 &rarr; Chrome Web Store</div>
-                     <div>[2026-04] sethrininger.dev &rarr; interactive terminal shipped</div>
-                     <div>[2026-03] manu-idle &rarr; alpha build to Discord</div>
-                     <div>[2026-02] local-seo &rarr; Palisade Roofing on page one</div>
-                     <div>[2025-Q4] cbs-sports &rarr; SwiftUI feature ownership</div>
-                     <div>[2015-12] food-fight (SDX) &rarr; App Store</div>
-                     <div>[2015-05] annual-bible-lectureship &rarr; App Store</div>`
+                    `<div class="bullet"><span class="label">2026-04</span>peanut-gallery v1.5.3 &rarr; Chrome Web Store</div>
+                     <div class="bullet"><span class="label">2026-04</span>sethrininger.dev &rarr; interactive terminal shipped</div>
+                     <div class="bullet"><span class="label">2026-03</span>manu-idle &rarr; alpha build to Discord</div>
+                     <div class="bullet"><span class="label">2026-02</span>local-seo &rarr; Palisade Roofing on page one</div>
+                     <div class="bullet"><span class="label">2025-Q4</span>cbs-sports &rarr; SwiftUI feature ownership</div>
+                     <div class="bullet"><span class="label">2015-12</span>food-fight (SDX) &rarr; App Store</div>
+                     <div class="bullet"><span class="label">2015-05</span>annual-bible-lectureship &rarr; App Store</div>`
                 ),
                 'tail': () => commands['tail ship.log'](),
                 'ship.log': () => commands['tail ship.log'](),
