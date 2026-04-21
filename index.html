@@ -1431,6 +1431,19 @@
 
                 const key = cmd.toLowerCase();
 
+                // cd <anything> — a wink to devs who reflexively try it.
+                // Not in the help list, so only someone fluent in shell would
+                // reach this path.
+                const cdMatch = key.match(/^cd(?:\s+(.+))?$/);
+                if (cdMatch) {
+                    const target = cdMatch[1] || '~';
+                    sayBlock(
+                        `<div><span style="color:var(--accent-amber)">bash:</span> cd: ${escapeHtml(target)}: Permission denied</div>
+                         <div style="color:var(--text-secondary)">those are private repos &mdash; even I have to auth in. try <span class="cmd" data-cmd="contact">contact</span> if you want a tour.</div>`
+                    );
+                    return;
+                }
+
                 // Clear is special — wipe history output but keep the initial boot
                 if (key === 'clear') {
                     dynamic.innerHTML = '';
