@@ -912,59 +912,18 @@
 
                 <div class="terminal-line command" id="line3Wrap" style="opacity: 0;">
                     <span class="terminal-prompt">$</span>
-                    <span id="line3">./ship --status<span class="cursor" id="cursor3"></span></span>
-                </div>
-                <div class="status-board" id="statusBoard" style="opacity: 0;">
-                    <div class="status-row">
-                        <a href="https://www.peanutgallery.live" target="_blank" rel="noopener">
-                            <span class="status-dot"></span>
-                            <span class="status-name">peanut-gallery</span>
-                            <span class="status-meta">v1.5.3 &middot; Chrome Web Store</span>
-                        </a>
-                    </div>
-                    <div class="status-row">
-                        <a href="gamedev.html">
-                            <span class="status-dot yellow"></span>
-                            <span class="status-name">manu-idle</span>
-                            <span class="status-meta">in development &middot; Manu Games LLC</span>
-                        </a>
-                    </div>
-                    <div class="status-row">
-                        <a href="ios.html">
-                            <span class="status-dot"></span>
-                            <span class="status-name">ios-portfolio</span>
-                            <span class="status-meta">9 apps shipped &middot; 10M+ users</span>
-                        </a>
-                    </div>
-                    <div class="status-row">
-                        <a href="seo.html">
-                            <span class="status-dot"></span>
-                            <span class="status-name">local-seo</span>
-                            <span class="status-meta">3 clients &middot; ranking page one</span>
-                        </a>
-                    </div>
-                    <div class="status-row">
-                        <a href="https://www.youtube.com/@KyrasCorner" target="_blank" rel="noopener">
-                            <span class="status-dot"></span>
-                            <span class="status-name">kyras-corner</span>
-                            <span class="status-meta">30K subs &middot; 12.6M views</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="terminal-line command" id="line4Wrap" style="opacity: 0;">
-                    <span class="terminal-prompt">$</span>
-                    <span id="line4">help<span class="cursor" id="cursor4"></span></span>
+                    <span id="line3">help<span class="cursor" id="cursor3"></span></span>
                 </div>
                 <div class="terminal-help" id="terminalHelp" style="opacity: 0;">
-                    <div style="margin-bottom: 0.4rem; color: var(--text-secondary);">Available commands &mdash; click or type:</div>
-                    <div class="cmd-row"><span class="cmd" data-cmd="ls projects/">ls projects/</span><span>list everything shipping</span></div>
+                    <div class="cmd-row"><span class="cmd" data-cmd="cat ios">cat ios</span><span>iOS development &mdash; 9 apps, 12+ yrs</span></div>
+                    <div class="cmd-row"><span class="cmd" data-cmd="cat seo">cat seo</span><span>local SEO &mdash; 3 clients, page one</span></div>
+                    <div class="cmd-row"><span class="cmd" data-cmd="cat ai">cat ai</span><span>AI research &amp; AI-native workflows</span></div>
+                    <div class="cmd-row"><span class="cmd" data-cmd="cat gamedev">cat gamedev</span><span>Manu Games &middot; Assembly Line newsletter</span></div>
+                    <div class="cmd-row"><span class="cmd" data-cmd="cat video">cat video</span><span>Kyra's Corner &middot; 30K subs, 12.6M views</span></div>
+                    <div class="cmd-row"><span class="cmd" data-cmd="cat realestate">cat realestate</span><span>Brandi Rininger &middot; eXp Realty (WNC)</span></div>
+                    <div class="cmd-row"><span class="cmd" data-cmd="ls projects">ls projects</span><span>everything shipping right now</span></div>
                     <div class="cmd-row"><span class="cmd" data-cmd="cat resume">cat resume</span><span>career summary</span></div>
-                    <div class="cmd-row"><span class="cmd" data-cmd="tail ship.log">tail ship.log</span><span>recent deploys</span></div>
-                    <div class="cmd-row"><span class="cmd" data-cmd="open peanut-gallery">open peanut-gallery</span><span>launch live demo</span></div>
-                    <div class="cmd-row"><span class="cmd" data-cmd="open ios">open ios</span><span>full iOS timeline</span></div>
                     <div class="cmd-row"><span class="cmd" data-cmd="contact">contact</span><span>scroll to contact form</span></div>
-                    <div class="cmd-row"><span class="cmd" data-cmd="clear">clear</span><span>reset the terminal</span></div>
                 </div>
 
                 <div id="terminalDynamic"></div>
@@ -980,7 +939,7 @@
                         autocorrect="off"
                         spellcheck="false"
                         aria-label="Terminal input"
-                        placeholder="try: whoami, help, ls projects/"
+                        placeholder="type a command or click any above"
                     >
                 </div>
             </div>
@@ -1265,7 +1224,7 @@
             document.getElementById('cursor1').style.display = 'none';
             document.getElementById('output1').style.opacity = '1';
 
-            await new Promise(r => setTimeout(r, 500));
+            await new Promise(r => setTimeout(r, 400));
 
             // Line 2: cat skills.txt
             document.getElementById('line2Wrap').style.opacity = '1';
@@ -1273,23 +1232,15 @@
             document.getElementById('cursor2').style.display = 'none';
             document.getElementById('output2').style.opacity = '1';
 
-            await new Promise(r => setTimeout(r, 500));
+            await new Promise(r => setTimeout(r, 400));
 
-            // Line 3: ./ship --status -> status board
+            // Line 3: help -> command list
             document.getElementById('line3Wrap').style.opacity = '1';
-            await typeText(document.getElementById('line3'), "./ship --status", 40);
+            await typeText(document.getElementById('line3'), 'help', 40);
             document.getElementById('cursor3').style.display = 'none';
-            document.getElementById('statusBoard').style.opacity = '1';
-
-            await new Promise(r => setTimeout(r, 700));
-
-            // Line 4: help -> command list
-            document.getElementById('line4Wrap').style.opacity = '1';
-            await typeText(document.getElementById('line4'), 'help', 40);
-            document.getElementById('cursor4').style.display = 'none';
             document.getElementById('terminalHelp').style.opacity = '1';
 
-            await new Promise(r => setTimeout(r, 400));
+            await new Promise(r => setTimeout(r, 300));
 
             // Focus input once boot animation finishes (already visible)
             document.getElementById('terminalInput').focus({ preventScroll: true });
@@ -1343,7 +1294,50 @@
                      <div class="cmd-row"><span style="color:var(--accent-blue)">local-seo/</span><span>3 clients ranking page one</span></div>
                      <div class="cmd-row"><span style="color:var(--accent-blue)">kyras-corner/</span><span>30K subs &middot; 12.6M lifetime views</span></div>`
                 ),
+                'ls projects': () => commands['ls projects/'](),
                 'ls': () => commands['ls projects/'](),
+                'cat ios': () => sayBlock(
+                    `<div>9 iOS apps shipped since 2014 &middot; 12+ years mobile &middot; 10M+ users</div>
+                     <div>Current: Senior iOS Dev at <span style="color:var(--accent-blue)">CBS Sports / Paramount</span> (since 2022, SwiftUI feature ownership)</div>
+                     <div>Past: Lead front-end @ Vimvest &rarr; Monorail (5 yrs, first hire), It Works!, Energy Sense Finance</div>
+                     <div>Published: Food Fight (SDX, 2015), Annual Bible Lectureship (2015)</div>
+                     <div style="margin-top:0.5rem"><span class="cmd" data-cmd="open ios">open ios</span> &rarr; full timeline</div>`
+                ),
+                'ios': () => commands['cat ios'](),
+                'cat seo': () => sayBlock(
+                    `<div>Local SEO &mdash; helping small businesses own page one of Google.</div>
+                     <div>Active clients: Palisade Roofing, Sol &amp; Son Dual Language Academy, Brandi Rininger (eXp Realty)</div>
+                     <div>All three currently ranking on page one for their target queries.</div>
+                     <div style="margin-top:0.5rem"><span class="cmd" data-cmd="open seo">open seo</span> &rarr; approach &amp; case studies</div>`
+                ),
+                'seo': () => commands['cat seo'](),
+                'cat ai': () => sayBlock(
+                    `<div>5 AIs running daily in my workflow &middot; 5+ years using AI in production work.</div>
+                     <div>Shipped Peanut Gallery (Chrome ext, live on Web Store) &mdash; AI commentary over video.</div>
+                     <div>AI-native builder: fixing physical objects with Claude, AI-augmented dev workflows.</div>
+                     <div style="margin-top:0.5rem"><span class="cmd" data-cmd="open ai">open ai</span> &rarr; proof of what ships</div>`
+                ),
+                'ai': () => commands['cat ai'](),
+                'cat gamedev': () => sayBlock(
+                    `<div>Building <span style="color:var(--accent-blue)">Manu Idle</span> under Manu Games LLC &mdash; SwiftUI incremental/idle game.</div>
+                     <div>Writing <span style="color:var(--accent-blue)">The Assembly Line</span>, a weekly newsletter covering factory &amp; idle games.</div>
+                     <div>Currently in alpha on Discord.</div>
+                     <div style="margin-top:0.5rem"><span class="cmd" data-cmd="open manu-idle">open manu-idle</span> &rarr; game dev page</div>`
+                ),
+                'gamedev': () => commands['cat gamedev'](),
+                'cat video': () => sayBlock(
+                    `<div><span style="color:var(--accent-blue)">Kyra's Corner</span> &mdash; 30K subscribers, 12.6M lifetime views on YouTube.</div>
+                     <div>Channel management, podcast editing, live OBS operation.</div>
+                     <div>Personal films crafted for the moments that matter most.</div>
+                     <div style="margin-top:0.5rem"><span class="cmd" data-cmd="open video">open video</span> &rarr; video portfolio</div>`
+                ),
+                'video': () => commands['cat video'](),
+                'cat realestate': () => sayBlock(
+                    `<div>Site &amp; local-SEO work for <span style="color:var(--accent-blue)">Brandi Rininger</span> (eXp Realty, Western North Carolina).</div>
+                     <div>WNC real estate broker &mdash; currently ranking for target local queries.</div>
+                     <div style="margin-top:0.5rem"><span class="cmd" data-cmd="open realestate">open realestate</span> &rarr; Brandi's site</div>`
+                ),
+                'realestate': () => commands['cat realestate'](),
                 'cat resume': () => sayBlock(
                     `<div>Senior iOS Developer, CBS Sports / Paramount &middot; June 2022 &mdash; present</div>
                      <div>Lead Front-End Developer, Vimvest &rarr; Monorail &middot; 2017 &mdash; 2022 (5 yrs, first hire)</div>
@@ -1370,6 +1364,17 @@
                 'open manu-idle': () => { say('navigating to gamedev.html...'); setTimeout(() => window.location.href = 'gamedev.html', 400); },
                 'open ai': () => { say('navigating to ai.html...'); setTimeout(() => window.location.href = 'ai.html', 400); },
                 'open seo': () => { say('navigating to seo.html...'); setTimeout(() => window.location.href = 'seo.html', 400); },
+                'open video': () => { say('navigating to video.html...'); setTimeout(() => window.location.href = 'video.html', 400); },
+                'open realestate': () => { say('opening brandi.sethrininger.dev...'); setTimeout(() => window.location.href = 'realestate.html', 400); },
+                'open gamedev': () => commands['open manu-idle'](),
+                './ship --status': () => sayBlock(
+                    `<div class="cmd-row"><span style="color:var(--accent-blue)">peanut-gallery</span><span>v1.5.3 &middot; live on Chrome Web Store</span></div>
+                     <div class="cmd-row"><span style="color:var(--accent-blue)">manu-idle</span><span>in development &middot; Manu Games LLC</span></div>
+                     <div class="cmd-row"><span style="color:var(--accent-blue)">ios-portfolio</span><span>9 apps shipped &middot; 10M+ users</span></div>
+                     <div class="cmd-row"><span style="color:var(--accent-blue)">local-seo</span><span>3 clients &middot; page one</span></div>
+                     <div class="cmd-row"><span style="color:var(--accent-blue)">kyras-corner</span><span>30K subs &middot; 12.6M views</span></div>`
+                ),
+                'ship': () => commands['./ship --status'](),
                 'contact': () => { say('scrolling to contact...'); document.getElementById('contact').scrollIntoView({ behavior: 'smooth' }); },
             };
 
