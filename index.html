@@ -134,11 +134,10 @@
         /* Hero Section */
         .hero {
             margin-top: 0;
-            min-height: 100vh;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
-            padding: 2rem;
+            padding: 2rem 2rem 1rem;
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(245, 158, 11, 0.05) 100%);
         }
 
@@ -1228,23 +1227,29 @@
             const inputEl = document.getElementById('terminalInput');
             inputEl.focus({ preventScroll: true });
 
+            // Pre-roll so the boot doesn't fire behind the preloader
+            // (which holds for 1s after load then fades for 600ms before
+            // it's removed). Gives the user ~400ms of settled page before
+            // the whoami starts typing.
+            await new Promise(r => setTimeout(r, 2000));
+
             // $ whoami — typed
-            await typeText(document.getElementById('line1'), 'whoami', 70);
-            await new Promise(r => setTimeout(r, 220));
+            await typeText(document.getElementById('line1'), 'whoami', 110);
+            await new Promise(r => setTimeout(r, 320));
 
             // > seth-rininger ...
             document.getElementById('output1').style.opacity = '1';
-            await new Promise(r => setTimeout(r, 260));
+            await new Promise(r => setTimeout(r, 380));
 
             // Reveal the command menu one row at a time.
             const rows = document.querySelectorAll('#terminalHelp .cmd-row');
             for (const row of rows) {
-                row.style.transition = 'opacity 0.25s ease';
+                row.style.transition = 'opacity 0.3s ease';
                 row.style.opacity = '1';
-                await new Promise(r => setTimeout(r, 180));
+                await new Promise(r => setTimeout(r, 230));
             }
 
-            await new Promise(r => setTimeout(r, 200));
+            await new Promise(r => setTimeout(r, 250));
 
             // Lock the terminal to its natural boot height so any commands
             // the user types afterward scroll within that fixed box instead
