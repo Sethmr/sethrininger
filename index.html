@@ -156,6 +156,24 @@
             font-family: 'Courier New', monospace;
             font-size: 1rem;
             line-height: 1.8;
+            max-height: min(60vh, 520px);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border-color) transparent;
+        }
+
+        .terminal::-webkit-scrollbar {
+            width: 8px;
+        }
+        .terminal::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .terminal::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        .terminal::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-blue);
         }
 
         .terminal-line {
@@ -1242,7 +1260,11 @@
 
             await new Promise(r => setTimeout(r, 300));
 
-            // Focus input once boot animation finishes (already visible)
+            // Focus input once boot animation finishes (already visible).
+            // Also scroll the terminal's own overflow to the bottom so the
+            // input prompt is visible even when boot content exceeds max-height.
+            const terminal = document.getElementById('terminal');
+            terminal.scrollTop = terminal.scrollHeight;
             document.getElementById('terminalInput').focus({ preventScroll: true });
         }
 
@@ -1403,8 +1425,10 @@
                     say(`command not found: ${escapeHtml(cmd)} &mdash; try <span class="cmd" data-cmd="help">help</span>`);
                 }
 
-                // Keep input visible
-                document.getElementById('terminalInputLine').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                // Keep input visible: scroll the terminal's own overflow to
+                // the bottom (not the window) so the page doesn't jump.
+                const terminal = document.getElementById('terminal');
+                terminal.scrollTo({ top: terminal.scrollHeight, behavior: 'smooth' });
             };
 
             input.addEventListener('keydown', (e) => {
