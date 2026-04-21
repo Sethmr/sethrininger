@@ -737,9 +737,20 @@
                 display: none;
             }
 
+            .hero {
+                align-items: flex-start;
+                min-height: auto;
+                padding-top: 5rem;
+                padding-bottom: 2rem;
+            }
+
             .terminal {
                 padding: 1.5rem;
                 font-size: 0.85rem;
+            }
+
+            .terminal-input {
+                font-size: 16px;
             }
 
             .stats-bar {
@@ -958,7 +969,7 @@
 
                 <div id="terminalDynamic"></div>
 
-                <div class="terminal-line command terminal-input-line" id="terminalInputLine" style="opacity: 0;">
+                <div class="terminal-line command terminal-input-line" id="terminalInputLine">
                     <span class="terminal-prompt">$</span>
                     <input
                         type="text"
@@ -969,6 +980,7 @@
                         autocorrect="off"
                         spellcheck="false"
                         aria-label="Terminal input"
+                        placeholder="try: whoami, help, ls projects/"
                     >
                 </div>
             </div>
@@ -1279,13 +1291,17 @@
 
             await new Promise(r => setTimeout(r, 400));
 
-            // Reveal interactive input line
-            const inputLine = document.getElementById('terminalInputLine');
-            inputLine.style.opacity = '1';
-            initTerminal();
+            // Focus input once boot animation finishes (already visible)
+            document.getElementById('terminalInput').focus({ preventScroll: true });
         }
 
-        // Start typing animation on page load
+        // Wire up the interactive terminal immediately so users can type
+        // before/during the boot animation — then run the animation.
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTerminal);
+        } else {
+            initTerminal();
+        }
         window.addEventListener('load', startTypingAnimation);
 
         // ============ Interactive Terminal ============
