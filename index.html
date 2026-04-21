@@ -911,36 +911,22 @@
             <div class="terminal" id="terminal">
                 <div class="terminal-line command">
                     <span class="terminal-prompt">$</span>
-                    <span id="line1">whoami<span class="cursor" id="cursor1"></span></span>
+                    <span id="line1"></span>
                 </div>
                 <div class="terminal-line output" id="output1" style="opacity: 0;">
                     <span class="terminal-prompt">&gt;</span>
                     <span>seth-rininger &middot; Senior iOS Developer &middot; Franklin, NC</span>
                 </div>
-
-                <div class="terminal-line command" id="line2Wrap" style="opacity: 0;">
-                    <span class="terminal-prompt">$</span>
-                    <span id="line2">cat skills.txt<span class="cursor" id="cursor2"></span></span>
-                </div>
-                <div class="terminal-line output" id="output2" style="opacity: 0;">
-                    <span class="terminal-prompt">&gt;</span>
-                    <span>9 iOS apps shipped &middot; 12+ years mobile &middot; AI-native builder</span>
-                </div>
-
-                <div class="terminal-line command" id="line3Wrap" style="opacity: 0;">
-                    <span class="terminal-prompt">$</span>
-                    <span id="line3">help<span class="cursor" id="cursor3"></span></span>
-                </div>
-                <div class="terminal-help" id="terminalHelp" style="opacity: 0;">
-                    <div class="cmd-row"><span class="cmd" data-cmd="cat ios">cat ios</span><span>iOS development &mdash; 9 apps, 12+ yrs</span></div>
-                    <div class="cmd-row"><span class="cmd" data-cmd="cat seo">cat seo</span><span>local SEO &mdash; 3 clients, page one</span></div>
-                    <div class="cmd-row"><span class="cmd" data-cmd="cat ai">cat ai</span><span>AI research &amp; AI-native workflows</span></div>
-                    <div class="cmd-row"><span class="cmd" data-cmd="cat gamedev">cat gamedev</span><span>Manu Games &middot; Assembly Line newsletter</span></div>
-                    <div class="cmd-row"><span class="cmd" data-cmd="cat video">cat video</span><span>Kyra's Corner &middot; 30K subs, 12.6M views</span></div>
-                    <div class="cmd-row"><span class="cmd" data-cmd="cat realestate">cat realestate</span><span>Brandi Rininger &middot; eXp Realty (WNC)</span></div>
-                    <div class="cmd-row"><span class="cmd" data-cmd="ls projects">ls projects</span><span>everything shipping right now</span></div>
-                    <div class="cmd-row"><span class="cmd" data-cmd="cat resume">cat resume</span><span>career summary</span></div>
-                    <div class="cmd-row"><span class="cmd" data-cmd="contact">contact</span><span>scroll to contact form</span></div>
+                <div class="terminal-help" id="terminalHelp">
+                    <div class="cmd-row" style="opacity: 0;"><span class="cmd" data-cmd="cat ios">cat ios</span><span>iOS development &mdash; 9 apps, 12+ yrs</span></div>
+                    <div class="cmd-row" style="opacity: 0;"><span class="cmd" data-cmd="cat seo">cat seo</span><span>local SEO &mdash; 3 clients, page one</span></div>
+                    <div class="cmd-row" style="opacity: 0;"><span class="cmd" data-cmd="cat ai">cat ai</span><span>AI research &amp; AI-native workflows</span></div>
+                    <div class="cmd-row" style="opacity: 0;"><span class="cmd" data-cmd="cat gamedev">cat gamedev</span><span>Manu Games &middot; Assembly Line newsletter</span></div>
+                    <div class="cmd-row" style="opacity: 0;"><span class="cmd" data-cmd="cat video">cat video</span><span>Kyra's Corner &middot; 30K subs, 12.6M views</span></div>
+                    <div class="cmd-row" style="opacity: 0;"><span class="cmd" data-cmd="cat realestate">cat realestate</span><span>Brandi Rininger &middot; eXp Realty (WNC)</span></div>
+                    <div class="cmd-row" style="opacity: 0;"><span class="cmd" data-cmd="ls projects">ls projects</span><span>everything shipping right now</span></div>
+                    <div class="cmd-row" style="opacity: 0;"><span class="cmd" data-cmd="cat resume">cat resume</span><span>career summary</span></div>
+                    <div class="cmd-row" style="opacity: 0;"><span class="cmd" data-cmd="contact">contact</span><span>scroll to contact form</span></div>
                 </div>
 
                 <div id="terminalDynamic"></div>
@@ -1236,28 +1222,29 @@
         }
 
         async function startTypingAnimation() {
-            // Line 1: whoami
-            await typeText(document.getElementById('line1'), 'whoami');
-            document.getElementById('cursor1').style.display = 'none';
+            // Focus the input right away so the blinking caret lives at
+            // the bottom for the entire boot, even as the content above
+            // types itself in.
+            const inputEl = document.getElementById('terminalInput');
+            inputEl.focus({ preventScroll: true });
+
+            // $ whoami — typed
+            await typeText(document.getElementById('line1'), 'whoami', 70);
+            await new Promise(r => setTimeout(r, 220));
+
+            // > seth-rininger ...
             document.getElementById('output1').style.opacity = '1';
+            await new Promise(r => setTimeout(r, 260));
 
-            await new Promise(r => setTimeout(r, 400));
+            // Reveal the command menu one row at a time.
+            const rows = document.querySelectorAll('#terminalHelp .cmd-row');
+            for (const row of rows) {
+                row.style.transition = 'opacity 0.25s ease';
+                row.style.opacity = '1';
+                await new Promise(r => setTimeout(r, 180));
+            }
 
-            // Line 2: cat skills.txt
-            document.getElementById('line2Wrap').style.opacity = '1';
-            await typeText(document.getElementById('line2'), 'cat skills.txt');
-            document.getElementById('cursor2').style.display = 'none';
-            document.getElementById('output2').style.opacity = '1';
-
-            await new Promise(r => setTimeout(r, 400));
-
-            // Line 3: help -> command list
-            document.getElementById('line3Wrap').style.opacity = '1';
-            await typeText(document.getElementById('line3'), 'help', 40);
-            document.getElementById('cursor3').style.display = 'none';
-            document.getElementById('terminalHelp').style.opacity = '1';
-
-            await new Promise(r => setTimeout(r, 300));
+            await new Promise(r => setTimeout(r, 200));
 
             // Lock the terminal to its natural boot height so any commands
             // the user types afterward scroll within that fixed box instead
@@ -1266,7 +1253,8 @@
             requestAnimationFrame(() => {
                 terminal.style.height = terminal.offsetHeight + 'px';
             });
-            document.getElementById('terminalInput').focus({ preventScroll: true });
+            // Re-focus in case the user clicked elsewhere during the boot.
+            inputEl.focus({ preventScroll: true });
         }
 
         // Wire up the interactive terminal immediately so users can type
