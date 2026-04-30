@@ -612,8 +612,8 @@
   document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
   function tryLogin() {
     const pw = document.getElementById('pw-input').value.trim().toLowerCase();
-    if (pw === 'rininger') { isAdmin = true; enterApp(); }
-    else if (pw === 'pepper') { isAdmin = false; enterApp(); }
+    if (pw === 'rininger') { isAdmin = true; localStorage.setItem('pn-role', 'admin'); enterApp(); }
+    else if (pw === 'pepper') { isAdmin = false; localStorage.setItem('pn-role', 'player'); enterApp(); }
     else {
       document.getElementById('login-error').style.display = 'block';
       document.getElementById('pw-input').value = '';
@@ -622,6 +622,9 @@
       box.style.animation = 'shake .4s ease';
     }
   }
+  const savedRole = localStorage.getItem('pn-role');
+  if (savedRole === 'admin') { isAdmin = true; enterApp(); }
+  else if (savedRole === 'player') { isAdmin = false; enterApp(); }
   function enterApp() {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
