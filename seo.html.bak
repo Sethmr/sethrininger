@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>SEO Services — Seth Rininger</title>
+    <meta name="description" content="Developer-powered SEO services by Seth Rininger. 8 live projects, 3 active clients, and full-stack builds with AI-augmented strategy for small businesses.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/effects.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #161616;
+            --text: #e5e5e5;
+            --text-secondary: #b0b0b0;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --secondary: #f59e0b;
+            --border: #1f2937;
+        }
+
+        body.light-mode {
+            --bg: #f9fafb;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text: #1f2937;
+            --text-secondary: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid rgba(229, 229, 229, 0.1);
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        body.light-mode nav {
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .nav-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 1.25rem;
+            transition: color 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            color: var(--accent);
+        }
+
+        /* hamburger base & animation handled by effects.css */
+
+        @media (max-width: 768px) {
+            nav {
+                background: transparent !important;
+                border-bottom: none !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                padding: 0.75rem 1rem !important;
+                padding-top: calc(0.75rem + env(safe-area-inset-top, 0px)) !important;
+                gap: 0 !important;
+            }
+            nav .nav-brand,
+            nav .nav-controls {
+                background: rgba(40, 40, 40, 0.55);
+                -webkit-backdrop-filter: blur(20px) saturate(180%);
+                backdrop-filter: blur(20px) saturate(180%);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 50px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+                height: 40px;
+                display: flex;
+                align-items: center;
+            }
+            nav .nav-brand {
+                padding: 0 1rem;
+                font-size: 1rem;
+            }
+            nav .nav-controls {
+                padding: 0 0.75rem;
+                gap: 0.5rem;
+            }
+            body.light-mode nav .nav-brand,
+            body.light-mode nav .nav-controls {
+                background: rgba(255, 255, 255, 0.55);
+                border: 1px solid rgba(0, 0, 0, 0.08);
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            }
+            .hamburger { display: flex; }
+            .nav-cta { display: none; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg); border-bottom: 1px solid rgba(229,229,229,0.1); flex-direction: column; padding: 1.5rem; gap: 1rem; list-style: none; }
+            .nav-links.active { display: flex; }
+            .nav-links a {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Container */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+        /* Hero */
+        .hero {
+            padding: 5rem 2rem 3rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        .breadcrumb a { color: var(--accent); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .hero h1 {
+            font-size: clamp(2.25rem, 5vw, 3.25rem);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero .subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Section styling */
+        .section { padding: 4rem 0; }
+        .section-border { border-top: 1px solid var(--border); }
+
+        .section-heading {
+            font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtext {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 750px;
+        }
+
+        /* Process Section */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .process-step {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.1);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent), #1d4ed8);
+            color: white;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .process-step h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        .process-step p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* AI Advantage callout */
+        .ai-callout {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(245, 158, 11, 0.06));
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .ai-callout-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .ai-callout h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        .ai-callout p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 600px) {
+            .ai-callout { flex-direction: column; gap: 0.75rem; }
+        }
+
+        /* Client Section */
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+
+        .client-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .client-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.08);
+        }
+
+        .client-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+        }
+
+        .client-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .client-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent);
+        }
+
+        .client-badge.active {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+
+        .client-type {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .client-desc {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .client-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .client-tag {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        body.light-mode .client-tag {
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .client-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .client-link:hover { color: var(--accent-hover); }
+
+        .metrics-note {
+            margin-top: 2rem;
+            padding: 1.25rem;
+            background: rgba(245, 158, 11, 0.06);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .metrics-note strong { color: var(--secondary); }
+
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.1);
+        }
+
+        .service-icon { font-size: 1.75rem; margin-bottom: 1rem; }
+
+        .service-card h3 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 0.75rem;
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.9rem;
+        }
+
+        /* Why section */
+        .why-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--secondary);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .why-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .why-section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .why-section p + p { margin-top: 1rem; }
+
+        /* Industries */
+        .industries-section { margin-top: 3rem; }
+
+        .industries-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .industries-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .industry-pill {
+            padding: 0.35rem 1rem;
+            border-radius: 25px;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .industry-pill:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .cta-section h2 { margin-bottom: 1rem; }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), #1d4ed8);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Scroll animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 1.25rem; }
+            .section { padding: 3rem 0; }
+            .services-grid { grid-template-columns: 1fr; }
+            .clients-grid { grid-template-columns: 1fr; }
+            .process-grid { grid-template-columns: 1fr; }
+            .nav-cta { display: none; }
+        }
+    </style>
+    <meta name="author" content="Seth Rininger">
+    <meta name="robots" content="index, follow">
+    <meta property="og:site_name" content="Seth Rininger — Developer & Consultant">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="SEO Services — Seth Rininger">
+    <meta property="og:description" content="Developer-powered local SEO. 8 projects built and optimized, 3 active clients, AI-augmented strategy. Full-stack SEO from schema markup to content strategy.">
+    <meta property="og:url" content="https://sethrininger.dev/seo.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@sethrininger">
+    <link rel="canonical" href="https://sethrininger.dev/seo.html">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <meta property="og:image" content="https://sethrininger.dev/assets/images/og-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sethrininger.dev/" },
+    { "@type": "ListItem", "position": 2, "name": "SEO Services", "item": "https://sethrininger.dev/seo.html" }
+  ]
+}
+    </script>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-brand" style="text-decoration:none;">Seth Rininger</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="ios.html">iOS Dev</a></li>
+            <li><a href="seo.html" style="color: var(--accent);">SEO</a></li>
+            <li><a href="ai.html">AI Research</a></li>
+            <!-- <li><a href="gamedev.html">Game Dev</a></li> -->
+            <li><a href="video.html">Video</a></li>
+            <li><a href="realestate.html">Real Estate</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <div class="nav-controls">
+            <a href="index.html#contact" class="nav-cta">Let's Talk</a>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀️</button>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> &rarr; SEO Services
+            </div>
+            <h1>SEO Services</h1>
+            <p class="subtitle">Developer-powered local SEO. I combine 12+ years of software engineering with AI-augmented research to help businesses own their market on Google — and I build my own projects from scratch to prove it.</p>
+        </section>
+
+        <!-- My Approach / Process -->
+        <section class="section section-border">
+            <div class="container">
+                <h2 class="section-heading reveal">My Process</h2>
+                <p class="section-subtext reveal">Every engagement starts with deep research. I don't use cookie-cutter SEO playbooks — I specialize in the client's industry, study their competitive landscape, and build a custom strategy that combines my engineering background with AI-powered analysis.</p>
+
+                <div class="process-grid">
+                    <div class="process-step reveal">
+                        <div class="step-number">1</div>
+                        <h3>Industry Deep-Dive</h3>
+                        <p>I immerse myself in the client's industry — studying competitors, analyzing search patterns, and understanding what their customers actually search for. My years of experience across construction, tech, education, and small business give me a unique cross-industry perspective.</p>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="step-number">2</div>
+                        <h3>AI-Augmented Research</h3>
+                        <p>Using multiple AI platforms simultaneously (Claude, ChatGPT, Grok), I cross-reference insights, generate content strategies, and analyze competitive gaps that single-tool approaches miss entirely. This is my edge — AI as a force multiplier, not a replacement for expertise.</p>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="step-number">3</div>
+                        <h3>Technical Foundation</h3>
+                        <p>As a developer, I don't just audit technical SEO — I fix it. Schema markup, Core Web Vitals, site architecture, crawlability. Most SEO consultants file tickets. I push commits.</p>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="step-number">4</div>
+                        <h3>Google Business Profile Optimization</h3>
+                        <p>For local businesses, GBP is the front door. I optimize every field, build a review strategy, manage the Q&A, post regular updates, and ensure map pack visibility for the searches that matter most.</p>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="step-number">5</div>
+                        <h3>Content & Local Authority</h3>
+                        <p>Creating content that serves real people and satisfies search engines. Local landing pages, service area content, blog posts that answer the questions your customers are already asking.</p>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="step-number">6</div>
+                        <h3>Measure, Iterate, Report</h3>
+                        <p>Monthly reporting with clear metrics: ranking changes, traffic growth, conversion improvements. No vanity metrics — only data that reflects real business impact. Then we iterate on what's working.</p>
+                    </div>
+                </div>
+
+                <div class="ai-callout reveal">
+                    <div class="ai-callout-icon">&#9889;</div>
+                    <div>
+                        <h3>The AI Advantage</h3>
+                        <p>Multiple AI platforms are part of my daily workflow — Claude, ChatGPT, and Grok each bring different strengths. I use them to analyze competitor pages, generate content briefs, identify keyword opportunities that traditional tools miss, and validate strategies across multiple perspectives before implementing. Combined with a decade of engineering discipline, this means faster iteration with higher precision.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Current Clients -->
+        <section class="section section-border">
+            <div class="container">
+                <h2 class="section-heading reveal">Current Clients</h2>
+                <p class="section-subtext reveal">I'm currently working with local businesses across different industries, applying the same rigorous, developer-driven approach to each.</p>
+
+                <div class="clients-grid">
+                    <div class="client-card reveal">
+                        <div class="client-header">
+                            <span class="client-name">Palisade Roofing</span>
+                            <span class="client-badge active">Active</span>
+                        </div>
+                        <div class="client-type">Roofing Contractor &bull; Tennessee</div>
+                        <p class="client-desc">Comprehensive local SEO strategy for a top-rated roofing contractor. Focus on Google Business Profile optimization, local keyword dominance, review management, and building authority across the Tri-Cities market. Currently maintaining a 5.0 Google rating with 87+ reviews and BBB A+ accreditation.</p>
+                        <div class="client-tags">
+                            <span class="client-tag">Local SEO</span>
+                            <span class="client-tag">GBP Optimization</span>
+                            <span class="client-tag">Review Strategy</span>
+                            <span class="client-tag">Home Services</span>
+                        </div>
+                        <a href="https://palisaderoofingtn.com" class="client-link" target="_blank" rel="noopener">palisaderoofingtn.com &rarr;</a>
+                    </div>
+
+                    <div class="client-card reveal">
+                        <div class="client-header">
+                            <span class="client-name">Sol & Son Dual Language Academy</span>
+                            <span class="client-badge active">Active</span>
+                        </div>
+                        <div class="client-type">Dual Language Immersion School &bull; Franklin, NC</div>
+                        <p class="client-desc">Local SEO strategy for Macon County's first bilingual school — a Spanish-English dual language immersion academy for ages 2 through first grade. Building visibility for families searching for bilingual and immersive education options in western North Carolina. Focus on Google Business Profile, local content strategy, and community-focused digital presence.</p>
+                        <div class="client-tags">
+                            <span class="client-tag">Local SEO</span>
+                            <span class="client-tag">Education</span>
+                            <span class="client-tag">GBP Optimization</span>
+                            <span class="client-tag">Content Strategy</span>
+                        </div>
+                    </div>
+
+                    <div class="client-card reveal">
+                        <div class="client-header">
+                            <span class="client-name">Brandi Rininger — eXp Realty</span>
+                            <span class="client-badge active">Active</span>
+                        </div>
+                        <div class="client-type">Real Estate Broker &bull; Franklin, NC</div>
+                        <p class="client-desc">Local SEO and digital presence strategy for my wife's real estate business across Western North Carolina. Managing Google Business Profile optimization, local keyword targeting for the Franklin and broader WNC market, and building visibility against established agents. Also handling video SEO for the Living In WNC YouTube channel — a joint project combining real estate expertise with content production.</p>
+                        <div class="client-tags">
+                            <span class="client-tag">Local SEO</span>
+                            <span class="client-tag">GBP Optimization</span>
+                            <span class="client-tag">Real Estate</span>
+                            <span class="client-tag">Video SEO</span>
+                        </div>
+                        <a href="realestate.html" class="client-link">Meet Brandi &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="metrics-note reveal">
+                    <strong>A note on metrics:</strong> All three engagements are in early stages with significant improvements already underway. Detailed before-and-after case studies with full metrics will be published here as campaigns mature and with client permission. In the meantime, I'm happy to discuss my approach and early results in a conversation.
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects I've Built & Optimized -->
+        <section class="section section-border">
+            <div class="container">
+                <h2 class="section-heading reveal">Projects I've Built & Optimized</h2>
+                <p class="section-subtext reveal">Beyond client work, I build and optimize my own projects from the ground up — handling architecture, development, SEO strategy, and analytics. These are live, production sites with real traffic and real search performance.</p>
+
+                <div class="clients-grid">
+                    <div class="client-card reveal">
+                        <div class="client-header">
+                            <span class="client-name">KnoxWhat</span>
+                            <span class="client-badge active">Live</span>
+                        </div>
+                        <div class="client-type">Events Aggregation Platform &bull; Knoxville, TN</div>
+                        <p class="client-desc">A fully automated events platform that scrapes 35 local sources twice daily and serves a fast, searchable directory. Built from scratch with Python scrapers, GitHub Actions CI/CD, and a static frontend. Full SEO implementation — Google Search Console, Bing Webmaster Tools, sitemap, Open Graph, and structured data. Under 2-second load time at ~80KB total.</p>
+                        <div class="client-tags">
+                            <span class="client-tag">Full-Stack Build</span>
+                            <span class="client-tag">Web Scraping</span>
+                            <span class="client-tag">Technical SEO</span>
+                            <span class="client-tag">GA4 Analytics</span>
+                        </div>
+                        <a href="https://www.knoxwhat.com" class="client-link" target="_blank" rel="noopener">knoxwhat.com &rarr;</a>
+                    </div>
+
+                    <div class="client-card reveal">
+                        <div class="client-header">
+                            <span class="client-name">Franklin Community Site</span>
+                            <span class="client-badge">In Development</span>
+                        </div>
+                        <div class="client-type">Local Events & Community Hub &bull; Franklin, NC</div>
+                        <p class="client-desc">Bringing the KnoxWhat model to my hometown. A community-focused events and local information platform for Franklin, NC and Macon County — built to serve residents and visitors while demonstrating hyper-local SEO authority in the Western North Carolina mountains.</p>
+                        <div class="client-tags">
+                            <span class="client-tag">Local SEO</span>
+                            <span class="client-tag">Community Platform</span>
+                            <span class="client-tag">Full-Stack Build</span>
+                            <span class="client-tag">WNC Focus</span>
+                        </div>
+                    </div>
+
+                    <!--
+                    <div class="client-card reveal">
+                        <div class="client-header">
+                            <span class="client-name">Tideward · Manu Games</span>
+                            <span class="client-badge active">Live</span>
+                        </div>
+                        <div class="client-type">Indie Game Studio Sites &bull; tideward.app + manugames.com</div>
+                        <p class="client-desc">Marketing sites for Tideward, my indie idle RPG shipping on every Apple device — iPhone, iPad, Mac, Apple TV, Vision Pro, Apple Watch. Built with Astro, deployed via GitHub Actions, with full SEO — VideoGame + SoftwareApplication + BreadcrumbList + FAQPage schemas, RSS feed, llms.txt for AI-assistant citation, IndexNow on every deploy, and a devlog content strategy targeting the incremental games community. Zero analytics, zero cookies — verifiable on the live site.</p>
+                        <div class="client-tags">
+                            <span class="client-tag">Astro Framework</span>
+                            <span class="client-tag">Schema Markup</span>
+                            <span class="client-tag">Content Strategy</span>
+                            <span class="client-tag">Zero-Analytics</span>
+                        </div>
+                        <a href="https://tideward.app" class="client-link" target="_blank" rel="noopener">tideward.app &rarr;</a>
+                        <a href="https://www.manugames.com" class="client-link" target="_blank" rel="noopener" style="margin-left: 12px;">manugames.com &rarr;</a>
+                    </div>
+
+                    <div class="client-card reveal">
+                        <div class="client-header">
+                            <span class="client-name">The Assembly Line</span>
+                            <span class="client-badge active">Active</span>
+                        </div>
+                        <div class="client-type">Email Newsletter &bull; Idle & Factory Games</div>
+                        <p class="client-desc">A weekly newsletter covering idle games, factory sims, and the incremental games community. Built on Beehiiv with automated production workflows, SEO-optimized web editions, and a cross-promotion strategy that feeds back into the Manu Games ecosystem. Content strategy, audience growth, and monetization all designed from day one.</p>
+                        <div class="client-tags">
+                            <span class="client-tag">Email Marketing</span>
+                            <span class="client-tag">Content SEO</span>
+                            <span class="client-tag">Audience Growth</span>
+                            <span class="client-tag">Automation</span>
+                        </div>
+                    </div>
+                    -->
+
+                    <div class="client-card reveal">
+                        <div class="client-header">
+                            <span class="client-name">sethrininger.dev</span>
+                            <span class="client-badge active">Live</span>
+                        </div>
+                        <div class="client-type">Personal Portfolio &bull; This Site</div>
+                        <p class="client-desc">My own portfolio — built with vanilla HTML, CSS, and JS. No frameworks, no bloat. Every page has hand-written schema markup, Open Graph tags, canonical URLs, and optimized meta descriptions. Custom interactive effects on desktop, liquid glass navigation on mobile, and a perfect accessibility-first foundation. The site itself is a technical SEO case study.</p>
+                        <div class="client-tags">
+                            <span class="client-tag">Vanilla HTML/CSS/JS</span>
+                            <span class="client-tag">Schema Markup</span>
+                            <span class="client-tag">Core Web Vitals</span>
+                            <span class="client-tag">Accessibility</span>
+                        </div>
+                        <a href="https://sethrininger.dev" class="client-link" target="_blank" rel="noopener">sethrininger.dev &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section class="section section-border">
+            <div class="container">
+                <h2 class="section-heading reveal">Services</h2>
+                <p class="section-subtext reveal">Everything a local business needs to dominate their market on Google — delivered by someone who can actually implement the technical side, not just recommend it.</p>
+
+                <div class="services-grid">
+                    <div class="service-card reveal">
+                        <div class="service-icon">&#128205;</div>
+                        <h3>Google Business Profile</h3>
+                        <p>Your GBP is your digital storefront. I optimize every field, manage reviews, build a posting strategy, and ensure you show up in the map pack for the searches that drive real business.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <div class="service-icon">&#128270;</div>
+                        <h3>Local Keyword Strategy</h3>
+                        <p>Targeting the exact searches your customers make in your geographic market. AI-augmented research to find high-intent keywords your competitors are missing.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <div class="service-icon">&#9881;</div>
+                        <h3>Technical SEO</h3>
+                        <p>Site speed, schema markup, mobile optimization, crawlability, Core Web Vitals. I don't just audit — I write the code to fix it. The developer stuff most SEO people skip.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <div class="service-icon">&#9997;</div>
+                        <h3>Content Strategy</h3>
+                        <p>Creating content that serves your customers and satisfies search engines. Service pages, local landing pages, blog content — all informed by AI research and real search data.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <div class="service-icon">&#11088;</div>
+                        <h3>Review Management</h3>
+                        <p>Building a sustainable review acquisition strategy. Social proof that improves rankings AND conversion rates. Systems that make it easy for happy customers to share their experience.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <div class="service-icon">&#128200;</div>
+                        <h3>Competitor Analysis</h3>
+                        <p>Understanding what's working for your competitors and finding gaps they're missing. AI-powered analysis across hundreds of competitor pages to find your strategic advantage.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why a Developer Does SEO Differently -->
+        <section class="section section-border">
+            <div class="container">
+                <h2 class="section-heading reveal">Why a Developer Does SEO Differently</h2>
+
+                <div class="why-section reveal">
+                    <h3>I Don't Just Find Problems — I Fix Them</h3>
+                    <p>Most SEO specialists can't read code. I can write it. That means I don't just identify technical SEO issues and hand you a spreadsheet of recommendations — I implement schema markup by hand, optimize Core Web Vitals at the code level, and fix site architecture issues that most consultants would need to hire a developer for.</p>
+                    <p>I've spent 12+ years building software used by millions of people. That engineering rigor — testing, measuring, iterating — is exactly what SEO needs and rarely gets. When you hire a developer for SEO, you're getting someone who understands the machine, not just the dashboard.</p>
+                </div>
+
+                <div class="industries-section reveal">
+                    <h3>Industries I Bring Perspective From</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.95rem;">My diverse background means I don't approach your business with a narrow lens. I've built things — physically and digitally — across a wide range of industries.</p>
+                    <div class="industries-list">
+                        <span class="industry-pill">Home Services / Roofing</span>
+                        <span class="industry-pill">Education</span>
+                        <span class="industry-pill">Bilingual Schools</span>
+                        <span class="industry-pill">Technology / SaaS</span>
+                        <span class="industry-pill">Financial Services</span>
+                        <span class="industry-pill">Sports & Media</span>
+                        <span class="industry-pill">Health & Wellness</span>
+                        <span class="industry-pill">Mobile Apps</span>
+                        <span class="industry-pill">Construction</span>
+                        <span class="industry-pill">Small Business</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section section-border">
+            <div class="container">
+                <h2 class="section-heading reveal">Let's Talk About Your Business</h2>
+                <p class="reveal">I'll audit your local presence and show you the quick wins. No cookie-cutter playbooks — just a custom strategy backed by real data.</p>
+                <a href="index.html#contact" class="cta-button reveal">Get In Touch</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Seth Rininger. Built with vanilla HTML, CSS & JS.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+            <a href="mailto:sethr@hey.com" style="color: var(--accent); text-decoration: none;">sethr@hey.com</a> ·
+            <a href="https://www.linkedin.com/in/seth-rininger-004036a3/" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none;">LinkedIn</a> ·
+            <a href="https://github.com/Sethmr" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none;">GitHub</a>
+        </p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+            themeToggle.textContent = '🌙';
+        }
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            themeToggle.textContent = isLight ? '🌙' : '☀️';
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        });
+
+        // Hamburger
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.setAttribute('aria-expanded', navLinks.classList.contains('active'));
+        });
+
+        // Scroll reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        revealElements.forEach(el => observer.observe(el));
+    </script>
+    <script src="assets/effects.js"></script>
+</body>
+</html>
